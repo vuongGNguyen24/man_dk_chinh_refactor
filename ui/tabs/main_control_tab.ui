@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainTab</class>
+ <widget class="QWidget" name="MainTab">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>1024</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Main Control Tab</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #121212;</string>
+  </property>
+  
+  <!-- Bullet Widget - Hiển thị trạng thái đạn -->
+  <widget class="QWidget" name="bullet_widget">
+   <property name="geometry">
+    <rect>
+     <x>25</x>
+     <y>39</y>
+     <width>1280</width>
+     <height>350</height>
+    </rect>
+   </property>
+  </widget>
+  
+  <!-- Compass Left - La bàn hướng bên trái -->
+  <widget class="QWidget" name="compass_left">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>684</y>
+     <width>370</width>
+     <height>370</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+  </widget>
+  
+  <!-- Half Compass Left - Nửa la bàn góc tầm trái -->
+  <widget class="QWidget" name="half_compass_left">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>345</y>
+     <width>350</width>
+     <height>350</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+  </widget>
+  
+  <!-- Angle Input Button Left -->
+  <widget class="QPushButton" name="angle_input_button_left">
+   <property name="geometry">
+    <rect>
+     <x>117</x>
+     <y>670</y>
+     <width>195</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nhập Cự ly - Góc</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+}
+QPushButton:hover {
+    background-color: #106ebe;
+}
+QPushButton:pressed {
+    background-color: #005a9e;
+}</string>
+   </property>
+  </widget>
+  
+  <!-- Compass Right - La bàn hướng bên phải -->
+  <widget class="QWidget" name="compass_right">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>684</y>
+     <width>370</width>
+     <height>370</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+  </widget>
+  
+  <!-- Half Compass Right - Nửa la bàn góc tầm phải -->
+  <widget class="QWidget" name="half_compass_right">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>345</y>
+     <width>370</width>
+     <height>350</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+  </widget>
+  
+  <!-- Angle Input Button Right -->
+  <widget class="QPushButton" name="angle_input_button_right">
+   <property name="geometry">
+    <rect>
+     <x>982</x>
+     <y>670</y>
+     <width>205</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nhập Cự ly - Góc</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+}
+QPushButton:hover {
+    background-color: #106ebe;
+}
+QPushButton:pressed {
+    background-color: #005a9e;
+}</string>
+   </property>
+  </widget>
+  
+  <!-- Numeric Data Widget - Hiển thị thông số kỹ thuật -->
+  <widget class="QWidget" name="numeric_data_widget">
+   <property name="geometry">
+    <rect>
+     <x>395</x>
+     <y>514</y>
+     <width>500</width>
+     <height>500</height>
+    </rect>
+   </property>
+  </widget>
+  
+  <!-- Calculator Button -->
+  <widget class="QPushButton" name="calculator_button">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>404</y>
+     <width>100</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tính toán</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(0, 100, 150);
+    color: white; font-size: 14px;
+    border-radius: 5px;
+}
+QPushButton:pressed {
+    background-color: rgb(0, 50, 75);
+}
+QPushButton:hover {
+    background-color: rgb(0, 150, 225);
+}</string>
+   </property>
+  </widget>
+  
+  <!-- OK Button (Xác nhận) -->
+  <widget class="QPushButton" name="ok_button">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>404</y>
+     <width>100</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Xác nhận</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(0, 130, 0);
+    color: white; font-size: 14px;
+    border-radius: 5px;
+}
+QPushButton:pressed {
+    background-color: rgb(0, 50, 0);
+}
+QPushButton:hover {
+    background-color: rgb(0, 200, 0);
+}</string>
+   </property>
+  </widget>
+  
+  <!-- Cancel Button (Hủy bỏ) -->
+  <widget class="QPushButton" name="cancel_button">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>404</y>
+     <width>100</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Hủy bỏ</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(130, 0, 0);
+    color: white; font-size: 14px;
+    border-radius: 5px;
+}
+QPushButton:pressed {
+    background-color: rgb(50, 0, 0);
+}
+QPushButton:hover {
+    background-color: rgb(200, 0, 0);
+}</string>
+   </property>
+  </widget>
+  
+  <!-- Launch All Button (Khởi động tất cả) -->
+  <widget class="QPushButton" name="launch_all_button">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>404</y>
+     <width>100</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Khởi động tất cả</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(50, 50, 50);
+    color: white; font-size: 14px;
+    border-radius: 5px;
+}
+QPushButton:pressed {
+    background-color: rgb(25, 25, 25);
+}
+QPushButton:hover {
+    background-color: rgb(100, 100, 100);
+}</string>
+   </property>
+  </widget>
+  
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
