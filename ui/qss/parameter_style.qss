@@ -1,0 +1,16 @@
+QFrame#ParameterBox {
+    background-color: rgb(70, 70, 70);
+    border: 1px solid rgb(80, 80, 80);
+    border-radius: 4px;
+}
+
+QLabel#ParamLabel {
+    color: rgb(200, 200, 200);
+    font-size: 9pt;
+}
+
+QLabel#ParamValue {
+    color: white;
+    font-size: 12pt;
+    font-weight: bold;
+}

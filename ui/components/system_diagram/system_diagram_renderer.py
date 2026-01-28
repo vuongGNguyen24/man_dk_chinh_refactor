@@ -2,11 +2,9 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter
 from PyQt5.QtCore import QRect, QTimer, Qt
 from typing import List
+
 from diagram_layout_loader import DiagramLayoutLoader
-from effects import EffectManager
-from effects import PathSegment
-
-
+from effects import EffectManager, PathSegment, ConnectionRender
 class SystemDiagramRenderer(QWidget):
     """
     Widget render toàn bộ system diagram:
@@ -23,6 +21,7 @@ class SystemDiagramRenderer(QWidget):
         self.loader = DiagramLayoutLoader(ui_file)
         self.root = self.loader.root
         self.root.setParent(self)
+        
 
         # 2. Effect manager
         self.effects = EffectManager()
@@ -35,8 +34,12 @@ class SystemDiagramRenderer(QWidget):
         self.group_boxes = self.loader.collect_group_boxes()
         self.connection_frames = self.loader.collect_connections()
 
-        # 5. Build connection segments
+        # 5. Build connection segments overlay
         self.connection_segments = self._build_connection_segments()
+        self.overlay = ConnectionRender(self.connection_segments, self.effects.draw_connections, parent=self.root)
+        self.overlay.resize(self.root.size())
+        self.overlay.raise_()   # ⬅️ đảm bảo nằm trên cùng
+
 
         # 6. Apply static effects
         self._apply_group_box_effects()
@@ -52,7 +55,8 @@ class SystemDiagramRenderer(QWidget):
         
     def _on_tick(self):
         if self.effects.animation_enabled:
-            self.update() #trigger paintEvent
+            self.overlay.update()
+
         
     
     def _map_connection_frames_to_segments(self) -> List[PathSegment]:
@@ -94,24 +98,12 @@ class SystemDiagramRenderer(QWidget):
         for _, group_box in self.group_boxes.items():
             self.effects.apply_group_box_effect(group_box)
 
-    # ==================================================
-    # CONNECTION BUILDING
-    # ==================================================
     def _build_connection_segments(self):
         """
         Convert QFrame connection placeholders to PathSegment list
         """
 
         return self._map_connection_frames_to_segments() 
-
-    def paintEvent(self, event):
-        """Hàm được gọi kế thừa từ QWidget
-
-        """
-        super().paintEvent(event)
-        painter = QPainter(self)
-        self.effects.draw_connections(painter, self.connection_segments)
-
     # ==================================================
     # PUBLIC API
     # ==================================================
@@ -120,7 +112,7 @@ class SystemDiagramRenderer(QWidget):
         Gọi khi data thay đổi (error / recover)
         """
         self._apply_node_effects()
-        self.update()
+        self.root.update()
         
 if __name__ == "__main__":
     class FakeNode:
@@ -143,7 +135,7 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     data_manager = FakeSystemDataManager()
-    renderer = SystemDiagramRenderer("sketech.ui", data_manager, fps=10)
+    renderer = SystemDiagramRenderer("ban_dieu_khien.ui", data_manager, fps=20)
     renderer.show()
 
     sys.exit(app.exec_())

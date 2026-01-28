@@ -51,6 +51,6 @@ class DiagramLayoutLoader:
     
 if __name__ == "__main__":
     loader = DiagramLayoutLoader("sketech.ui")
-    print(loader.collect_nodes())
+    # print(loader.collect_nodes())
     print(loader.collect_group_boxes())
-    print(loader.collect_connections())
+    # print(loader.collect_connections())

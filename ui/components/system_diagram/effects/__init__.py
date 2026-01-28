@@ -1,4 +1,4 @@
-from .connection import ConnectionEffect, WaveCalculator, GradientBuilder, PathSegment
+from .connection import ConnectionEffect, WaveCalculator, GradientBuilder, PathSegment, ConnectionRender
 from .style_effect import NodeStyleEffect, GroupBoxStyleEffect
 from .effect_manager import EffectManager
 
