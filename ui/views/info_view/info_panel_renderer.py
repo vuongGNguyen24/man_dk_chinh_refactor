@@ -18,8 +18,8 @@ class InfoPanelRenderer(QWidget):
 
         # ===== Load QSS =====
         self.setStyleSheet(
-            load_qss("module_style.qss") +
-            load_qss("parameter_style.qss")
+            load_qss(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\styles\module_style.qss") +
+            load_qss(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\styles\parameter_style.qss")
         )
 
         # ===== Scroll area setup =====
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         ]
     )
     app = QApplication(sys.argv)
-    renderer = InfoPanelRenderer("infor_panel_reader.ui")
+    renderer = InfoPanelRenderer(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\layouts\infor_panel_reader.ui")
     renderer.set_modules([mock_module, mock_module2])
     renderer.show()
     sys.exit(app.exec_())

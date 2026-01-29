@@ -2,12 +2,12 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt, QRectF
 from PyQt5.QtGui import QPainter, QPen, QColor, QBrush, QLinearGradient
-from ..widgets.compass_widget import AngleCompass
-from ..widgets.half_compass_widget import HalfCircleWidget
-from ..widgets.numeric_display_widget import NumericDataWidget
-from ..widgets.ammunition_widget import BulletWidget
-from ..widgets.custom_message_box_widget import CustomMessageBox
-from ..components.ui_utilities import ColoredSVGButton
+from ..widgets.features.compass_widget import AngleCompass
+from ..widgets.features.half_compass_widget import HalfCircleWidget
+from ..widgets.features.numeric_display_widget import NumericDataWidget
+from ..widgets.features.ammunition_widget import BulletWidget
+from ..widgets.components.custom_message_box_widget import CustomMessageBox
+from ..widgets.components.buttons.isometric import ColoredSVGButton
 import ui.ui_config as config
 import yaml
 import random

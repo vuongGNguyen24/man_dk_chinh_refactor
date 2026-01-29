@@ -9,18 +9,18 @@ from PyQt5.QtGui import QIcon, QPainter, QPen, QColor, QBrush, QLinearGradient
 from PyQt5.QtCore import Qt, QRectF
 
 # Updated imports for new file structure
-from ui.widgets.compass_widget import AngleCompass, resource_path
-from ui.widgets.half_compass_widget import HalfCircleWidget
-from ui.widgets.ammunition_widget import BulletWidget
-from ui.widgets.numeric_display_widget import NumericDataWidget
-from ui.widgets.custom_message_box_widget import CustomMessageBox
-from ui.components.ui_utilities import SVGColorChanger, ColoredSVGButton
+from ui.widgets.features.compass_widget import AngleCompass, resource_path
+from ui.widgets.features.half_compass_widget import HalfCircleWidget
+from ui.widgets.features.ammunition_widget import BulletWidget
+from ui.widgets.features.numeric_display_widget import NumericDataWidget
+from ui.widgets.components.custom_message_box_widget import CustomMessageBox
+from ui.widgets.components.buttons.isometric import SVGColorChanger, ColoredSVGButton
 import ui.ui_config as config
 from communication.data_sender import sender_ammo_status, sender_angle_direction
-from ui.tabs.main_control_tab import MainTab, GridBackgroundWidget
-from ui.tabs.system_info_tab import InfoTab
-from ui.tabs.event_log_tab import LogTab
-from ui.tabs.settings_tab import SettingTab
+from ui.views.main_control_tab import MainTab, GridBackgroundWidget
+from ui.views.system_info_tab import InfoTab
+from ui.views.event_log_tab import LogTab
+from ui.views.settings_tab import SettingTab
 
 class FireControl(QtCore.QObject):
     def __init__(self):

@@ -2,14 +2,14 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QLabel
 from PyQt5.QtCore import Qt, QRectF
 from PyQt5.QtGui import QPainter, QPen, QColor, QBrush, QLinearGradient
-from ..widgets.compass_widget import AngleCompass
-from ..widgets.half_compass_widget import HalfCircleWidget
-from ..widgets.numeric_display_widget import NumericDataWidget
-from ..widgets.ammunition_widget import BulletWidget
-from ..widgets.custom_message_box_widget import CustomMessageBox, ConfirmationWidget
-from ..widgets.ballistic_calculator_dialog import BallisticCalculatorWidget
-from ..widgets.angle_input_dialog import AngleInputDialog
-from ..components.ui_utilities import ColoredSVGButton
+from ..widgets.features.compass_widget import AngleCompass
+from ..widgets.features.half_compass_widget import HalfCircleWidget
+from ..widgets.features.numeric_display_widget import NumericDataWidget
+from ..widgets.features.ammunition_widget import BulletWidget
+from ..widgets.components.custom_message_box_widget import CustomMessageBox, ConfirmationWidget
+from .ballistic_calculator_dialog import BallisticCalculatorWidget
+from .angle_input_dialog import AngleInputDialog
+from ..widgets.components.buttons.isometric import ColoredSVGButton
 import ui.ui_config as config
 from communication.data_sender import sender_angle_direction, sender_ammo_status
 from communication.can_config import CAN_ID_ANGLE_LEFT, CAN_ID_ANGLE_RIGHT
@@ -314,7 +314,7 @@ class MainTab(GridBackgroundWidget):
         right_selected = self.bullet_widget.right_selected_launchers
         if not (left_selected or right_selected):
             # Chỉ log, không hiện popup
-            from ui.tabs.event_log_tab import LogTab
+            from ui.views.event_log_tab import LogTab
             LogTab.log("Chưa chọn ống phóng nào!", "WARNING")
             return
 
@@ -391,7 +391,7 @@ class MainTab(GridBackgroundWidget):
                 failed_can_data.append(f"Giàn phải: [{can_data_right_hex}]")
         
         # Ghi log và thông báo kết quả
-        from ui.tabs.event_log_tab import LogTab
+        from ui.views.event_log_tab import LogTab
         
         if can_success:
             success_msg = f"Đã phóng thành công {selected_count} ống (Trái: {len(left_selected)}, Phải: {len(right_selected)})"
@@ -408,7 +408,7 @@ class MainTab(GridBackgroundWidget):
     
     def _cancel_launch(self):
         """Xử lý khi hủy phóng từ confirmation widget."""
-        from ui.tabs.event_log_tab import LogTab
+        from ui.views.event_log_tab import LogTab
         LogTab.log("Đã hủy phóng!", "INFO")
         self.on_cancel_button_clicked()
 
@@ -580,7 +580,7 @@ class MainTab(GridBackgroundWidget):
             sender_angle_direction(elevation_int, direction_int, idx, ip, CONFIG.SEND_PORT)
             
             # Log
-            from ui.tabs.event_log_tab import LogTab
+            from ui.views.event_log_tab import LogTab
             if interpolator:
                 LogTab.log(f"Đã nhập góc tầm trực tiếp {elevation:.1f}° (khoảng cách ~{calculated_distance:.2f}m) và góc hướng {direction:.1f}° cho giàn {side_text}", "INFO")
             else:
@@ -632,11 +632,11 @@ class MainTab(GridBackgroundWidget):
                 sender_angle_direction(elevation_int, direction_int, idx)
                 
                 # Log thông tin bảng bắn được sử dụng
-                from ui.tabs.event_log_tab import LogTab
+                from ui.views.event_log_tab import LogTab
                 if distance >= 9100:
                     LogTab.log(f"Sử dụng {table_name} cho khoảng cách {distance:.1f}m - Góc tầm: {elevation:.1f}°", "INFO")
             else:
-                from ui.tabs.event_log_tab import LogTab
+                from ui.views.event_log_tab import LogTab
                 LogTab.log(f"Không thể tính toán góc tầm - bảng bắn chưa được tải", "ERROR")
                 # Bỏ popup, chỉ log
 

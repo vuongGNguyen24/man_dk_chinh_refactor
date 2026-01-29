@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QPushButton
 from PyQt5.QtGui import QFont, QPainter, QPen, QColor, QLinearGradient, QRadialGradient, QBrush
 from PyQt5.QtCore import Qt, QRect, QPropertyAnimation, QEasingCurve, QRectF, QPointF, pyqtProperty
 from PyQt5.QtWidgets import QGraphicsOpacityEffect
-from ..ui_config import NUMBER_LIST
+from ...ui_config import NUMBER_LIST
 import yaml
 import os
 
@@ -27,7 +27,7 @@ def reload_button_colors():
     BUTTON_COLORS = load_button_colors()
     return BUTTON_COLORS
 
-from ..components.ui_utilities import BulletIsometricButton
+from ..components.buttons.isometric import BulletIsometricButton
 
 
 class BulletWidget(QWidget):

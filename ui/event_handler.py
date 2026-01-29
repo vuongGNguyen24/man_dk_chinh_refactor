@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt, QRect
 # Import from data_management module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from data_management import system_data_manager
-from ui.widgets.threshold_editor_dialog import show_threshold_editor
+from ui.widgets.components.threshold_editor_dialog import show_threshold_editor
 
 
 class InfoTabEventHandler:

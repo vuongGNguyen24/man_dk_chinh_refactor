@@ -8,10 +8,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from data_management import system_data_manager, module_manager
 
 # Import components from ui
-from ui.components.grid_background_renderer import GridBackgroundRenderer, GridBackgroundWidget
+from ui.views.effects.grid_background_renderer import GridBackgroundRenderer, GridBackgroundWidget
 from ui.components.system_diagram_renderer import SystemDiagramRenderer
 from ui.components.info_panel.info_panel_renderer import InfoPanelRenderer
-from ui.components.event_handler import InfoTabEventHandler
+from ui.event_handler import InfoTabEventHandler
 
 
 def resource_path(relative_path):

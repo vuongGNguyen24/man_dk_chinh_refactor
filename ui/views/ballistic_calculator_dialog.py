@@ -847,10 +847,10 @@ class BallisticCalculatorWidget(QWidget):
         
         # Gửi lệnh cho giàn trái
         if sender_angle_direction(elevation_left_int, direction_left_int, idx=idx_left):
-            from ui.tabs.event_log_tab import LogTab
+            from ui.views.event_log_tab import LogTab
             LogTab.log(f"Đã gửi lệnh góc tầm {elevation_left:.1f}° và góc hướng {direction_left:.1f}° cho giàn Trái - CAN Data: [{can_data_hex_left}]", "SUCCESS")
         else:
-            from ui.tabs.event_log_tab import LogTab
+            from ui.views.event_log_tab import LogTab
             LogTab.log(f"Không thể gửi lệnh góc qua CAN bus cho giàn Trái - CAN Data: [{can_data_hex_left}] - ID: 0x29", "ERROR")
             LogTab.log(f"Chi tiết CAN Data: {can_data_explained_left}", "ERROR")
         
@@ -880,10 +880,10 @@ class BallisticCalculatorWidget(QWidget):
         
         # Gửi lệnh cho giàn phải
         if sender_angle_direction(elevation_right_int, direction_right_int, idx=idx_right):
-            from ui.tabs.event_log_tab import LogTab
+            from ui.views.event_log_tab import LogTab
             LogTab.log(f"Đã gửi lệnh góc tầm {elevation_right:.1f}° và góc hướng {direction_right:.1f}° cho giàn Phải - CAN Data: [{can_data_hex_right}]", "SUCCESS")
         else:
-            from ui.tabs.event_log_tab import LogTab
+            from ui.views.event_log_tab import LogTab
             LogTab.log(f"Không thể gửi lệnh góc qua CAN bus cho giàn Phải - CAN Data: [{can_data_hex_right}] - ID: 0x29", "ERROR")
             LogTab.log(f"Chi tiết CAN Data: {can_data_explained_right}", "ERROR")
 

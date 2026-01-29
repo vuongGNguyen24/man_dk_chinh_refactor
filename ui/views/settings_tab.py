@@ -670,7 +670,7 @@ class SettingTab(GridBackgroundWidget):
         except Exception as e:
             # Khôi phục nút và log lỗi
             self._restore_apply_save_button()
-            from ui.tabs.event_log_tab import LogTab
+            from ui.views.event_log_tab import LogTab
             LogTab.log(f"Không thể áp dụng và lưu config: {str(e)}", "ERROR")
             # Bỏ popup, chỉ log
 
@@ -727,7 +727,7 @@ class SettingTab(GridBackgroundWidget):
         except Exception as e:
             # Khôi phục nút và log lỗi
             self._restore_reset_button()
-            from ui.tabs.event_log_tab import LogTab
+            from ui.views.event_log_tab import LogTab
             LogTab.log(f"Không thể load default config: {str(e)}", "ERROR")
             # Bỏ popup, chỉ log
 
