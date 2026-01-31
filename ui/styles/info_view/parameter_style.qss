@@ -1,15 +1,17 @@
-QFrame#ParameterBox {
+QFrame[role="param-box"] {
     background-color: rgb(70, 70, 70);
     border: 1px solid rgb(80, 80, 80);
     border-radius: 4px;
 }
 
-QLabel#ParamLabel {
+/* ---------- Parameter label ---------- */
+QLabel[part="param-label"] {
     color: rgb(200, 200, 200);
     font-size: 9pt;
 }
 
-QLabel#ParamValue {
+/* ---------- Parameter value ---------- */
+QLabel[part="param-value"] {
     color: white;
     font-size: 12pt;
     font-weight: bold;

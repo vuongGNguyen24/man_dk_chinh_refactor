@@ -1,0 +1,67 @@
+/* =========================================================
+   DIALOG CONTAINER
+   ========================================================= */
+QWidget[role="dialog"][variant="confirm"] {
+    background-color: #1a1a1a;
+    border: 2px solid #0078d4;
+    border-radius: 15px;
+}
+
+/* =========================================================
+   DIALOG PARTS
+   ========================================================= */
+QLabel[role="dialog"][variant="title"] {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+QLabel[role="dialog"][variant="message"] {
+    font-size: 14px;
+    color: #cccccc;
+    padding: 10px;
+}
+
+/* =========================================================
+   ACTION BUTTON – BASE
+   ========================================================= */
+QPushButton[role="action"] {
+    min-height: 45px;
+    min-width: 120px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+}
+
+/* =========================================================
+   ACTION STATES
+   ========================================================= */
+
+/* ---------- CONFIRM ---------- */
+QPushButton[role="action"][state="confirm"] {
+    background-color: #10B981;
+    color: white;
+}
+
+QPushButton[role="action"][state="confirm"]:hover {
+    background-color: #059669;
+}
+
+QPushButton[role="action"][state="confirm"]:pressed {
+    background-color: #047857;
+}
+
+/* ---------- CANCEL ---------- */
+QPushButton[role="action"][state="cancel"] {
+    background-color: #DC2626;
+    color: white;
+}
+
+QPushButton[role="action"][state="cancel"]:hover {
+    background-color: #B91C1C;
+}
+
+QPushButton[role="action"][state="cancel"]:pressed {
+    background-color: #991B1B;
+}

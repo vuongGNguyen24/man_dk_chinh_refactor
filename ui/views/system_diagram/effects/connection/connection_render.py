@@ -2,7 +2,6 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter
 from PyQt5.QtCore import QRect, QTimer, Qt
 from typing import List, Callable
-from diagram_layout_loader import DiagramLayoutLoader
 from .connection_effect import PathSegment
 
 

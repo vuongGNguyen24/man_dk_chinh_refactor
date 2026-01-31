@@ -12,14 +12,14 @@ def resource_path(relative_path):
     return os.path.join(os.path.abspath("."), relative_path)
 
 
-class HalfCircleWidget(QWidget):
+class VerticalCompassWidget(QWidget):
     _instance_counter = 0  # Class variable để đếm instance
     
     def __init__(self, current_angle, aim_angle, parent=None, redline_limits=None, elevation_limits=None):
         super().__init__(parent)
         # Tạo ID duy nhất cho mỗi instance
-        HalfCircleWidget._instance_counter += 1
-        self._widget_id = f"Widget{HalfCircleWidget._instance_counter}"
+        VerticalCompassWidget._instance_counter += 1
+        self._widget_id = f"Widget{VerticalCompassWidget._instance_counter}"
         
         self._current_angle = current_angle
         self._aim_angle = aim_angle

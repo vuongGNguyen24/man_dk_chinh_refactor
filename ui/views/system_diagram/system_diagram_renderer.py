@@ -1,11 +1,12 @@
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter
 from PyQt5.QtCore import QRect, QTimer, Qt
-from typing import List
+from typing import List, Union
 
-from diagram_layout_loader import DiagramLayoutLoader
-from effects import EffectManager, PathSegment, ConnectionRender
-class SystemDiagramRenderer(QWidget):
+from ...helpers.svg_icon import svg_to_pixmap, load_svg_text, recolor_svg
+from .diagram_layout_loader import DiagramLayoutLoader
+from .effects import EffectManager, PathSegment, ConnectionRender
+class SystemDiagramView(QWidget):
     """
     Widget render toàn bộ system diagram:
     - layout từ .ui
@@ -13,7 +14,7 @@ class SystemDiagramRenderer(QWidget):
     - connection dùng QPainter
     """
 
-    def __init__(self, ui_file: str, system_data_manager, fps=40, parent=None):
+    def __init__(self, ui_file: str, system_data_manager, svg_path: Union[str, None]=None, fps=40, parent=None):
         super().__init__(parent)
         
 
@@ -39,12 +40,13 @@ class SystemDiagramRenderer(QWidget):
         self.overlay = ConnectionRender(self.connection_segments, self.effects.draw_connections, parent=self.root)
         self.overlay.resize(self.root.size())
         self.overlay.raise_()   # ⬅️ đảm bảo nằm trên cùng
-
+        
 
         # 6. Apply static effects
         self._apply_group_box_effects()
         self._apply_node_effects()
-        
+        self.svg_path = svg_path
+        self._insert_svg_icons()
         # 7. Start dynamic animation
         self.timer = QTimer(self)
         self.timer.timeout.connect(self._on_tick)
@@ -57,7 +59,18 @@ class SystemDiagramRenderer(QWidget):
         if self.effects.animation_enabled:
             self.overlay.update()
 
-        
+    def _insert_svg_icons(self):
+        """
+        Insert icon to node
+        """
+        svg_string = load_svg_text(self.svg_path)
+        svg_string = recolor_svg(svg_string, "#16b0d6")
+        gnd_labels = self.loader.collect_gnd()
+        for name, gnd_label in gnd_labels.items():
+            print(name)
+            
+            icon = svg_to_pixmap(svg_string, gnd_label.size(), 255)
+            gnd_label.setPixmap(icon)
     
     def _map_connection_frames_to_segments(self) -> List[PathSegment]:
         from PyQt5.QtCore import QPoint
@@ -135,7 +148,7 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     data_manager = FakeSystemDataManager()
-    renderer = SystemDiagramRenderer("ban_dieu_khien.ui", data_manager, fps=20)
+    renderer = SystemDiagramView(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\views\system_diagram\ban_dieu_khien.ui", data_manager, svg_path=r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\resources\Icons\gnd.svg",fps=20)
     renderer.show()
 
     sys.exit(app.exec_())

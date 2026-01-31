@@ -3,9 +3,9 @@ from PyQt5.QtWidgets import QMessageBox, QPushButton, QLabel
 from PyQt5.QtCore import Qt, QRectF
 from PyQt5.QtGui import QPainter, QPen, QColor, QBrush, QLinearGradient
 from ..widgets.features.compass_widget import AngleCompass
-from ..widgets.features.half_compass_widget import HalfCircleWidget
+from ..widgets.features.vertical_compass_widget import VerticalCompassWidget
 from ..widgets.features.numeric_display_widget import NumericDataWidget
-from ..widgets.features.ammunition_widget import BulletWidget
+from ..widgets.features.bullet_widget import BulletWidget
 from ..widgets.components.custom_message_box_widget import CustomMessageBox, ConfirmationWidget
 from .ballistic_calculator_dialog import BallisticCalculatorWidget
 from .angle_input_dialog import AngleInputDialog
@@ -61,7 +61,7 @@ class MainTab(GridBackgroundWidget):
         # Giới hạn cho góc tầm: làm xám các vạch ngoài khoảng [10, 60]
 
         elevation_limits = self.config['Widgets']['LimitAngles'].get('Elevation', [])
-        self.half_compass_left = HalfCircleWidget(15, 20, self, 
+        self.half_compass_left = VerticalCompassWidget(15, 20, self, 
                                                    redline_limits=left_redline_limits,
                                                    elevation_limits=elevation_limits)
         
@@ -134,7 +134,7 @@ class MainTab(GridBackgroundWidget):
         # Giới hạn cho góc tầm: làm xám các vạch ngoài khoảng [10, 60]
         elevation_limits = self.config['Widgets']['LimitAngles'].get('Elevation', [])
         
-        self.half_compass_right = HalfCircleWidget(30, 25, self, 
+        self.half_compass_right = VerticalCompassWidget(30, 25, self, 
                                                     redline_limits=right_redline_limits,
                                                     elevation_limits=elevation_limits)
         

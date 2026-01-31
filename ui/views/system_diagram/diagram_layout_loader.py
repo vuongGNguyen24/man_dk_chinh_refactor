@@ -1,5 +1,5 @@
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QWidget, QFrame, QGroupBox, QApplication
+from PyQt5.QtWidgets import QWidget, QFrame, QGroupBox, QApplication, QGraphicsView, QLabel
 from typing import Dict
 import sys
 
@@ -48,6 +48,8 @@ class DiagramLayoutLoader:
     def collect_connections(self) -> Dict[str, Dict]:
         return self.__collect_items("conn", QFrame)
     
+    def collect_gnd(self) -> Dict[str, QLabel]:
+        return self.__collect_items("gnd", QLabel)
     
 if __name__ == "__main__":
     loader = DiagramLayoutLoader("sketech.ui")

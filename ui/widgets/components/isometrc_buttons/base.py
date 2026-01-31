@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from PyQt5.QtCore import QRect
-from PyQt5.QtGui import QColor, QPainter, QPen, QBrush
+from PyQt5.QtCore import QRect, Qt
+from PyQt5.QtGui import QColor, QPainter, QPen, QBrush, QFont
 from PyQt5.QtWidgets import QPushButton
 
 
@@ -102,6 +102,13 @@ class IsometricButton(QPushButton):
             top_rect, self.border_radius, self.border_radius
         )
 
+        # ---- text ----
+        text = self.text()
+        if text:
+            painter.setPen(QPen(state.text_color))
+            font = self.font()
+            painter.setFont(font)
+            painter.drawText(top_rect, Qt.AlignCenter, text)
         # ---- icon ----
         icon = self.icon()
         if not icon.isNull():

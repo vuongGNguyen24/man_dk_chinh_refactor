@@ -1,0 +1,47 @@
+/* =========================================================
+   MAIN STACK
+   ========================================================= */
+QWidget[role="main-stack"] {
+    background: #121212;
+    border-top: 1px solid white;
+}
+
+/* pages inside stack */
+QWidget[role="main-stack"] > QWidget {
+    background: transparent;
+}
+
+/* =========================================================
+   TOP TAB BAR
+   ========================================================= */
+QWidget[role="top-tab-bar"] {
+    background: #1e5c6b;
+}
+
+/* =========================================================
+   TOP TAB BUTTON
+   ========================================================= */
+QPushButton[role="top-tab-button"] {
+    background: transparent;
+    color: rgba(230,238,243,0.7);
+    border: none;
+    padding-left: 12px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* hover */
+QPushButton[role="top-tab-button"]:hover {
+    color: #E6EEF3;
+}
+
+/* active tab */
+QPushButton[role="top-tab-button"][state="active"] {
+    background: #121212;
+    color: #E6EEF3;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    border-top: 1px solid white;
+    border-bottom: none;
+    font-weight: 600;
+}
