@@ -8,13 +8,6 @@ from PyQt5.QtGui import QPainter, QPen, QColor, QPixmap
 from PyQt5.QtCore import Qt, QPointF, QRectF, QTimer, pyqtProperty, QPropertyAnimation, QEasingCurve
 
 
-def resource_path(relative_path):
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.path.abspath("."), relative_path)
-
-
-
 class AngleCompass(QWidget):
 
     def __init__(self, aim_direction: float, current_direction: float, redlines: list = None, w_direction: float = 0, parent=None):
@@ -166,7 +159,7 @@ class AngleCompass(QWidget):
         self._draw_geographic_compass(painter, top_center, self.radius * 0.7)
         
         # Vẽ icon tàu xoay theo current_direction
-        icon_path = resource_path(r"assets\Icons\ShipIcon.png").replace("\\", "/")
+        icon_path = "ui/resources/Icons/ShipIcon.png"
         self._draw_center_icon(painter, top_center, icon_path, self.radius * 0.7)
         
         # Cả 2 mũi tên đều ở vòng ngoài: current_direction hướng ra ngoài, aim_direction hướng vào trong
@@ -338,7 +331,7 @@ class AngleCompass(QWidget):
             missile_angle = math.atan2(dy, dx) + math.pi/2
         
         # Vẽ missile
-        missile_path = resource_path(r"assets\Icons\missile.svg").replace("\\", "/")
+        missile_path = "ui/resources/Icons/missile.svg"
         self._draw_missile_icon(painter, missile_pos, missile_path, missile_angle)
 
     def _draw_missile_animation_outer(self, painter: QPainter, center: QPointF, radius: float, angle_deg: float) -> None:
@@ -406,7 +399,7 @@ class AngleCompass(QWidget):
             missile_angle = math.atan2(dy, dx) + math.pi/2
         
         # Vẽ missile
-        missile_path = resource_path(r"assets\Icons\missile.svg").replace("\\", "/")
+        missile_path = "ui/resources/Icons/missile.svg"
         self._draw_missile_icon(painter, missile_pos, missile_path, missile_angle)
 
     def _draw_missile_icon(self, painter: QPainter, position: QPointF, icon_path: str, rotation_angle: float) -> None:
@@ -422,7 +415,7 @@ class AngleCompass(QWidget):
             None
         """
         # Load missile icon (sử dụng PNG thay vì SVG để đơn giản hóa)
-        missile_png_path = resource_path(r"assets\Icons\missile.svg").replace("\\", "/")
+        missile_png_path = "ui/resources/Icons/missile.svg"
         pixmap = QPixmap(missile_png_path)
         if pixmap.isNull():
             print(f"Error: Unable to load missile icon from {missile_png_path}")

@@ -2,11 +2,12 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QPushButton
 from typing import Union, Tuple
 
-from base import IsometricButton, IsometricVisualState
-from helpers.svg_icon import apply_svg_icon_to_button
+from .pill import IsometricPillButton
+from .base import IsometricVisualState
+from ....helpers.svg_icon import apply_svg_icon_to_button
 
 
-class SVGIsometricButton(IsometricButton):
+class SVGIsometricButton(IsometricPillButton):
     """
     Helper để setup QPushButton với SVG icon có recolor.
     Không render, không load config, không biết domain.
@@ -46,7 +47,7 @@ class SVGIsometricButton(IsometricButton):
 if __name__ == "__main__":
     import sys
     from PyQt5.QtWidgets import QApplication
-    from base import IsometricButton, IsometricVisualState
+    from .base import IsometricButton, IsometricVisualState
     from PyQt5.QtGui import QColor
     app = QApplication(sys.argv)
     button = SVGIsometricButton(state=IsometricVisualState(QColor(255, 0, 0), QColor(0, 0, 255), QColor(0, 255, 0), 0.5), svg_path=r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\resources\Icons\calculator.svg")

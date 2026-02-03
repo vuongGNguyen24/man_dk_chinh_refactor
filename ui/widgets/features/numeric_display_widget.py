@@ -5,8 +5,8 @@ from PyQt5.QtGui import QPainter, QBrush, QColor, QPen, QFont, QTextOption
 from PyQt5.QtCore import Qt, QRectF, QLineF
 
 class NumericDataWidget(QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
 
         self.data = {
             "Hướng ngắm hiện tại (độ)": ("0", "0"),

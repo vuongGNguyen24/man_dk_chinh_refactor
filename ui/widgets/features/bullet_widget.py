@@ -3,14 +3,14 @@ from PyQt5.QtGui import QColor, QFont
 from PyQt5.QtCore import Qt, pyqtSignal
 from typing import List, Set, Dict
 
-from ..components.isometrc_buttons.base import IsometricButton, IsometricVisualState
+from ..components.isometric_buttons import IsometricButton, IsometricVisualState, IsometricRoundButton
 
 
 NUMBER_LIST = [[ 2,10,14,17,11, 3],
                [ 6,16, 8, 5,15, 7],
                [ 4,12,18,13, 9, 1]]
 
-class BulletIsometricButton(IsometricButton):
+class BulletIsometricButton(IsometricRoundButton):
     def __init__(self, index: int, parent=None):
         # state tạm, sẽ được apply từ ngoài
         super().__init__(state=None, parent=parent)
@@ -75,9 +75,9 @@ class BulletWidget(QWidget):
         frame.setObjectName("launcher-frame")
 
         title_label = QLabel(title, self)
+        title_label.setStyleSheet("font-size: 18px; font-weight: bold; color: #F1F5F9;")
         title_label.setGeometry(x, y, 590, 34)
         title_label.setAlignment(Qt.AlignCenter)
-
         self._create_launcher_buttons(title, x, y)
         
     def _create_launcher_buttons(self, side: str, base_x: int, base_y: int):
