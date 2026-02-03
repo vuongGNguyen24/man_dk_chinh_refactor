@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 
 from ui.views.main_control_tab import MainTab
 from ui.views.system_info_tab import InfoTab
-from ui.views.event_log_tab import LogTab
+from ui.views.log_tab import LogTab
 from ui.widgets.features.compass_widget import resource_path
 
 
