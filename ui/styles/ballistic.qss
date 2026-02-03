@@ -1,0 +1,118 @@
+QWidget[role="ballistic"][variant="main"] {
+    background-color: #000000;
+    border: 3px solid #FFFFFF;
+}
+
+QLabel[role="section-title"] {
+    font-size: 18px;
+    font-weight: bold;
+    color: #F1F5F9;
+}
+
+QLabel[role="sub-title"] {
+    font-size: 14px;
+    font-weight: bold;
+    color: #F1F5F9;
+}
+
+QLabel[role="note"] {
+    color: #94A3B8;
+    font-size: 11px;
+    font-style: italic;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+QRadioButton[role="mode-radio"] {
+    color: #F1F5F9;
+    font-size: 13px;
+    font-family: Tahoma;
+    spacing: 8px;
+}
+
+QRadioButton[role="mode-radio"]::indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 2px solid #64C8FF;
+    background-color: transparent;
+}
+
+QRadioButton[role="mode-radio"]::indicator:checked {
+    background-color: #64C8FF;
+    border: 2px solid #64C8FF;
+}
+
+QRadioButton[role="mode-radio"]:hover {
+    color: #FFFFFF;
+}
+
+QWidget[role="capsule"] QLineEdit {
+    background-color: #1E293B;
+    color: #F1F5F9;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+QWidget[role="capsule"][variant="readonly"] QLineEdit {
+    background-color: #3a3a3a;
+    color: #94A3B8;
+}
+
+QLabel[role="table-header"] {
+    background-color: #334155;
+    color: #F1F5F9;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 10px;
+    border: 1px solid #475569;
+}
+
+QLabel[role="table-subheader"] {
+    background-color: #475569;
+    color: #F1F5F9;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 8px;
+    border: 1px solid #475569;
+}
+
+QLabel[role="table-cell"] {
+    background-color: #1E293B;
+    color: #F1F5F9;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #475569;
+}
+
+QPushButton[role="action"][variant$="-round"] {
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-family: Tahoma;
+}
+
+QPushButton[variant="neutral-round"] {
+    background-color: #6B7280;
+    color: #F1F5F9;
+}
+QPushButton[variant="neutral-round"]:hover { background-color: #4B5563; }
+QPushButton[variant="neutral-round"]:pressed { background-color: #374151; }
+
+QPushButton[variant="confirm-round"] {
+    background-color: #10B981;
+    color: #F1F5F9;
+}
+QPushButton[variant="confirm-round"]:hover { background-color: #059669; }
+QPushButton[variant="confirm-round"]:pressed { background-color: #047857; }
+
+QPushButton[variant="cancel-round"] {
+    background-color: #DC2626;
+    color: #F1F5F9;
+}
+QPushButton[variant="cancel-round"]:hover { background-color: #B91C1C; }
+QPushButton[variant="cancel-round"]:pressed { background-color: #991B1B; }

@@ -178,3 +178,9 @@ Thumbs.db
 # Claude Code and GitHub directories
 .claude/
 .github/
+
+# Python cache
+__pycache__/
+
+# Achived files
+achived/

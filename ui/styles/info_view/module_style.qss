@@ -34,3 +34,12 @@ QFrame[role="module"][status="error"] QLabel[part="module-status"] {
     background-color: rgb(200, 60, 60);
     color: white;
 }
+
+QLabel[state="error"] {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+QLabel[state="warning"] {
+    color: #f59e0b;
+}

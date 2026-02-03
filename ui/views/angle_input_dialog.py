@@ -3,7 +3,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QGroupBox, QGraphicsOpacityEffect, QButtonGroup, QRadioButton
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QDoubleValidator, QPainter, QColor, QFont
-import ui.ui_config as config
+import achived.ui_config as config
 from common.utils import get_firing_table_interpolator, resource_path, load_firing_table
 import yaml
 

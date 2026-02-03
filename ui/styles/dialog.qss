@@ -65,3 +65,31 @@ QPushButton[role="action"][state="cancel"]:hover {
 QPushButton[role="action"][state="cancel"]:pressed {
     background-color: #991B1B;
 }
+
+QPushButton[role="action"]:disabled {
+    background-color: #121212;
+    color: #777;
+}
+
+
+QPushButton[role="angle-input"] {
+    background-color: #0078d4;
+    color: white;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+QPushButton[role="angle-input"]:hover {
+    background-color: #106ebe;
+}
+
+QPushButton[role="angle-input"]:pressed {
+    background-color: #005a9e;
+}
+
+QWidget[role="dialog"][variant="angle-input"] {
+    background-color: #111827;
+    border: 1px solid #374151;
+    border-radius: 12px;
+}

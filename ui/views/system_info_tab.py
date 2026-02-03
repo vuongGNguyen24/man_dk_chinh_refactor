@@ -65,7 +65,7 @@ class InfoTab(GridBackgroundWidget):
         # module_manager.simulate_realtime_data()  # Vô hiệu hóa - dùng dữ liệu CAN thật
         
         # Cập nhật trạng thái đèn từ config
-        import ui.ui_config as config
+        import achived.ui_config as config
         self.status_indicator.set_power_status(config.POWER_STATUS)
         self.status_indicator.set_ready_status(config.READY_STATUS)
         

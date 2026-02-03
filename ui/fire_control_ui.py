@@ -38,7 +38,7 @@ class FireControl(QtCore.QObject):
         MainWindow.resize(cfg["width"], cfg["height"])
 
         from PyQt5.QtGui import QIcon, QPixmap
-        pix = QPixmap(resource_path("assets/Icons/Vietnam.png"))
+        pix = QPixmap(resource_path("ui/resources/Icons/Vietnam.png"))
         if not pix.isNull():
             MainWindow.setWindowIcon(QIcon(pix))
 
@@ -62,7 +62,6 @@ class FireControl(QtCore.QObject):
         self.tab_main = self._make_tab("Điều khiển", 8)
         self.tab_info = self._make_tab("Thông tin", 236)
         self.tab_log = self._make_tab("Lịch sử", 464)
-        self.tab_settings = self._make_tab("Cài đặt", 692)
 
         # error indicator
         self.error_indicator = QtWidgets.QLabel(self.tab_log)
