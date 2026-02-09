@@ -1,132 +1,175 @@
-import sys
-import os
-from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QPainter
+from PyQt5.QtWidgets import QWidget, QHBoxLayout
+from PyQt5.QtCore import Qt
 
-# Updated imports for new file structure
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from data_management import system_data_manager, module_manager
-
-# Import components
 from ui.views.effects.grid_background_renderer import GridBackgroundWidget
-from ui.components.system_diagram_renderer import SystemDiagramRenderer
-from ui.components.info_panel.info_panel_renderer import InfoPanelRenderer
-from ui.event_handler import InfoTabEventHandler
+from ui.views.system_diagram.system_diagram_view import SystemDiagramView
+from ui.views.info_view.info_panel_renderer import InfoPanelRenderer
 from ui.widgets.components.status_indicator_widget import StatusIndicatorWidget
 
-
-# Refactored: Use common utilities instead of duplicated function
-try:
-    from common.utils import resource_path
-    from common.constants import DATA_UPDATE_INTERVAL
-except ImportError:
-    # Fallback implementation
-    def resource_path(relative_path):
-        """Lấy đường dẫn tuyệt đối đến file resource."""
-        if hasattr(sys, '_MEIPASS'):
-            return os.path.join(sys._MEIPASS, relative_path)
-        return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), relative_path)
-
-    DATA_UPDATE_INTERVAL = 1000  # Fallback constant
-
-
 class InfoTab(GridBackgroundWidget):
-    """Main InfoTab coordinator that orchestrates all components."""
+    """
+    Coordinator cho tab Hệ thống (refactored)
+    """
 
-    def __init__(self, config_data, parent=None):
-        super().__init__(parent, enable_animation=config_data['MainWindow'].get('background_animation', True))
-        self.config = config_data
+    def __init__(self, system_data_manager, parent=None):
+        super().__init__(
+            parent,
+            enable_animation=True
+        )
 
-        # Initialize components
-        self.system_diagram_renderer = SystemDiagramRenderer()
-        self.info_panel_renderer = InfoPanelRenderer()
-        self.event_handler = InfoTabEventHandler()
+        self.system_data_manager = system_data_manager
 
-        # Set UI refresh callback for threshold updates
-        self.event_handler.set_ui_refresh_callback(self.update)
-        
-        # Tạo status indicator widget ở góc dưới trái
+        # ===== Layout =====
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        # ===== System diagram =====
+        self.diagram = SystemDiagramView(
+            ui_file="ui/views/system_diagram/layout/system_diagram.ui",
+            system_data_manager=system_data_manager,
+            fps=20,
+        )
+        layout.addWidget(self.diagram, stretch=3)
+
+        # ===== Info panel =====
+        self.info_panel = InfoPanelRenderer(
+            r"ui\views\info_view\infor_panel_reader.ui"
+        )
+        self.info_panel.hide()
+        layout.addWidget(self.info_panel, stretch=2)
+
         self.status_indicator = StatusIndicatorWidget(self)
-        self.status_indicator.move(20, self.height() - self.status_indicator.height() - 20)
+        self.status_indicator.show()
 
-        # Timer để cập nhật dữ liệu và mô phỏng - Refactored to use constant
-        self.data_timer = QTimer()
-        self.data_timer.timeout.connect(self._update_data)
-        self.data_timer.start(DATA_UPDATE_INTERVAL)  # Cập nhật mỗi giây
-
-        # Timer cho animation effect - 60 FPS for smooth animation
-        self.animation_timer = QTimer()
-        self.animation_timer.timeout.connect(self._update_animation)
-        self.animation_timer.start(16)  # ~60 FPS (1000ms / 60 = ~16ms)
-
-    def _update_data(self):
-        """Cập nhật dữ liệu mô phỏng và refresh display."""
-        # system_data_manager.simulate_data()  # Vô hiệu hóa - dùng dữ liệu CAN thật
-        # module_manager.simulate_realtime_data()  # Vô hiệu hóa - dùng dữ liệu CAN thật
         
-        # Cập nhật trạng thái đèn từ config
-        import achived.ui_config as config
-        self.status_indicator.set_power_status(config.POWER_STATUS)
-        self.status_indicator.set_ready_status(config.READY_STATUS)
+        # ===== Signals =====
+        self.diagram.selected_node.connect(self._on_node_selected)
+        self.setProperty("role", "dialog")
+        self.setProperty("variant", "confirm")
         
-        self.update()  # Trigger repaint
-
-    def _update_animation(self):
-        """Cập nhật animation cho connection lines."""
-        if self.system_diagram_renderer.animation_enabled:
-            self.update()  # Trigger repaint for animation
-    
     def resizeEvent(self, event):
-        """Xử lý khi resize để giữ status indicator ở góc dưới trái."""
         super().resizeEvent(event)
-        # Cập nhật vị trí status indicator
-        self.status_indicator.move(20, self.height() - self.status_indicator.height() - 20)
 
-    def mousePressEvent(self, event):
-        """Xử lý sự kiện click chuột."""
-        node_regions = self.system_diagram_renderer.node_regions
-        should_update = self.event_handler.handle_mouse_press(event, node_regions, self.size())
+        margin = 20
+        w = self.status_indicator.width()
+        h = self.status_indicator.height()
 
-        if should_update:
-            self.update()
-        else:
-            super().mousePressEvent(event)
+        self.status_indicator.setGeometry(
+            margin,
+            self.height() - h - margin,
+            w,
+            h
+        )
 
-    def wheelEvent(self, event):
-        """Xử lý sự kiện scroll wheel."""
-        should_update = self.event_handler.handle_wheel_event(event)
+    # --------------------------------------------------
+    # Slots
+    # --------------------------------------------------
+    def _on_node_selected(self, node_id: str):
+        """
+        Khi user click vào node trong sơ đồ
+        """
+        print(node_id)
+        node_data = self.system_data_manager.get_node(node_id)
+        if not node_data:
+            return
 
-        if should_update:
-            self.update()
-            event.accept()
-        else:
-            super().wheelEvent(event)
+        modules = self._map_node_to_modules(node_data)
 
-    def paintEvent(self, event):
-        """Override để vẽ cả background grid và sơ đồ hệ thống."""
-        # Vẽ background grid trước
-        super().paintEvent(event)
+        self.info_panel.set_modules(modules)
+        self.info_panel.show()
 
-        # Vẽ sơ đồ hệ thống
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        self.system_diagram_renderer.draw_system_diagram(painter, self.size())
+    # --------------------------------------------------
+    # Mapping layer (Adapter)
+    # --------------------------------------------------
+    def _map_node_to_modules(self, node_data):
+        """
+        Domain → ViewModel
+        Trả về List[ModuleView]
+        """
+        modules = []
+        for module in node_data.modules:
+            modules.append(module.to_view())
+        return modules
 
-        # Vẽ info panel nếu được yêu cầu
-        state = self.event_handler.get_state()
-        if state['show_info_panel'] and state['selected_node_data']:
-            max_scroll = self.info_panel_renderer.draw_info_panel(
-                painter,
-                self.rect(),
-                state['selected_node_data'],
-                state['info_panel_rect'],
-                state['close_button_rect'],
-                state['scroll_offset']
-            )
-            # Cập nhật scroll limits
-            if max_scroll is not None:
-                self.event_handler.update_scroll_limits(max_scroll)
 
-            # Update parameter boxes for click detection
-            parameter_boxes = self.info_panel_renderer.get_parameter_boxes()
-            self.event_handler.update_parameter_boxes(parameter_boxes)
+if __name__ == "__main__":
+    import sys
+    from PyQt5.QtWidgets import QApplication
+    from dataclasses import dataclass
+    from PyQt5.QtGui import QColor
+    from typing import List
+    from ui.helpers.qss import load_app_qss
+    @dataclass
+    class ParameterView:
+        label: str
+        display_value: str
+        status_color: QColor
+
+    @dataclass
+    class ModuleView:
+        name: str
+        parameters: List[ParameterView]
+
+    @dataclass
+    class NodeData:
+        modules: List[ModuleView]
+
+    class FakeSystemDataManager:
+        def __init__(self):
+            self.nodes = {
+                "node_1": NodeData(
+                    modules=[
+                        ModuleView(
+                            name="Module A",
+                            parameters=[
+                                ParameterView("Điện áp", "24.1V", QColor(0, 255, 0)),
+                                ParameterView("Dòng", "3.2A", QColor(255, 0, 0)),
+                                ParameterView("Công suất", "76W", QColor(0, 255, 0)),
+                                ParameterView("Nhiệt độ", "45°C", QColor(0, 255, 0)),
+                            ],
+                        ),
+                        ModuleView(
+                            name="Module B",
+                            parameters=[
+                                ParameterView("Điện áp", "24.1V", QColor(0, 255, 0)),
+                                ParameterView("Dòng", "3.2A", QColor(255, 0, 0)),
+                                ParameterView("Công suất", "76W", QColor(0, 255, 0)),
+                                ParameterView("Nhiệt độ", "45°C", QColor(0, 255, 0)),
+                            ],
+                        ),
+                    ]
+                ),
+                "node_2": NodeData(
+                    modules=[
+                        ModuleView(
+                            name="Module A",
+                            parameters=[
+                                ParameterView("Điện áp", "24.1V", QColor(0, 255, 0)),
+                                ParameterView("Dòng", "3.2A", QColor(255, 0, 0)),
+                                ParameterView("Công suất", "76W", QColor(0, 255, 0)),
+                                ParameterView("Nhiệt độ", "45°C", QColor(0, 255, 0)),
+                            ],
+                        ),
+                        ModuleView(
+                            name="Module B",
+                            parameters=[
+                                ParameterView("Điện áp", "24.1V", QColor(0, 255, 0)),
+                                ParameterView("Dòng", "3.2A", QColor(255, 0, 0)),
+                                ParameterView("Công suất", "76W", QColor(0, 255, 0)),
+                                ParameterView("Nhiệt độ", "45°C", QColor(0, 255, 0)),
+                            ],
+                        ),
+                    ] )
+            }
+                
+        def get_node(self, node_id):
+            return self.nodes.get(node_id)
+        
+    
+    app = QApplication(sys.argv)
+    load_app_qss(app, ["ui/styles/dialog.qss", "ui/styles/info_view/module_style.qss", "ui/styles/info_view/parameter_style.qss", "ui/styles/system_diagram.qss"])
+    tab = InfoTab(FakeSystemDataManager(), parent=None)
+    tab.resize(1280, 1024)
+    print(tab.styleSheet())
+    tab.show()
+    sys.exit(app.exec_())

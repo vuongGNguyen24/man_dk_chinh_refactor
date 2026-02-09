@@ -6,7 +6,6 @@ QWidget[role="main-stack"] {
     border-top: 1px solid white;
 }
 
-/* pages inside stack */
 QWidget[role="main-stack"] > QWidget {
     background: transparent;
 }
@@ -16,18 +15,20 @@ QWidget[role="main-stack"] > QWidget {
    ========================================================= */
 QWidget[role="top-tab-bar"] {
     background: #1e5c6b;
+    border-bottom: 1px solid #FFFFFF;
 }
 
 /* =========================================================
-   TOP TAB BUTTON
+   TOP TAB BUTTON - DEFAULT (INACTIVE)
    ========================================================= */
 QPushButton[role="top-tab-button"] {
-    background: transparent;
-    color: rgba(230,238,243,0.7);
-    border: none;
+    background: #121212;
+    color: #E6EEF3;
+    border-bottom: 1px solid #FFFFFF;
     padding-left: 12px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    font-weight: 600;
 }
 
 /* hover */
@@ -35,13 +36,15 @@ QPushButton[role="top-tab-button"]:hover {
     color: #E6EEF3;
 }
 
-/* active tab */
+/* =========================================================
+   ACTIVE TAB
+   ========================================================= */
 QPushButton[role="top-tab-button"][state="active"] {
     background: #121212;
     color: #E6EEF3;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    border-top: 1px solid white;
+    border-left: 1px solid #FFFFFF;
+    border-right: 1px solid #FFFFFF;
+    border-top: 1px solid #FFFFFF;
     border-bottom: none;
     font-weight: 600;
 }

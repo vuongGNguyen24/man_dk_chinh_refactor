@@ -1,4 +1,8 @@
 * {
     font-family: "Tahoma";
-    font-size: 18px;
+    font-size: 14px;
+}
+
+*[role="background"] {
+    background-color: #121212;
 }

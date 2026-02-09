@@ -1,17 +1,13 @@
 from dataclasses import dataclass
 
+from .visual_state import IsometricVisualState
 from PyQt5.QtCore import QRect, Qt
 from PyQt5.QtGui import QColor, QPainter, QPen, QBrush, QFont, QRadialGradient
 from PyQt5.QtWidgets import QPushButton
+from ui.styles.isometric_button import IsometricTheme
 
 
-@dataclass
-class IsometricVisualState:
-    top_color: QColor
-    border_color: QColor
-    text_color: QColor
-    depth: float
-    enabled: bool = True
+    
 
 
 class IsometricButton(QPushButton):
@@ -29,6 +25,8 @@ class IsometricButton(QPushButton):
 
         self.border_radius = 8
 
+
+    
     def apply_visual_state(self, state: IsometricVisualState):
         self._visual_state = state
         self.setEnabled(state.enabled)
@@ -90,7 +88,7 @@ class IsometricButton(QPushButton):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        state = self._visual_state
+        state = self._resolve_visual_state()
         pressed = self._pressed
 
         w = self.width()

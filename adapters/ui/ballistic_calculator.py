@@ -1,6 +1,6 @@
 from application.dto import CorrectionResult
 from application.services import CorrectionApplicationService
-from ui.views.ballistic_calculator_view import BallisticCalculatorView
+from ui.views.main_tab.ballistic_calculator_view import BallisticCalculatorView
 
 
 class BallisticCalculatorAdapter:

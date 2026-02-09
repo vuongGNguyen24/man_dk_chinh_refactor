@@ -1,0 +1,24 @@
+QLabel[role="node"][state="error"] {
+    background-color: rgb(255, 0, 0);
+    color: white;
+    border: 1px solid  rgb(255, 255, 255);
+}
+
+QLabel[role="node"][state="normal"] {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(100, 200, 255);
+}
+
+QGroupBox[role="system"] {
+    border: 2px dashed rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: 10px;
+}
+
+QGroupBox[role="system"]::title {
+    subcontrol-origin: margin;
+    subcontrol-position: bottom left;
+    padding: 0 5px;
+    color: white;
+}

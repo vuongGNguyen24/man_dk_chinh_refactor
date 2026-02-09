@@ -1,5 +1,5 @@
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QWidget, QFrame, QGroupBox, QApplication, QGraphicsView, QLabel
+from PyQt5.QtWidgets import QWidget, QFrame, QGroupBox, QApplication, QGraphicsView, QLabel, QPushButton
 from typing import Dict
 import sys
 
@@ -39,8 +39,8 @@ class DiagramLayoutLoader:
             if w.objectName().startswith(preifx)
         }
     
-    def collect_nodes(self) -> Dict[str, Dict]:
-        return self.__collect_items("node", QWidget)
+    def collect_nodes(self) -> Dict[str, QLabel]:
+        return self.__collect_items("node", QLabel)
     
     def collect_group_boxes(self) -> Dict[str, Dict]:
         return self.__collect_items("groupBox", QGroupBox)
@@ -52,7 +52,7 @@ class DiagramLayoutLoader:
         return self.__collect_items("gnd", QLabel)
     
 if __name__ == "__main__":
-    loader = DiagramLayoutLoader("sketech.ui")
-    # print(loader.collect_nodes())
-    print(loader.collect_group_boxes())
+    loader = DiagramLayoutLoader(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\views\system_diagram\layout\system_diagram.ui")
+    print(loader.collect_nodes())
+    # print(loader.collect_group_boxes())
     # print(loader.collect_connections())

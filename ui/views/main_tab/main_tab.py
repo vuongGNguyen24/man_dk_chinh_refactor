@@ -2,13 +2,16 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
-from ..helpers.ui_widget_replacer import replace_ui_widget
-from ..widgets.features.bullet_widget import BulletWidget
-from ..widgets.features.compass_widget import AngleCompass
-from ..widgets.features.vertical_compass_widget import VerticalCompassWidget
-from ..widgets.components.isometric_buttons import SVGIsometricButton, IsometricVisualState
-from ..widgets.features.numeric_display_widget import NumericDataWidget
-from .effects.grid_background_renderer import GridBackgroundWidget
+from ...helpers.ui_widget_replacer import replace_ui_widget
+from ...widgets.features.bullet_widget import BulletWidget
+from ...widgets.features.compass_widget import AngleCompass
+from ...widgets.features.vertical_compass_widget import VerticalCompassWidget
+from ...widgets.components.isometric_buttons import SVGIsometricButton, IsometricVisualState
+from ...widgets.features.numeric_display_widget import NumericDataWidget
+from ..effects.grid_background_renderer import GridBackgroundWidget
+from ..angle_input import AngleInputView
+from ..ballistic_calculator import BallisticCalculatorWidget
+
 
 DEFAULT_ISO_ENABLED = IsometricVisualState(
     top_color=QColor("#30ffffff"),
@@ -27,7 +30,7 @@ DEFAULT_ISO_DISABLED = IsometricVisualState(
 )
 
 
-class MainTabView(GridBackgroundWidget):
+class MainTab(GridBackgroundWidget):
     # ===== UI intents (signals) =====
     ok_clicked = QtCore.pyqtSignal()
     cancel_clicked = QtCore.pyqtSignal()
@@ -41,16 +44,9 @@ class MainTabView(GridBackgroundWidget):
         self._load_ui(ui_path)
         self._bind_placeholders()
         self._bind_signals()
-
-    # -------------------------------------------------
-    # UI loading
-    # -------------------------------------------------
     def _load_ui(self, ui_path:str):
         self.ui = loadUi(ui_path, self)
-
-    # -------------------------------------------------
-    # UI binding
-    # -------------------------------------------------
+        
     def _bind_placeholders(self):
         ui = self.ui
 
@@ -140,7 +136,8 @@ if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication
     import sys
     app = QApplication(sys.argv)
-    main_tab = MainTabView(ui_path="ui/views/main_control_tab.ui")
+    main_tab = MainTab(ui_path="ui/views/main_tab/main_control_tab.ui")
+    print(main_tab.styleSheet())
     colors = {
         "ready": QColor(0, 200, 0),
         "selected": QColor(0, 255, 0),

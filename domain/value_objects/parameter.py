@@ -8,7 +8,7 @@ class Parameter:
     current_value: float = 0.0
     unit: str = ""
     
-@dataclass(frozen=True)
+@dataclass
 class Threshold:
     """
     Lớp kiểm tra an toàn của đại lượng

@@ -57,6 +57,7 @@ if __name__ == "__main__":
     main_tab = LogTab(None)
     load_app_qss(app, ["ui/styles/dialog.qss", "ui/styles/log_tab.qss"])
     log_adapter = LogTabAdapter(main_tab)
+    print(main_tab.styleSheet())
     log_adapter.append(LogEvent(datetime.now(), "INFO", "Hello World!"))
     log_adapter.append(LogEvent(datetime.now(), "SUCCESS", "Hello World!"))
     

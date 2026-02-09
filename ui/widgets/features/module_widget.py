@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 
-from parameter_box_widget import ParameterBoxWidget
+from ..components.parameter_box_widget import ParameterBoxWidget
 
 
 class ModuleWidget(QFrame):

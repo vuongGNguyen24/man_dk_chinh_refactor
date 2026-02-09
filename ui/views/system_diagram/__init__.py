@@ -1,1 +1,1 @@
-from .system_diagram_renderer import SystemDiagramView
+from .system_diagram_view import SystemDiagramView

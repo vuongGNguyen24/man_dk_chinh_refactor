@@ -3,24 +3,14 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 from typing import List
-from module_widget import ModuleWidget
-from parameter_box_widget import ParameterBoxWidget
-
-def load_qss(path: str) -> str:
-    with open(path, "r", encoding="utf-8") as f:
-        return f.read()
+from ...widgets.features.module_widget import ModuleWidget
+from ...widgets.components.parameter_box_widget import ParameterBoxWidget
 
 
 class InfoPanelRenderer(QWidget):
     def __init__(self, ui_file_path: str):
         super().__init__()
         loadUi(ui_file_path, self)
-
-        # ===== Load QSS =====
-        self.setStyleSheet(
-            load_qss(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\styles\module_style.qss") +
-            load_qss(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\styles\parameter_style.qss")
-        )
 
         # ===== Scroll area setup =====
         self._container = QWidget()

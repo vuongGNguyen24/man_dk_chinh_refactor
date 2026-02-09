@@ -1,9 +1,8 @@
 import time
-from PyQt5.QtWidgets import QWidget, QGroupBox
-
+from PyQt5.QtWidgets import QLabel, QGroupBox
+from PyQt5.QtCore import Qt
 from .connection import ConnectionEffect
-from .style_effect import NodeStyleEffect, GroupBoxStyleEffect
-
+from ....helpers.qss import repolish
 
 class EffectManager:
     """
@@ -11,30 +10,27 @@ class EffectManager:
     """
 
     def __init__(self):
-        self.node_style = NodeStyleEffect()
-        self.group_box_style = GroupBoxStyleEffect()
-
         self.connection_effect = ConnectionEffect()
-
         self.animation_enabled = True
         self.start_time = time.time()
 
     def elapsed_time(self) -> float:
         return time.time() - self.start_time
 
-    def apply_node_effect(self, widget: QWidget, *, has_error: bool):
+    def apply_node_effect(self, widget: QLabel, *, has_error: bool):
         """
-        Apply style to node widget
+        Apply node visual state via style effect 
         """
-        style = self.node_style.style(has_error=has_error)
-        widget.setStyleSheet(style)
+        widget.setProperty("role", "node")
+        widget.setProperty("state", "normal" if not has_error else "error")
+        repolish(widget)
 
     def apply_group_box_effect(self, group_box: QGroupBox):
         """
-        Apply style to group box
+        Apply group box visual role
         """
-        style = self.group_box_style.style()
-        group_box.setStyleSheet(style)
+        group_box.setProperty("role", "system")
+        repolish(group_box)
 
     def draw_connections(self, painter, segments):
         """

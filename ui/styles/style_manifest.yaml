@@ -1,0 +1,18 @@
+app:
+  - base.qss
+  - push_button.qss
+  - tab_bar.qss
+  - log_tab.qss
+  - angle_input_dialog.qss
+  - ballistic.qss
+
+system_diagram:
+  - system_diagram.qss
+  - isometric_button.qss
+
+info_view:
+  - info_view/module_style.qss
+  - info_view/parameter_style.qss
+
+dialog:
+  - dialog.qss

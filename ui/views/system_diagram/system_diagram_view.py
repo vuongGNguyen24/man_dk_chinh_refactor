@@ -1,11 +1,14 @@
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPainter
-from PyQt5.QtCore import QRect, QTimer, Qt
+from PyQt5.QtCore import QRect, QTimer, Qt, pyqtSignal
 from typing import List, Union
 
 from ...helpers.svg_icon import svg_to_pixmap, load_svg_text, recolor_svg
+from ...helpers.ui_widget_replacer import replace_ui_widget
+from ...widgets.components.clickable_node_label import ClickableLabel
 from .diagram_layout_loader import DiagramLayoutLoader
 from .effects import EffectManager, PathSegment, ConnectionRender
+
+
 class SystemDiagramView(QWidget):
     """
     Widget render toàn bộ system diagram:
@@ -13,17 +16,17 @@ class SystemDiagramView(QWidget):
     - node + group box dùng style effect
     - connection dùng QPainter
     """
-
+    selected_node = pyqtSignal(str)
+    
     def __init__(self, ui_file: str, system_data_manager, svg_path: Union[str, None]=None, fps=40, parent=None):
         super().__init__(parent)
         
-
         # 1. Load layout
         self.loader = DiagramLayoutLoader(ui_file)
         self.root = self.loader.root
+        print(self.root.styleSheet())
         self.root.setParent(self)
         
-
         # 2. Effect manager
         self.effects = EffectManager()
 
@@ -31,22 +34,21 @@ class SystemDiagramView(QWidget):
         self.system_data_manager = system_data_manager
 
         # 4. Collect items
+        #TODO: add click event to node labels
         self.nodes = self.loader.collect_nodes()
         self.group_boxes = self.loader.collect_group_boxes()
         self.connection_frames = self.loader.collect_connections()
-
+        self._connect_signals()
+        self._init_static_effects()
         # 5. Build connection segments overlay
         self.connection_segments = self._build_connection_segments()
         self.overlay = ConnectionRender(self.connection_segments, self.effects.draw_connections, parent=self.root)
         self.overlay.resize(self.root.size())
         self.overlay.raise_()   # ⬅️ đảm bảo nằm trên cùng
         
-
-        # 6. Apply static effects
-        self._apply_group_box_effects()
-        self._apply_node_effects()
-        self.svg_path = svg_path
-        self._insert_svg_icons()
+        if svg_path:
+            self.svg_path = svg_path
+            self._insert_svg_icons()
         # 7. Start dynamic animation
         self.timer = QTimer(self)
         self.timer.timeout.connect(self._on_tick)
@@ -54,11 +56,30 @@ class SystemDiagramView(QWidget):
         
 
         self.resize(self.root.size())
+    
+    def _init_static_effects(self):
+        for object_name, group_box in self.group_boxes.items():
+            self.effects.apply_group_box_effect(group_box)
         
+        for object_name, node in self.nodes.items():
+            self.effects.apply_node_effect(node, has_error=False)
+    
     def _on_tick(self):
         if self.effects.animation_enabled:
             self.overlay.update()
 
+    
+    
+    def _connect_signals(self):
+        for object_name, label in self.nodes.items():
+            label = ClickableLabel.from_qlabel(self.root, object_name, node_id=object_name)
+            self.nodes[object_name] = label
+            label.clicked.connect(self._on_node_clicked)
+
+    def _on_node_clicked(self, node_id: str):
+        # print(node_id)
+        self.selected_node.emit(node_id)
+    
     def _insert_svg_icons(self):
         """
         Insert icon to node
@@ -101,15 +122,7 @@ class SystemDiagramView(QWidget):
             frame.hide()
 
         return segments
-    def _apply_node_effects(self):
-        for name, widget in self.nodes.items():
-            node = self.system_data_manager.get_node(name)
-            has_error = node.has_error if node else False
-            self.effects.apply_node_effect(widget, has_error=has_error)
-
-    def _apply_group_box_effects(self):
-        for _, group_box in self.group_boxes.items():
-            self.effects.apply_group_box_effect(group_box)
+    
 
     def _build_connection_segments(self):
         """
@@ -117,17 +130,18 @@ class SystemDiagramView(QWidget):
         """
 
         return self._map_connection_frames_to_segments() 
-    # ==================================================
-    # PUBLIC API
-    # ==================================================
+
     def refresh_node_states(self):
         """
         Gọi khi data thay đổi (error / recover)
         """
-        self._apply_node_effects()
-        self.root.update()
+        for node_id, node in self.nodes.items():
+            pass
         
 if __name__ == "__main__":
+    import sys
+    from PyQt5.QtWidgets import QApplication
+    from ...helpers.qss import load_app_qss
     class FakeNode:
         def __init__(self, has_error=False):
             self.has_error = has_error
@@ -143,12 +157,13 @@ if __name__ == "__main__":
         def get_node(self, node_id):
             return self.nodes.get(node_id)
         
-    import sys
-    from PyQt5.QtWidgets import QApplication
-
+    
     app = QApplication(sys.argv)
+    load_app_qss(app, ["ui/styles/system_diagram.qss"])
+    # print(app.styleSheet())
     data_manager = FakeSystemDataManager()
-    renderer = SystemDiagramView(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\views\system_diagram\ban_dieu_khien.ui", data_manager, svg_path=r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\resources\Icons\gnd.svg",fps=20)
+    
+    renderer = SystemDiagramView("ui/views/system_diagram/layout/system_diagram.ui", data_manager, fps=20)
     renderer.show()
 
     sys.exit(app.exec_())

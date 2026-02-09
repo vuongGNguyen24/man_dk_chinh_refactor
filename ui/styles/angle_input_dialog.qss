@@ -1,0 +1,120 @@
+/* ================= OVERLAY ================= */
+QWidget[role="angle-input"][variant="overlay"] {
+    background-color: rgba(0, 0, 0, 150);
+}
+
+/* ================= CONTAINER ================= */
+QWidget[role="angle-input"][variant="container"] {
+    background-color: #1a1a1a;
+    border: 2px solid #0078d4;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    padding: 10px;
+}
+
+
+QLabel[role="angle-input"][variant="section"]{
+    color: #0078d4;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 10px 15px;
+    background-color: #1a1a1a;
+    border: 2px solid #0078d4;
+    border-radius: 5px;
+}
+
+/* ================= GROUP BOX (BASE) ================= */
+QGroupBox[role="angle-input"] {
+    border: 2px solid #444;
+    border-radius: 8px;
+    margin-top: 15px;
+    padding: 15px 10px 10px 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #cccccc;
+    background-color: transparent;
+}
+
+QGroupBox[role="angle-input"]::title {
+    subcontrol-origin: margin;
+    left: 15px;
+    padding: 0 8px;
+    color: #ffffff;
+}
+
+QLabel[role="angle-input"][variant="sub-section"] {
+    subcontrol-origin: margin;
+    padding: 0 8px;
+    color: #ffffff;
+}
+
+
+QLabel[role="angle-input"][variant="preview-header"] {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+    border: 2px solid #0078d4;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 5px;
+}
+
+QLabel[role="angle-input"][variant="preview-value"] {
+    background-color: #1a1a1a;
+    color: #0078d4;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid #0078d4;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 10px;
+}
+
+QLineEdit[role="angle-input"] {
+    background-color: #f0f0f0;
+    color: black;
+    border: 2px solid #666;
+    border-radius: 5px;
+    padding: 15px 20px;
+    font-size: 14px;
+}
+
+QLineEdit[role="angle-input"]:focus {
+    border: 3px solid #0078d4;
+}
+
+/* ================= BUTTON BASE ================= */
+QPushButton[role="angle-input"] {
+    background-color: #0078d4;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+/* Cancel */
+QPushButton[role="angle-input"][variant="cancel"] {
+    background-color: #1a1a1a;
+    border: 2px solid #0078d4;
+}
+
+QRadioButton[role="angle-input"] {
+    color: white;
+    background: transparent;
+}
+
+QRadioButton[role="angle-input"]::indicator {
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-radius: 8px;
+}
+
+QRadioButton[role="angle-input"]::indicator:checked {
+    background-color: white;
+}
+
