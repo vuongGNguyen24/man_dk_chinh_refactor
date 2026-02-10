@@ -1,13 +1,14 @@
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QFrame
 from PyQt5.QtCore import QRect, QTimer, Qt, pyqtSignal
-from typing import List, Union
+from typing import List, Union, Dict
+import json
 
 from ...helpers.svg_icon import svg_to_pixmap, load_svg_text, recolor_svg
 from ...helpers.ui_widget_replacer import replace_ui_widget
 from ...widgets.components.clickable_node_label import ClickableLabel
 from .diagram_layout_loader import DiagramLayoutLoader
 from .effects import EffectManager, PathSegment, ConnectionRender
-
+from application.services.system_monitor_service import SystemMonitorService
 
 class SystemDiagramView(QWidget):
     """
@@ -18,23 +19,20 @@ class SystemDiagramView(QWidget):
     """
     selected_node = pyqtSignal(str)
     
-    def __init__(self, ui_file: str, system_data_manager, svg_path: Union[str, None]=None, fps=40, parent=None):
+    def __init__(self, ui_file: str, svg_path: Union[str, None]=None, fps=40, parent=None, json_connections_path: Union[str, None]=None):
         super().__init__(parent)
         
         # 1. Load layout
         self.loader = DiagramLayoutLoader(ui_file)
         self.root = self.loader.root
-        print(self.root.styleSheet())
         self.root.setParent(self)
-        
+        self._point_to_connections = self._load_mapping(json_connections_path) if json_connections_path else None
+        self.connection_error_state: Dict[str, bool] = {}
+
         # 2. Effect manager
         self.effects = EffectManager()
 
-        # 3. Data source
-        self.system_data_manager = system_data_manager
-
         # 4. Collect items
-        #TODO: add click event to node labels
         self.nodes = self.loader.collect_nodes()
         self.group_boxes = self.loader.collect_group_boxes()
         self.connection_frames = self.loader.collect_connections()
@@ -56,6 +54,10 @@ class SystemDiagramView(QWidget):
         
 
         self.resize(self.root.size())
+    
+    def _load_mapping(self, path: str) -> Dict[str, List[str]]:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
     
     def _init_static_effects(self):
         for object_name, group_box in self.group_boxes.items():
@@ -93,12 +95,13 @@ class SystemDiagramView(QWidget):
             icon = svg_to_pixmap(svg_string, gnd_label.size(), 255)
             gnd_label.setPixmap(icon)
     
-    def _map_connection_frames_to_segments(self) -> List[PathSegment]:
+    def _map_connection_frames_to_segments(self, connection_frames: Union[List[QFrame], None]=None) -> List[PathSegment]:
         from PyQt5.QtCore import QPoint
-
+        
         segments = []
-
-        for _, frame in self.connection_frames.items():
+        if not connection_frames:
+            connection_frames = self.connection_frames.values()
+        for frame in connection_frames:
             rect = frame.rect()
 
             start, end = None, None
@@ -124,46 +127,32 @@ class SystemDiagramView(QWidget):
         return segments
     
 
-    def _build_connection_segments(self):
+    def _build_connection_segments(self) -> Dict[str, List[PathSegment]]:
         """
         Convert QFrame connection placeholders to PathSegment list
         """
-
-        return self._map_connection_frames_to_segments() 
-
-    def refresh_node_states(self):
-        """
-        Gọi khi data thay đổi (error / recover)
-        """
-        for node_id, node in self.nodes.items():
-            pass
+        if not self._point_to_connections:
+            return {None: self._map_connection_frames_to_segments()}
+        connection_segments_map = {}
+        for point_id, connection_ids in self._point_to_connections.items():
+            connection_segments_map[point_id] = self._map_connection_frames_to_segments([self.connection_frames[connection_id] for connection_id in connection_ids])
+        return connection_segments_map
+    
+    def set_node_state(self, node_id:str, has_error:bool):
+        node = self.nodes.get(f"node_{node_id}")
+        self.effects.apply_node_effect(node, has_error)
+    
+    def set_connection_state(self, connection_id: str, has_error: bool):
+        self.overlay.connection_state[connection_id] = has_error
         
 if __name__ == "__main__":
     import sys
     from PyQt5.QtWidgets import QApplication
     from ...helpers.qss import load_app_qss
-    class FakeNode:
-        def __init__(self, has_error=False):
-            self.has_error = has_error
-
-
-    class FakeSystemDataManager:
-        def __init__(self):
-            self.nodes = {
-                "node_1": FakeNode(False),
-                "node_2": FakeNode(True),
-            }
-
-        def get_node(self, node_id):
-            return self.nodes.get(node_id)
-        
-    
     app = QApplication(sys.argv)
     load_app_qss(app, ["ui/styles/system_diagram.qss"])
-    # print(app.styleSheet())
-    data_manager = FakeSystemDataManager()
     
-    renderer = SystemDiagramView("ui/views/system_diagram/layout/system_diagram.ui", data_manager, fps=20)
+    renderer = SystemDiagramView("ui/views/system_diagram/layout/system_diagram.ui", fps=30, json_connections_path="ui/views/system_diagram/layout/system_connection_mapping.json")
     renderer.show()
 
     sys.exit(app.exec_())

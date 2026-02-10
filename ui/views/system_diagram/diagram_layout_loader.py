@@ -54,5 +54,5 @@ class DiagramLayoutLoader:
 if __name__ == "__main__":
     loader = DiagramLayoutLoader(r"C:\Users\Admin\Desktop\projects\wm18\man_dk_chinh_refactor\ui\views\system_diagram\layout\system_diagram.ui")
     print(loader.collect_nodes())
-    # print(loader.collect_group_boxes())
-    # print(loader.collect_connections())
+    print(loader.collect_group_boxes())
+    print(loader.collect_connections())

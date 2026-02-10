@@ -7,7 +7,7 @@ from domain.value_objects.parameter import Parameter
 from domain.ports.module_query_port import ModuleQueryPort
 from domain.ports.node_query_port import NodeQueryPort
 from domain.ports.node_input_port import NodeInputPort
-
+from application.ports.system_status import SystemStatusPort
 
 class SystemMonitorService:
     """
@@ -20,6 +20,7 @@ class SystemMonitorService:
         node_port: NodeQueryPort,
         module_port: ModuleQueryPort,
         param_port: NodeInputPort,
+        status_port: SystemStatusPort,
     ):
         self.nodes = {}
         self.node_port = node_port
@@ -81,9 +82,3 @@ class SystemMonitorService:
     def recalculate_all_nodes(self):
         for node in self.nodes.values():
             node.recalculate_status()
-
-
-
-
-
-

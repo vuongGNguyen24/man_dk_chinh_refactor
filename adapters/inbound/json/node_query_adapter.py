@@ -28,7 +28,7 @@ class JsonNodeQueryAdapter(NodeQueryPort):
 
         for node_key, cfg in node_index_mapping.items():
             node = Node(
-                node_id=cfg["index"],
+                node_id=node_key,
                 name=node_key,
             )
             nodes.append(node)

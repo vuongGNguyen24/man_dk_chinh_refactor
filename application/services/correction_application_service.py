@@ -1,3 +1,5 @@
+from typing import Union
+
 from domain.services.slope_correction_service import SlopeCorrectionService
 from domain.services.targeting_system import FiringTableInterpolator
 from application.dto import CorrectionInput, CorrectionResult
@@ -7,7 +9,7 @@ class CorrectionApplicationService:
     def __init__(
         self,
         interpolator: FiringTableInterpolator,
-        slope_service: SlopeCorrectionService | None = None,
+        slope_service: Union[SlopeCorrectionService, None] = None,
     ):
         self.interpolator = interpolator
         self.slope_service = slope_service

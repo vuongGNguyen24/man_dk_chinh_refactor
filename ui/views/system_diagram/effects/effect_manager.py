@@ -32,7 +32,7 @@ class EffectManager:
         group_box.setProperty("role", "system")
         repolish(group_box)
 
-    def draw_connections(self, painter, segments):
+    def draw_connections(self, painter, segments, has_error=False):
         """
         Draw animated/static connections
         """
@@ -40,7 +40,8 @@ class EffectManager:
             painter,
             segments,
             elapsed_time=self.elapsed_time(),
-            animation_enabled=self.animation_enabled
+            animation_enabled=self.animation_enabled,
+            has_error=has_error
         )
 
     def enable_animation(self, enabled: bool):

@@ -1,0 +1,127 @@
+{
+  "bang_dien_chinh": {
+    "index": 0,
+    "can_id": "0x300",
+    "description": "Bảng điện chính"
+  },
+  "ban_dieu_khien_chinh": {
+    "index": 1,
+    "can_id": "0x301",
+    "description": "Bàn điều khiển chính"
+  },
+  "ban_dieu_khien_1": {
+    "index": 2,
+    "can_id": "0x302",
+    "description": "Bàn điều khiển 1"
+  },
+  "ban_dieu_khien_2": {
+    "index": 3,
+    "can_id": "0x303",
+    "description": "Bàn điều khiển 2"
+  },
+  "dan_dong_huong_1": {
+    "index": 4,
+    "can_id": "0x304",
+    "description": "Dẫn động hướng 1"
+  },
+  "dan_dong_huong_2": {
+    "index": 5,
+    "can_id": "0x305",
+    "description": "Dẫn động hướng 2"
+  },
+  "dan_dong_tam_1": {
+    "index": 6,
+    "can_id": "0x306",
+    "description": "Dẫn động tầm 1"
+  },
+  "dan_dong_tam_2": {
+    "index": 7,
+    "can_id": "0x307",
+    "description": "Dẫn động tầm 2"
+  },
+  "hn11": {
+    "index": 8,
+    "can_id": "0x308",
+    "description": "HN11"
+  },
+  "hn12": {
+    "index": 9,
+    "can_id": "0x309",
+    "description": "HN12"
+  },
+  "hn21": {
+    "index": 10,
+    "can_id": "0x30A",
+    "description": "HN21"
+  },
+  "hn22": {
+    "index": 11,
+    "can_id": "0x30B",
+    "description": "HN22"
+  },
+  "giao_tiep_hang_hai": {
+    "index": 12,
+    "can_id": "0x30C",
+    "description": "Giao tiếp hàng hải"
+  },
+  "ac_quy_1": {
+    "index": 13,
+    "can_id": "0x30D",
+    "description": "Ắc quy 1"
+  },
+  "ac_quy_2": {
+    "index": 14,
+    "can_id": "0x30E",
+    "description": "Ắc quy 2"
+  },
+  "bien_ap_1": {
+    "index": 15,
+    "can_id": "0x30F",
+    "description": "Biến áp 1"
+  },
+  "bien_ap_2": {
+    "index": 16,
+    "can_id": "0x310",
+    "description": "Biến áp 2"
+  },
+  "phan_phoi_1": {
+    "index": 17,
+    "can_id": "0x311",
+    "description": "Phân phối 1"
+  },
+  "phan_phoi_2": {
+    "index": 18,
+    "can_id": "0x312",
+    "description": "Phân phối 2"
+  },
+  "dieu_khien_1": {
+    "index": 19,
+    "can_id": "0x313",
+    "description": "Điều khiển 1"
+  },
+  "dieu_khien_2": {
+    "index": 20,
+    "can_id": "0x314",
+    "description": "Điều khiển 2"
+  },
+  "hop_dien": {
+    "index": 21,
+    "can_id": "0x315",
+    "description": "Hộp điện"
+  },
+  "hop_quang_dien_tu": {
+    "index": 22,
+    "can_id": "0x316",
+    "description": "Hộp quang điện tử"
+  },
+  "dong_co_huong": {
+    "index": 23,
+    "can_id": "0x317",
+    "description": "Động cơ hướng"
+  },
+  "dong_co_tam": {
+    "index": 24,
+    "can_id": "0x318",
+    "description": "Động cơ tầm"
+  }
+}

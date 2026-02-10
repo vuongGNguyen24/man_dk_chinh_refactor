@@ -43,9 +43,6 @@ class WaveCalculator:
         return positions
     
 
-
-
-
 class ConnectionPainter:
     def draw_segment(
         self,
@@ -74,8 +71,9 @@ class ConnectionPainter:
 
 
 class ConnectionEffect:
-    def __init__(self, base_color=QColor(100, 200, 255)):
+    def __init__(self, base_color=QColor(100, 200, 255), error_color=QColor(238, 44, 44)):
         self.base_color = base_color
+        self.error_color = error_color
         self.wave_calc = WaveCalculator()
         self.painter = ConnectionPainter()
         self.gradient_builder = GradientBuilder(self.base_color)
@@ -85,13 +83,13 @@ class ConnectionEffect:
         painter: QPainter,
         segments: List[PathSegment],
         elapsed_time: float,
-        animation_enabled=True,
+        has_error: bool,
+        animation_enabled: bool,
     ):
         if not animation_enabled:
-            for s in segments:
-                painter.drawLine(s.x1, s.y1, s.x2, s.y2)
+            self.painter.draw_segment(painter, segments, None, self.base_color)
             return
-
+        
         total_length = sum(
             math.hypot(s.x2 - s.x1, s.y2 - s.y1)
             for s in segments
@@ -106,6 +104,9 @@ class ConnectionEffect:
 
         cursor = 0.0
         for s in segments:
+            if has_error:
+                self.painter.draw_segment(painter, s, None, self.error_color)
+                continue
             seg_len = math.hypot(s.x2 - s.x1, s.y2 - s.y1)
             if seg_len == 0:
                 continue

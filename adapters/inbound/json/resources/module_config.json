@@ -1,0 +1,348 @@
+{
+  "Module phân phối điện chính": {
+    "id": "MOD-001",
+    "default_parameters": {
+      "voltage": 440.0,
+      "current": 200.0,
+      "power": 88000.0,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 400.0,
+        "max_normal": 480.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 300.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 100000.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {},
+    "description": "Module phân phối điện năng chính"
+  },
+  "Module UPS": {
+    "id": "MOD-002",
+    "default_parameters": {
+      "voltage": 220.0,
+      "current": 50.0,
+      "power": 11000.0,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 8.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 50.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 1.0,
+        "unit": "°C"
+      },
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 676876786876.0,
+        "unit": "V"
+      }
+    },
+    "description": "Module nguồn lưu điện UPS"
+  },
+  "Module đo lường điện": {
+    "id": "MOD-003",
+    "default_parameters": {
+      "voltage": 12.0,
+      "current": 1.0,
+      "power": 12.0,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 8.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 50.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      }
+    },
+    "description": "Module đo các thông số điện"
+  },
+  "Module bảo vệ chính": {
+    "id": "MOD-004",
+    "default_parameters": {
+      "voltage": 12.0,
+      "current": 0.5,
+      "power": 6.0,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 8.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 50.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {},
+    "description": "Module bảo vệ hệ thống điện chính"
+  },
+  "Module nguồn": {
+    "id": "MOD-005",
+    "default_parameters": {
+      "voltage": 12.0,
+      "current": 2.0,
+      "power": 24.0,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 8.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 50.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {
+      "Điện áp": {
+        "min_normal": 10.0,
+        "max_normal": 14.0,
+        "unit": "V"
+      }
+    },
+    "description": "Module cấp nguồn điện"
+  },
+  "Module quạt làm mát": {
+    "id": "MOD-006",
+    "default_parameters": {
+      "voltage": 12.0,
+      "current": 1.5,
+      "power": 18.0,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 8.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 50.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {
+      "Điện áp": {
+        "min_normal": 9.0,
+        "max_normal": 13.0,
+        "unit": "V"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 20.0,
+        "unit": "W"
+      }
+    },
+    "description": "Module quạt làm mát hệ thống"
+  },
+  "Module cảm biến": {
+    "id": "MOD-007",
+    "default_parameters": {
+      "voltage": 12.0,
+      "current": 1.0,
+      "power": 12.0,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 8.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 50.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {},
+    "description": "Module cảm biến và giám sát"
+  },
+  "Module truyền thông": {
+    "id": "MOD-008",
+    "default_parameters": {
+      "voltage": 12.0,
+      "current": 0.8,
+      "power": 9.6,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 8.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 50.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {},
+    "description": "Module truyền thông và giao tiếp"
+  },
+  "Module hiển thị": {
+    "id": "MOD-009",
+    "default_parameters": {
+      "voltage": 12.0,
+      "current": 0.5,
+      "power": 6.0,
+      "resistance": 50.0,
+      "temperature": 35.0
+    },
+    "default_thresholds": {
+      "Điện áp": {
+        "min_normal": 8.0,
+        "max_normal": 15.0,
+        "unit": "V"
+      },
+      "Dòng điện": {
+        "min_normal": 0.5,
+        "max_normal": 8.0,
+        "unit": "A"
+      },
+      "Công suất": {
+        "min_normal": 1.0,
+        "max_normal": 50.0,
+        "unit": "W"
+      },
+      "Nhiệt độ": {
+        "min_normal": 0.0,
+        "max_normal": 70.0,
+        "unit": "°C"
+      }
+    },
+    "custom_thresholds": {
+      "Dòng điện": {
+        "min_normal": 0.1,
+        "max_normal": 8.0,
+        "unit": "A"
+      }
+    },
+    "description": "Module hiển thị và giao diện"
+  }
+}

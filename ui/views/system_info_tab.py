@@ -5,19 +5,18 @@ from ui.views.effects.grid_background_renderer import GridBackgroundWidget
 from ui.views.system_diagram.system_diagram_view import SystemDiagramView
 from ui.views.info_view.info_panel_renderer import InfoPanelRenderer
 from ui.widgets.components.status_indicator_widget import StatusIndicatorWidget
-
+from application.services.system_monitor_service import SystemMonitorService
 class InfoTab(GridBackgroundWidget):
     """
     Coordinator cho tab Hệ thống (refactored)
     """
 
-    def __init__(self, system_data_manager, parent=None):
+    def __init__(self, parent=None):
         super().__init__(
             parent,
             enable_animation=True
         )
 
-        self.system_data_manager = system_data_manager
 
         # ===== Layout =====
         layout = QHBoxLayout(self)
@@ -26,7 +25,6 @@ class InfoTab(GridBackgroundWidget):
         # ===== System diagram =====
         self.diagram = SystemDiagramView(
             ui_file="ui/views/system_diagram/layout/system_diagram.ui",
-            system_data_manager=system_data_manager,
             fps=20,
         )
         layout.addWidget(self.diagram, stretch=3)
