@@ -1,0 +1,22 @@
+{
+    "11": ["conn_31", "conn_37", "conn_38"],
+    "12": ["conn_30", "conn_36", "conn_63"],
+    "13": ["conn_33", "conn_35", "conn_39"],
+    "14": ["conn_32", "conn_34", "conn_64"],
+    "15": ["conn_9"],
+    "16": ["conn_40", "conn_41", "conn_42", "conn_43"],
+    "17": ["conn_44", "conn_15", "conn_45", "conn_46", "conn_14"],
+    "18": ["conn_48", "conn_49", "conn_17", "conn_18"],
+    "19": ["conn_55"],
+    "20": ["conn_54", "conn_56", "conn_57"],
+    "21": ["conn_19", "conn_50", "conn_52", "conn_53"], 
+    "22": ["conn_20", "conn_51", "conn_65", "conn_53"],
+    "23": ["conn_10", "conn_60"],
+    "24": ["conn_58", "conn_59"],
+    "25": ["conn_61"],
+    "26": ["conn_62"],
+    "27": ["conn_12", "conn_21", "conn_23", "conn_25", "conn_27", "conn_29"],
+    "28": ["conn_13", "conn_22", "conn_24", "conn_26", "conn_28", "conn_29"],
+    "1": ["conn_8"],
+    "2": ["conn_11"]
+}

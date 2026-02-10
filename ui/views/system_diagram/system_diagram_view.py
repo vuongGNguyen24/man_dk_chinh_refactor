@@ -8,7 +8,8 @@ from ...helpers.ui_widget_replacer import replace_ui_widget
 from ...widgets.components.clickable_node_label import ClickableLabel
 from .diagram_layout_loader import DiagramLayoutLoader
 from .effects import EffectManager, PathSegment, ConnectionRender
-from application.services.system_monitor_service import SystemMonitorService
+from adapters.ui.node_status import QtSystemStatusAdapter
+from application.dto import NodeStatus
 
 class SystemDiagramView(QWidget):
     """
@@ -19,7 +20,7 @@ class SystemDiagramView(QWidget):
     """
     selected_node = pyqtSignal(str)
     
-    def __init__(self, ui_file: str, svg_path: Union[str, None]=None, fps=40, parent=None, json_connections_path: Union[str, None]=None):
+    def __init__(self, ui_file: str, svg_path: Union[str, None]=None, fps=40, parent=None, json_connections_path: Union[str, None]=None, node_adapter: Union[QtSystemStatusAdapter, None]=None):
         super().__init__(parent)
         
         # 1. Load layout
@@ -36,6 +37,11 @@ class SystemDiagramView(QWidget):
         self.nodes = self.loader.collect_nodes()
         self.group_boxes = self.loader.collect_group_boxes()
         self.connection_frames = self.loader.collect_connections()
+        
+        # 5. Connect signals and init static effects
+        if node_adapter:
+            self.node_adapter = node_adapter
+            self.node_adapter.node_status.connect(self._on_node_state_changed)
         self._connect_signals()
         self._init_static_effects()
         # 5. Build connection segments overlay
@@ -126,7 +132,6 @@ class SystemDiagramView(QWidget):
 
         return segments
     
-
     def _build_connection_segments(self) -> Dict[str, List[PathSegment]]:
         """
         Convert QFrame connection placeholders to PathSegment list
@@ -138,7 +143,9 @@ class SystemDiagramView(QWidget):
             connection_segments_map[point_id] = self._map_connection_frames_to_segments([self.connection_frames[connection_id] for connection_id in connection_ids])
         return connection_segments_map
     
-    def set_node_state(self, node_id:str, has_error:bool):
+    def _on_node_state_changed(self, node_state: NodeStatus):
+        node_id = node_state.node_id
+        has_error = node_state.has_error
         node = self.nodes.get(f"node_{node_id}")
         self.effects.apply_node_effect(node, has_error)
     

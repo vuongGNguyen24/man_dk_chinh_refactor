@@ -8,6 +8,7 @@ from domain.ports.module_query_port import ModuleQueryPort
 from domain.ports.node_query_port import NodeQueryPort
 from domain.ports.node_input_port import NodeInputPort
 from application.ports.system_status import SystemStatusPort
+from application.dto import ElectricalPointStatus, NodeStatus
 
 class SystemMonitorService:
     """
@@ -26,6 +27,7 @@ class SystemMonitorService:
         self.node_port = node_port
         self.module_port = module_port
         self.param_port = param_port
+        self.status_port = status_port
         self.init_nodes()
 
     def init_nodes(self):
@@ -76,8 +78,11 @@ class SystemMonitorService:
     
     def recalculate_node_status(self, node_id: int):
         node = self.get_node(node_id)
-        if node:
-            node.recalculate_status()
+        if not node:
+            return
+        
+        node.recalculate_status()
+        self.status_port.present_node_status(NodeStatus(node_id, node.has_error))
             
     def recalculate_all_nodes(self):
         for node in self.nodes.values():
