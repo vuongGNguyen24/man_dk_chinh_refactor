@@ -1,5 +1,5 @@
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 
 from application.dto import ElectricalPointStatus
 from application.ports.electrical_circuit import ElectricalPointInputPort, ElectricalPointObserverPort
@@ -8,27 +8,29 @@ from application.ports.electrical_circuit import ElectricalPointInputPort, Elect
 class ElectricalPointMonitorService:
     def __init__(
         self,
-        input_port: ElectricalPointInputPort,
         observer: Optional[ElectricalPointObserverPort] = None,
+        ownership: Dict[str, Set[str]] = {},
     ):
-        self._input = input_port
         self._observer = observer
 
         # state hiện tại trong application
         self._current: Dict[str, bool] = {}
-
-    def poll(self) -> List[ElectricalPointStatus]:
-        """
-        Được gọi định kỳ (timer, loop).
-        Trả về danh sách các điểm bị thay đổi.
-        """
-        new_snapshot = self._input.read_points()
-        changed = self._diff(new_snapshot)
-
+        self._ownership: Dict[str, Set[str]] = ownership
+    
+    def on_rs485_snapshot(self, snapshot: Dict[str, bool]):
+        self._handle_snapshot(snapshot, self._ownership.get("rs485", set()))
+    
+    def on_udp_snapshot(self, snapshot: Dict[str, bool]):
+        self._handle_snapshot(snapshot, self._ownership.get("udp", set()))
+        
+    def _handle_snapshot(self, snapshot: Dict[str, bool], allowed_points: Set[str]):
+        for pid in snapshot.keys():
+            if pid not in allowed_points:
+                snapshot.pop(pid)
+                
+        changed = self._diff(snapshot)
         if changed and self._observer:
             self._observer.on_points_changed(changed)
-
-        return changed
 
     def get_state(self, point_id: str) -> bool:
         return self._current.get(point_id, False)

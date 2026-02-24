@@ -1,9 +1,7 @@
-from typing import Dict, Protocol, List
-from abc import ABC, abstractmethod
+from typing import Dict, List
 from application.dto import ElectricalPointStatus
 
-class ElectricalPointInputPort(Protocol, ABC):
-    @abstractmethod
+class ElectricalPointInputPort:
     def read_points(self) -> Dict[str, bool]:
         """
         Return:
@@ -13,10 +11,9 @@ class ElectricalPointInputPort(Protocol, ABC):
                 ...
             }
         """
-        pass
+        raise NotImplementedError
 
 
-class ElectricalPointObserverPort(Protocol, ABC):
-    @abstractmethod
+class ElectricalPointObserverPort:
     def on_points_changed(self, changed: List[ElectricalPointStatus]) -> None:
-        pass
+        raise NotImplementedError

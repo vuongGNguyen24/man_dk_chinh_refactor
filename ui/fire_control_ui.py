@@ -3,18 +3,19 @@ import yaml
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import Qt
 
-from ui.views.main_tab import MainTab
-from ui.views.system_info_tab import InfoTab
-from ui.views.log_tab import LogTab
+from ui.views import MainTab, InfoTab, LogTab, FiringCircultTab, MainCircultTab
 import ui.helpers.qss as qss
 
 class FireControlUI(QtWidgets.QMainWindow):
     TAB_MAIN = 0
     TAB_INFO = 1
-    TAB_LOG = 2
+    TAB_FIRING_CIRCULT = 2
+    TAB_MAIN_CIRCULT = 3
+    TAB_LOG = 4
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.all_tab_buttons = []
         self._setup_window()
         self._setup_tabbar()
         self._setup_stack()
@@ -38,7 +39,9 @@ class FireControlUI(QtWidgets.QMainWindow):
         
         self.tab_main = self._make_tab("Điều khiển", 8)
         self.tab_info = self._make_tab("Thông tin", 236)
-        self.tab_log = self._make_tab("Lịch sử", 464)
+        self.tab_firing_circult = self._make_tab("Mạch bắn", 464)
+        self.tab_main_circult = self._make_tab("Mạch ĐK từ xa", 464 + 220 + 8)
+        self.tab_log = self._make_tab("Lịch sử", 692 + 220 + 8)
 
         self.error_indicator = QtWidgets.QLabel(self.tab_log)
         self.error_indicator.setObjectName("ErrorDot")
@@ -51,6 +54,8 @@ class FireControlUI(QtWidgets.QMainWindow):
 
         self.stack.addWidget(MainTab(ui_path="ui/views/main_tab/main_control_tab.ui", parent=self.stack))
         self.stack.addWidget(InfoTab(None, self.stack))
+        self.stack.addWidget(FiringCircultTab(None, self.stack))
+        self.stack.addWidget(MainCircultTab(None, self.stack))
         self.stack.addWidget(LogTab(parent=self.stack))
 
     def _make_tab(self, text, x): 
@@ -60,13 +65,16 @@ class FireControlUI(QtWidgets.QMainWindow):
         btn.setCursor(Qt.PointingHandCursor) 
         btn.setGeometry(x, 6, 220, 28) 
         btn.raise_() 
+        self.all_tab_buttons.append(btn)
         return btn
     
     def _wire_events(self): 
         self.tab_main.clicked.connect( lambda: self._switch_tab(self.TAB_MAIN, self.tab_main) ) 
         self.tab_info.clicked.connect( lambda: self._switch_tab(self.TAB_INFO, self.tab_info) ) 
+        self.tab_firing_circult.clicked.connect( lambda: self._switch_tab(self.TAB_FIRING_CIRCULT, self.tab_firing_circult) )  
+        self.tab_main_circult.clicked.connect( lambda: self._switch_tab(self.TAB_MAIN_CIRCULT, self.tab_main_circult) )
         self.tab_log.clicked.connect( lambda: self._switch_tab(self.TAB_LOG, self.tab_log) )
-    
+        
     def resizeEvent(self, event):
         super().resizeEvent(event)
 
@@ -84,7 +92,7 @@ class FireControlUI(QtWidgets.QMainWindow):
     def _switch_tab(self, index, active_btn):
         self.stack.setCurrentIndex(index)
 
-        for btn in (self.tab_main, self.tab_info, self.tab_log):
+        for btn in self.all_tab_buttons:
             qss.set_multiple_property(btn, role="top-tab-button", state="active" if btn == active_btn else "")
 
         if index == self.TAB_LOG:

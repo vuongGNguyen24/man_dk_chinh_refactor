@@ -7,6 +7,8 @@ from ui.views.system_diagram.system_diagram_view import SystemDiagramView
 from ui.views.info_view.info_panel_renderer import InfoPanelRenderer
 from ui.widgets.components.status_indicator_widget import StatusIndicatorWidget
 from adapters.ui.node_status import QtSystemStatusAdapter
+from ui.helpers.qss import set_multiple_property
+
 class InfoTab(GridBackgroundWidget):
     """
     Coordinator cho tab Hệ thống (refactored)
@@ -22,12 +24,12 @@ class InfoTab(GridBackgroundWidget):
         # ===== Layout =====
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-
         # ===== System diagram =====
         self.diagram = SystemDiagramView(
             ui_file="ui/views/system_diagram/layout/system_diagram.ui",
             fps=30,
-            node_adapter=node_adapter
+            node_adapter=node_adapter,
+            json_connections_path="ui/views/system_diagram/layout/system_connection_mapping.json",
         )
         layout.addWidget(self.diagram, stretch=3)
 

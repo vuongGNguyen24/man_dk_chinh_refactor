@@ -3,7 +3,7 @@ from application.dto import ElectricalPointStatus, NodeStatus
 from application.ports.system_status import SystemStatusPort
 
 
-class QtSystemStatusAdapter(SystemStatusPort, QObject):
+class QtSystemStatusAdapter(QObject, SystemStatusPort):
 
     node_status = pyqtSignal(object)
 

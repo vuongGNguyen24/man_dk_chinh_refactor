@@ -32,8 +32,7 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:rgb(255,255,255);
-background-color:gray;</string>
+    <string notr="true"/>
    </property>
    <property name="title">
     <string>Bàn điều khiển từ xa</string>

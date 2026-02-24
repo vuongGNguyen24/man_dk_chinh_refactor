@@ -96,8 +96,6 @@ class SystemDiagramView(QWidget):
         svg_string = recolor_svg(svg_string, "#16b0d6")
         gnd_labels = self.loader.collect_gnd()
         for name, gnd_label in gnd_labels.items():
-            print(name)
-            
             icon = svg_to_pixmap(svg_string, gnd_label.size(), 255)
             gnd_label.setPixmap(icon)
     

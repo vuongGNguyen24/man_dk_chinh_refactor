@@ -21,9 +21,13 @@ class EffectManager:
         """
         Apply node visual state via style effect 
         """
+        
         widget.setProperty("role", "node")
         widget.setProperty("state", "normal" if not has_error else "error")
         repolish(widget)
+        
+        #set center for text
+        widget.setAlignment(Qt.AlignCenter)
 
     def apply_group_box_effect(self, group_box: QGroupBox):
         """

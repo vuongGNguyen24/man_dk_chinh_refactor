@@ -1,0 +1,12 @@
+rs485:
+  port: '/dev/ttyUSB0'
+  baudrate: 9600
+
+udp:
+  host: '0.0.0.0'
+  port: 8888
+
+can:
+  channel: 'can0'
+  bustype: 'socketcan'
+  bitrate: 500000

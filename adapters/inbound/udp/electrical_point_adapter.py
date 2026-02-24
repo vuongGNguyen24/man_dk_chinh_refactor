@@ -1,81 +1,54 @@
-from typing import Dict, Optional
+from typing import Dict, Callable, List, Tuple
 import struct
 import threading
 
 from application.ports.electrical_circuit import ElectricalPointInputPort
-from application.dto import ElectricalPointStatus
-from infrastructure.udp import UDPServer, UDPSocketManager
-
+from infrastructure.udp import UDPServer
 
 class UDPElectricalPointInputAdapter(ElectricalPointInputPort):
     """
-    Adapter nhận trạng thái điểm mạch điện qua UDP
-    - Packet format GIỐNG RS485
+    Push-style adapter
     """
 
-    def __init__(
-        self,
-        socket_manager: UDPSocketManager,
-        buffer_size: int = 4096,
-    ):
-        self._latest_packet: Optional[bytes] = None
+    def __init__(self, udp_server:UDPServer, decode_mapping_choice: Dict[Tuple[str, int], Dict[int, str]]):
+
+        self._subscribers: List[Callable[[Dict[str, bool]], None]] = []
         self._lock = threading.Lock()
+        self.decode_mapping_choice: Dict[Tuple[str, int], Dict[int, str]] = decode_mapping_choice
+        self.valid_ids = [item[-1] for item in self.decode_mapping_choice.keys()]
+        # subscribe vào global UDP server
+        udp_server.subscribe(self.on_message)
 
-        self.bit_mask_to_point_id: Dict[int, str] = {}
-
-        self._server = UDPServer(
-            socket_manager=socket_manager,
-            on_message=self._on_message,
-            buffer_size=buffer_size,
-        )
-        self._server.start()
+    def subscribe(self, callback: Callable[[Dict[str, bool]], None]):
+        self._subscribers.append(callback)
 
     # ---------- UDP callback ----------
 
-    def _on_message(self, data: bytes, addr):
-        """
-        Được gọi từ thread UDPServer
-        """
-        with self._lock:
-            self._latest_packet = data
+    def on_message(self, data: bytes, addr: str):
 
-    # ---------- Application Port ----------
+        if not self._is_valid_packet(data):
+            return
+        snapshot = self._decode_bitmask(
+            data=data[1:-2],
+            bit_mask_to_point_id=self.decode_mapping_choice[(addr, data[0])],
+        )
 
-    def read_points(self):
-        """
-        Pull-style API giống RS485
-        """
-        with self._lock:
-            packet = self._latest_packet
-            self._latest_packet = None
+        if not snapshot:
+            return
 
-        if not packet:
-            return None
+        # push sang service
+        for cb in self._subscribers:
+            cb(snapshot)
 
-        # Protocol giống hệt RS485
-        if packet[0] == 0x01 and packet[-2] == 0x21 and packet[-1] == 0x22:
-            return self._decode_bitmask(
-                node_id=0,
-                data=packet[1:-2],
-            )
+    def _is_valid_packet(self, packet: bytes) -> bool:
+        return (
+            len(packet) == 6
+            and packet[0] in self.vaild_ids 
+            and packet[-2] == 0x21
+            and packet[-1] == 0x22
+        )
 
-        return None
-
-    # ---------- Shared decode logic ----------
-
-    def _decode_bitmask(
-        self,
-        node_id: int,
-        data: bytes,
-    ) -> Dict[str, bool]:
-        """
-        Decode payload thành:
-        {
-            "P01": True,
-            "P02": False,
-            ...
-        }
-        """
+    def _decode_bitmask(self, data: bytes, bit_mask_to_point_id: Dict[int, str]) -> Dict[str, bool]:
 
         def get_bit(mask, bit_index):
             return (mask >> bit_index) & 1
@@ -83,7 +56,7 @@ class UDPElectricalPointInputAdapter(ElectricalPointInputPort):
         result: Dict[str, bool] = {}
         tmp = struct.unpack(">I", data)
 
-        for bit_index, point_id in self.bit_mask_to_point_id.items():
+        for bit_index, point_id in bit_mask_to_point_id.items():
             result[point_id] = bool(get_bit(tmp[0], bit_index))
 
         return result

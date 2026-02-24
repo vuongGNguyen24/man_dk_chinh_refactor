@@ -8,7 +8,6 @@ app:
 
 system_diagram:
   - system_diagram.qss
-  - isometric_button.qss
 
 info_view:
   - info_view/module_style.qss
