@@ -1,0 +1,17 @@
+QLabel[role="bullet-widget"][variant='background'] {
+    background-color: #121212;
+    border-radius: 20px;
+    border: 2px solid #404040;
+    
+}
+
+QLabel[role="bullet-widget"][variant="title"] {
+    background-color: #404040;
+    color: #ffffff;
+    font-family: "Tahoma";
+    font-size: 20px;
+    font-weight: bold;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: 2px solid #606060;
+}

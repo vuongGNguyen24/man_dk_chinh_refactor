@@ -71,7 +71,7 @@ class InfoTab(GridBackgroundWidget):
         Khi user click vào node trong sơ đồ
         """
         print(node_id)
-        node_data = self.system_data_manager.get_node(node_id)
+        node_data = self.system_data_manager.get_node(node_id) if self.system_data_manager else None
         if not node_data:
             return
 

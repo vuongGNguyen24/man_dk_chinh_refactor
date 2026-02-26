@@ -1,6 +1,5 @@
 QWidget[role="ballistic"][variant="main"] {
     background-color: #000000;
-    border: 3px solid #FFFFFF;
 }
 
 QLabel[role="section-title"] {

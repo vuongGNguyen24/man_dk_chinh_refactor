@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
+
+from application.dto.angle_input.packet import AngleInputPacket
 class LauncherCommandPort(ABC):
     """Port gửi lệnh điều khiển giàn phóng ra bên ngoài"""
 
@@ -12,15 +14,14 @@ class LauncherCommandPort(ABC):
             bullets (List[int]): danh sách đạn được chọn trước khi mapping
         """
         pass
+    
     @abstractmethod
-    def set_target_azimuth(self, launcher_id: str, angle_deg: float) -> None:
-        """
-        Gửi góc hướng mục tiêu cho giàn phóng
-        """
-        pass
-    @abstractmethod
-    def set_target_elevation(self, launcher_id: str, angle_deg: float) -> None:
-        """
-        Gửi góc tầm mục tiêu cho giàn phóng
+    def send_angle_input(self, launcher_id, angle_input_deg: AngleInputPacket) -> None:
+        """Gửi tín hiệu chuyển góc đến các giàn 
+
+        Args:
+            launcher_id: id của giàn phóng
+            angle_input_deg (AngleInputPacket): packet chứa góc tầm và góc hướng theo độ, ví dụ:
+            AngleInputPacket(azimuth=15.1, elevation=20.5)
         """
         pass

@@ -1,7 +1,8 @@
-from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QPushButton
 from typing import Union, Tuple
 
+from PyQt5.QtCore import QSize
+from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtGui import QColor
 from .pill import IsometricPillButton
 from .base import IsometricVisualState
 from ....helpers.svg_icon import apply_svg_icon_to_button
@@ -12,12 +13,32 @@ class SVGIsometricButton(IsometricPillButton):
     Helper để setup QPushButton với SVG icon có recolor.
     Không render, không load config, không biết domain.
     """
-    def __init__(self, state: IsometricVisualState, svg_path: str, icon_color: str = "#ffffff",
-        icon_size: Tuple[int, int] = (48, 48),
-        icon_alpha: int = 255, parent=None):
+    def __init__(self, state: IsometricVisualState, svg_path: str,
+        icon_size: Tuple[int, int] = (48, 48), parent=None):
         super().__init__(state, parent)
+        
+        #assume svg_color is same type as text_color
+        icon_color = self.qcolor_to_hex(state.text_color)
+        icon_alpha = state.text_color.alpha()
+        
         apply_svg_icon_to_button(self, svg_path, icon_color, QSize(*icon_size), icon_alpha)
         self._apply_basic_style(icon_color, None, 8)
+    
+    @staticmethod
+    def qcolor_to_hex(color: QColor) -> str:
+        """
+        Convert QColor to '#rrggbb' string.
+        
+        Alpha channel is ignored.
+        """
+        if not isinstance(color, QColor):
+            raise TypeError("Input must be QColor")
+
+        if not color.isValid():
+            raise ValueError("Invalid QColor")
+
+        return color.name(QColor.HexRgb)
+
     def _apply_basic_style(
         self,
         background: str,

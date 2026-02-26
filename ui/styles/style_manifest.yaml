@@ -4,6 +4,7 @@ app:
   - tab_bar.qss
   - log_tab.qss
   - angle_input_dialog.qss
+  - bullet_widget.qss
   - ballistic.qss
 
 system_diagram:

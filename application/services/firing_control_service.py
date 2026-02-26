@@ -2,8 +2,9 @@ from typing import Tuple, List
 
 from domain.value_objects import FiringSolution, Point2D, BulletStatus
 from domain.models.launcher import Launcher
-from domain.ports.launcher_input_port import LauncherInputPort
-from domain.ports.launcher_output_port import LauncherCommandPort
+from application.ports.launcher_input_port import LauncherInputPort
+from application.ports.launcher_output_port import LauncherCommandPort
+from application.dto.angle_input.packet import AngleInputPacket
 from domain.services.targeting_system import TargetingSystem
 from domain.rules import normalize_azimuth_angle
 
@@ -19,11 +20,11 @@ class FiringControlService:
     def select_bullets(self, launcher_id: str, bullets: List[int]):
         self.output_port.select_bullets(launcher_id, bullets)
         
-    def set_target_azimuth(self, launcher_id: str, angle_deg: float):
-        self.output_port.set_target_azimuth(launcher_id, angle_deg)
+    def set_target_angle(self, launcher_id: str, azimuth_deg: float, elevation_deg: float):
+        self.output_port.set_target_angle(launcher_id, azimuth_deg, elevation_deg)
         
-    def set_target_elevation(self, launcher_id: str, angle_deg: float):
-        self.output_port.set_target_elevation(launcher_id, angle_deg)
+    # def set_target_elevation(self, launcher_id: str, angle_deg: float):
+    #     self.output_port.set_target_elevation(launcher_id, angle_deg)
     
     def update_bullet_status(self):
         """Cập nhật trạng thái đạn từ dữ liệu phần cứng

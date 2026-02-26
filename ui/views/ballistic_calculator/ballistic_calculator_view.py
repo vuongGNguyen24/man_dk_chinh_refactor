@@ -1,11 +1,15 @@
-
+from PyQt5 import QtCore
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
 
 class BallisticCalculatorWidget(QWidget):
-    def __init__(self, parent=None):
+    accepted = QtCore.pyqtSignal()
+    canceled = QtCore.pyqtSignal()
+    def __init__(self, ui_path, parent=None):
         super().__init__(parent)
-        loadUi("ui/views/ballistic_calculator.ui", self)
+        self.setAttribute(Qt.WA_StyledBackground, True)
+        loadUi(ui_path, self)
 
         self._bind_roles()
         self._connect_signals()
@@ -19,14 +23,17 @@ class BallisticCalculatorWidget(QWidget):
         self.radioButtonsContainer.setProperty("role", "mode-radio")
         
     
+    
+    
     def _connect_signals(self):
-        pass
+        self.okButton.clicked.connect(self.accepted.emit)
+        self.cancelButton.clicked.connect(self.canceled.emit)
 
 
 if __name__ == "__main__":
     import sys
     from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)
-    widget = BallisticCalculatorWidget(None)
+    widget = BallisticCalculatorWidget("ui/views//ballistic_calculator/ballistic_calculator.ui")
     widget.show()
     sys.exit(app.exec_())

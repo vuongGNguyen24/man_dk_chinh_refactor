@@ -51,26 +51,6 @@ class IsometricButton(QPushButton):
         self.on_released()
         self.update()
         super().mouseReleaseEvent(event)
-
-    def _resolve_visual_state(self) -> IsometricVisualState:
-        def color_prop(name, fallback):
-            v = self.property(name)
-            return QColor(v) if v is not None else fallback
-
-        def float_prop(name, fallback):
-            v = self.property(name)
-            return float(v) if v is not None else fallback
-
-        enabled = self.isEnabled()
-
-        return IsometricVisualState(
-            top_color=color_prop("isoTopColor", QColor("#00ffff")),
-            border_color=color_prop("isoBorderColor", QColor("#30ffffff")),
-            text_color=color_prop("isoTextColor", QColor("#000000")),
-            depth=float_prop("isoDepth", 5.0),
-            enabled=enabled,
-        )
-
     # -------- hooks --------
 
     def on_pressed(self):
@@ -88,7 +68,7 @@ class IsometricButton(QPushButton):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        state = self._resolve_visual_state()
+        state: IsometricVisualState = self._visual_state
         pressed = self._pressed
 
         w = self.width()

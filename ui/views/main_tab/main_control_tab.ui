@@ -14,7 +14,7 @@
    <string>Main Control Tab</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #121212;</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="bullet_widget" native="true">
    <property name="geometry">

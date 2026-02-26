@@ -17,9 +17,10 @@ class IsometricTheme:
         with open(path, "r", encoding="utf-8") as f:
             self.data = yaml.safe_load(f)
 
+    def __call__(self, *arg, **kwarg):
+        return self.get_state(*arg, **kwarg)
     def get_state(self, widget_type: str, state: str):
-        raw = self.data[widget_type].get(state) \
-              or self.data[widget_type]["default"]
+        raw = self.data[widget_type].get(state) or self.data[widget_type]["disabled"]
 
         return IsometricVisualState(
             top_color=parse_color(raw["topColor"]),

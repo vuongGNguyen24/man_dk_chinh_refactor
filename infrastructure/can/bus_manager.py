@@ -1,40 +1,39 @@
-import threading
 import can
-from infrastructure.can.config import CANConfig
+import threading
+from typing import Optional
+
 
 class CANBusManager:
-    _instance = None
-    _lock = threading.Lock()
-    _bus = None
+    """
+    Infrastructure component:
+    - Quản lý CAN bus
+    - Không phụ thuộc UI, domain, application
+    """
 
-    def __new__(cls):
-        if cls._instance is None:
-            with cls._lock:
-                if cls._instance is None:
-                    cls._instance = super().__new__(cls)
-        return cls._instance
+    def __init__(self, channel: str, bitrate: int):
+        self._channel = channel
+        self._bitrate = bitrate
+        self._bus: Optional[can.Bus] = None
+        self._lock = threading.Lock()
 
-    def open_bus(self, config: CANConfig):
+    def open(self) -> can.Bus:
         if self._bus is None:
             with self._lock:
                 if self._bus is None:
-                    self._bus = can.interface.Bus(
-                        channel=config.channel,
-                        bustype=config.bustype,
-                        bitrate=config.bitrate,
+                    self._bus = can.Bus(
+                        interface="socketcan",
+                        channel=self._channel,
+                        bitrate=self._bitrate,
                     )
+        return self._bus
 
     def get_bus(self) -> can.Bus:
         if self._bus is None:
-            self.open_bus()
+            raise RuntimeError("CAN bus chưa được open()")
         return self._bus
 
-    def close_bus(self):
-        if self._bus is not None:
-            with self._lock:
-                if self._bus is not None:
-                    self._bus.shutdown()
-                    self._bus = None
-
-
-can_bus_manager = CANBusManager()
+    def close(self) -> None:
+        with self._lock:
+            if self._bus:
+                self._bus.shutdown()
+                self._bus = None

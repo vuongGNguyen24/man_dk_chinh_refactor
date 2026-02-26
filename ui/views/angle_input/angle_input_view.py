@@ -33,6 +33,7 @@ class AngleInputView(QWidget):
     ):
         super().__init__(parent)
         loadUi(ui_path, self)  # load UI
+        self.setAttribute(Qt.WA_StyledBackground, True)
         self.use_high_table = False
         self.side_label = side_label
         self.limits = limits
@@ -70,6 +71,7 @@ class AngleInputView(QWidget):
                           text_labels=["Chế độ: tự động", "Chế độ: thủ công"], button_text=["Chuyển sang thủ công", "Chuyển sang tự động"])
         
         # ================= OVERLAY & CONTAINER =================
+        # self.setStyleSheet("background-color: rgba(0, 0, 0, 150);")
         qss.set_multiple_property(self, role="angle-input", variant="overlay")
         qss.set_multiple_property(self.dialogContainer, role="angle-input", variant="container")
 
@@ -84,7 +86,6 @@ class AngleInputView(QWidget):
         ):
             qss.set_multiple_property(gb, role="angle-input")
 
-        print(f"{self.inputTypeLabel.styleSheet()=}")
 
         # ================= PREVIEW HEADERS =================
         for lbl in (
@@ -113,7 +114,6 @@ class AngleInputView(QWidget):
 
        
         qss.set_multiple_property(self.okButton, role="angle-input", variant="confirm")
-
         qss.set_multiple_property(self.cancelButton, role="angle-input", variant="cancel")
 
         for rb in (self.lowTableRadio,self.highTableRadio,):
@@ -164,6 +164,7 @@ class AngleInputView(QWidget):
         self.distanceValueContainer.show()
         self.elevationPreviewGroup.setTitle("Khoảng cách bắn được")
         self._apply_distance_and_elevation_control_mode_ui()
+        
     def _apply_elevation_input_ui(self):
         self.elevationInput.show()
         self.distanceInput.hide()
@@ -172,6 +173,7 @@ class AngleInputView(QWidget):
         self.distanceValueContainer.hide()
         self.elevationPreviewGroup.setTitle("Góc tầm tính toán")
         self._apply_distance_and_elevation_control_mode_ui()
+        
     def _apply_direction_control_mode_ui(self):
         is_auto = self.direction_control_mode == ControlMode.AUTO
         self.directionInput.setEnabled(not is_auto)
@@ -234,7 +236,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     load_app_qss(app, ["ui/styles/base.qss", "ui/styles/angle_input_dialog.qss"])
     view = AngleInputView(
-        ui_path="ui/views/angle_input/a.ui",
+        ui_path="ui/views/angle_input/angle_input.ui",
         limits=AngleInputValidator(
             elevation=AngleThreshold(10, 60),
             azimuth=AngleThreshold(60, 65),

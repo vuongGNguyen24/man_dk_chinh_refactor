@@ -51,5 +51,16 @@ class UDPServer:
         self._thread = threading.Thread(target=_loop, daemon=True)
         self._thread.start()
 
+    def send(self, data: bytes, ip_address: str, port: int) -> None:
+        """
+        Gửi UDP packet đến addr
+        """
+        sock = self._socket_manager.open()
+        with self._lock:
+            sock.sendto(data, (ip_address, port))
+            
     def stop(self):
         self._running = False
+        
+
+    

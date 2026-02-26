@@ -72,7 +72,7 @@ QPushButton[role="action"]:disabled {
 }
 
 
-QPushButton[role="angle-input"] {
+QPushButton[role="action"][state='primary'] {
     background-color: #0078d4;
     color: white;
     border-radius: 5px;
@@ -80,11 +80,11 @@ QPushButton[role="angle-input"] {
     font-weight: bold;
 }
 
-QPushButton[role="angle-input"]:hover {
+QPushButton[role="action"][state='primary']:hover {
     background-color: #106ebe;
 }
 
-QPushButton[role="angle-input"]:pressed {
+QPushButton[role="action"][state='primary']:pressed {
     background-color: #005a9e;
 }
 

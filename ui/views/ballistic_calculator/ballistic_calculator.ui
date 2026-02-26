@@ -6,20 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1800</width>
-    <height>900</height>
+    <width>1280</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Ballistic Calculator</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#BallisticCalculatorWidget {
-    background-color: #000000;
-    border: 3px solid #FFFFFF;
-}</string>
+   <string notr="true"/>
   </property>
-  
   <layout class="QHBoxLayout" name="mainLayout">
    <property name="spacing">
     <number>0</number>
@@ -36,29 +32,22 @@
    <property name="bottomMargin">
     <number>20</number>
    </property>
-   
-   <!-- ==================== LEFT PANEL ==================== -->
    <item>
     <widget class="QWidget" name="leftPanel" native="true">
      <layout class="QVBoxLayout" name="leftPanelLayout">
       <property name="spacing">
        <number>8</number>
       </property>
-      
-      <!-- Title -->
       <item>
        <widget class="QLabel" name="leftPanelTitle">
-        <property name="text">
-         <string>Nhập thông số</string>
-        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 18px; font-weight: bold; color: #F1F5F9;</string>
         </property>
+        <property name="text">
+         <string>Nhập thông số</string>
+        </property>
        </widget>
       </item>
-      
-
-      <!-- Gió dọc đạn đạo thấp -->
       <item>
        <widget class="QWidget" name="windAlongLowContainer" native="true">
         <layout class="QVBoxLayout" name="windAlongLowLayout">
@@ -77,8 +66,6 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="windAlongLowCapsule" native="true">
            <property name="minimumSize">
@@ -109,8 +96,6 @@
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="windAlongLowLabel">
               <property name="minimumSize">
@@ -125,12 +110,6 @@
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Gió dọc đạn đạo thấp</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -142,10 +121,14 @@
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Gió dọc đạn đạo thấp</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="windAlongLowSep1">
               <property name="minimumSize">
@@ -168,8 +151,6 @@
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="windAlongLowInput">
               <property name="minimumSize">
@@ -183,12 +164,6 @@
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -208,10 +183,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="windAlongLowSep2">
               <property name="minimumSize">
@@ -234,8 +213,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="windAlongLowUnit">
               <property name="minimumSize">
@@ -250,12 +227,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>m/s</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -267,13 +238,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>m/s</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="windAlongLowNote">
            <property name="minimumSize">
@@ -288,15 +263,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Gió thổi theo hướng đạn ở độ cao thấp (âm: xuôi chiều, dương: ngược chiều)</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -307,13 +273,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Gió thổi theo hướng đạn ở độ cao thấp (âm: xuôi chiều, dương: ngược chiều)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      <!-- Gió dọc đạn đạo cao -->
       <item>
        <widget class="QWidget" name="windAlongHighContainer" native="true">
         <layout class="QVBoxLayout" name="windAlongHighLayout">
@@ -332,8 +305,6 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="windAlongHighCapsule" native="true">
            <property name="minimumSize">
@@ -364,8 +335,6 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="windAlongHighLabel">
               <property name="minimumSize">
@@ -380,12 +349,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Gió dọc đạn đạo cao</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -397,10 +360,14 @@ QLineEdit:disabled {
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Gió dọc đạn đạo cao</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="windAlongHighSep1">
               <property name="minimumSize">
@@ -423,8 +390,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="windAlongHighInput">
               <property name="minimumSize">
@@ -438,12 +403,6 @@ QLineEdit:disabled {
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -463,10 +422,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="windAlongHighSep2">
               <property name="minimumSize">
@@ -489,8 +452,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="windAlongHighUnit">
               <property name="minimumSize">
@@ -505,12 +466,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>m/s</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -522,13 +477,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>m/s</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="windAlongHighNote">
            <property name="minimumSize">
@@ -543,15 +502,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Gió thổi theo hướng đạn ở độ cao lớn (âm: xuôi chiều, dương: ngược chiều)</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -562,13 +512,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Gió thổi theo hướng đạn ở độ cao lớn (âm: xuôi chiều, dương: ngược chiều)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      <!-- Gió ngang đạn đạo thấp -->
       <item>
        <widget class="QWidget" name="windCrossLowContainer" native="true">
         <layout class="QVBoxLayout" name="windCrossLowLayout">
@@ -587,8 +544,6 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="windCrossLowCapsule" native="true">
            <property name="minimumSize">
@@ -619,8 +574,6 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="windCrossLowLabel">
               <property name="minimumSize">
@@ -635,12 +588,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Gió ngang đạn đạo thấp</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -652,10 +599,14 @@ QLineEdit:disabled {
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Gió ngang đạn đạo thấp</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="windCrossLowSep1">
               <property name="minimumSize">
@@ -678,8 +629,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="windCrossLowInput">
               <property name="minimumSize">
@@ -693,12 +642,6 @@ QLineEdit:disabled {
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -718,10 +661,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="windCrossLowSep2">
               <property name="minimumSize">
@@ -744,8 +691,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="windCrossLowUnit">
               <property name="minimumSize">
@@ -760,12 +705,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>m/s</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -777,13 +716,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>m/s</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="windCrossLowNote">
            <property name="minimumSize">
@@ -798,15 +741,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Gió thổi vuông góc với hướng đạn ở độ cao thấp (dương: phải sang trái, âm: trái sang phải)</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -817,13 +751,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Gió thổi vuông góc với hướng đạn ở độ cao thấp (dương: phải sang trái, âm: trái sang phải)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      <!-- Gió ngang đạn đạo cao -->
       <item>
        <widget class="QWidget" name="windCrossHighContainer" native="true">
         <layout class="QVBoxLayout" name="windCrossHighLayout">
@@ -842,8 +783,6 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="windCrossHighCapsule" native="true">
            <property name="minimumSize">
@@ -874,8 +813,6 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="windCrossHighLabel">
               <property name="minimumSize">
@@ -890,12 +827,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Gió ngang đạn đạo cao</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -907,10 +838,14 @@ QLineEdit:disabled {
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Gió ngang đạn đạo cao</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="windCrossHighSep1">
               <property name="minimumSize">
@@ -933,8 +868,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="windCrossHighInput">
               <property name="minimumSize">
@@ -948,12 +881,6 @@ QLineEdit:disabled {
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -973,10 +900,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="windCrossHighSep2">
               <property name="minimumSize">
@@ -999,8 +930,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="windCrossHighUnit">
               <property name="minimumSize">
@@ -1015,12 +944,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>m/s</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -1032,13 +955,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>m/s</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="windCrossHighNote">
            <property name="minimumSize">
@@ -1053,15 +980,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Gió thổi vuông góc với hướng đạn ở độ cao lớn (dương: phải sang trái, âm: trái sang phải)</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -1072,13 +990,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Gió thổi vuông góc với hướng đạn ở độ cao lớn (dương: phải sang trái, âm: trái sang phải)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      <!-- Áp suất không khí -->
       <item>
        <widget class="QWidget" name="airPressureContainer" native="true">
         <layout class="QVBoxLayout" name="airPressureLayout">
@@ -1097,8 +1022,6 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="airPressureCapsule" native="true">
            <property name="minimumSize">
@@ -1129,8 +1052,6 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="airPressureLabel">
               <property name="minimumSize">
@@ -1145,12 +1066,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Áp suất không khí</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -1162,10 +1077,14 @@ QLineEdit:disabled {
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Áp suất không khí</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="airPressureSep1">
               <property name="minimumSize">
@@ -1188,8 +1107,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="airPressureInput">
               <property name="minimumSize">
@@ -1203,12 +1120,6 @@ QLineEdit:disabled {
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>750</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -1228,10 +1139,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>750</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="airPressureSep2">
               <property name="minimumSize">
@@ -1254,8 +1169,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="airPressureUnit">
               <property name="minimumSize">
@@ -1270,12 +1183,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>mmHg</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -1287,13 +1194,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>mmHg</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="airPressureNote">
            <property name="minimumSize">
@@ -1308,15 +1219,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Áp suất khí quyển tại vị trí bắn</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -1327,13 +1229,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Áp suất khí quyển tại vị trí bắn</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      <!-- Nhiệt độ không khí -->
       <item>
        <widget class="QWidget" name="airTempContainer" native="true">
         <layout class="QVBoxLayout" name="airTempLayout">
@@ -1352,8 +1261,6 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="airTempCapsule" native="true">
            <property name="minimumSize">
@@ -1384,8 +1291,6 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="airTempLabel">
               <property name="minimumSize">
@@ -1400,12 +1305,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Nhiệt độ không khí</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -1417,10 +1316,14 @@ QLineEdit:disabled {
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Nhiệt độ không khí</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="airTempSep1">
               <property name="minimumSize">
@@ -1443,8 +1346,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="airTempInput">
               <property name="minimumSize">
@@ -1458,12 +1359,6 @@ QLineEdit:disabled {
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>15.9</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -1483,10 +1378,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>15.9</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="airTempSep2">
               <property name="minimumSize">
@@ -1509,8 +1408,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="airTempUnit">
               <property name="minimumSize">
@@ -1525,12 +1422,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>°C</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -1542,13 +1433,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>°C</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="airTempNote">
            <property name="minimumSize">
@@ -1563,15 +1458,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Nhiệt độ môi trường không khí ngoài trời</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -1582,13 +1468,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Nhiệt độ môi trường không khí ngoài trời</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      <!-- Nhiệt độ liều phóng -->
       <item>
        <widget class="QWidget" name="chargeTempContainer" native="true">
         <layout class="QVBoxLayout" name="chargeTempLayout">
@@ -1607,8 +1500,6 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="chargeTempCapsule" native="true">
            <property name="minimumSize">
@@ -1639,8 +1530,6 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="chargeTempLabel">
               <property name="minimumSize">
@@ -1655,12 +1544,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Nhiệt độ liều phóng</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -1672,10 +1555,14 @@ QLineEdit:disabled {
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Nhiệt độ liều phóng</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="chargeTempSep1">
               <property name="minimumSize">
@@ -1698,8 +1585,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="chargeTempInput">
               <property name="minimumSize">
@@ -1713,12 +1598,6 @@ QLineEdit:disabled {
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>15</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -1738,10 +1617,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>15</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="chargeTempSep2">
               <property name="minimumSize">
@@ -1764,8 +1647,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="chargeTempUnit">
               <property name="minimumSize">
@@ -1780,12 +1661,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>°C</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -1797,13 +1672,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>°C</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="chargeTempNote">
            <property name="minimumSize">
@@ -1818,15 +1697,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Nhiệt độ của thuốc phóng trong đạn</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -1837,13 +1707,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Nhiệt độ của thuốc phóng trong đạn</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      <!-- Thuốc phóng kacn-14 -->
       <item>
        <widget class="QWidget" name="kacn14Container" native="true">
         <layout class="QVBoxLayout" name="kacn14Layout">
@@ -1862,8 +1739,6 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="kacn14Capsule" native="true">
            <property name="minimumSize">
@@ -1894,8 +1769,6 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="kacn14Label">
               <property name="minimumSize">
@@ -1910,12 +1783,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Thuốc phóng kacn-14</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -1927,10 +1794,14 @@ QLineEdit:disabled {
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Thuốc phóng kacn-14</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="kacn14Sep1">
               <property name="minimumSize">
@@ -1953,8 +1824,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="kacn14Input">
               <property name="minimumSize">
@@ -1968,12 +1837,6 @@ QLineEdit:disabled {
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -1993,10 +1856,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="kacn14Sep2">
               <property name="minimumSize">
@@ -2019,8 +1886,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="kacn14Unit">
               <property name="minimumSize">
@@ -2035,12 +1900,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string></string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -2052,13 +1911,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="kacn14Note">
            <property name="minimumSize">
@@ -2073,15 +1936,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Loại thuốc phóng: 0 = thường, 1 = kacn-14</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -2092,13 +1946,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Loại thuốc phóng: 0 = thường, 1 = kacn-14</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      <!-- Góc tà mục tiêu -->
       <item>
        <widget class="QWidget" name="slopeAngleContainer" native="true">
         <layout class="QVBoxLayout" name="slopeAngleLayout">
@@ -2117,8 +1978,6 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Capsule Input -->
          <item>
           <widget class="QWidget" name="slopeAngleCapsule" native="true">
            <property name="minimumSize">
@@ -2149,8 +2008,6 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
              <widget class="QLabel" name="slopeAngleLabel">
               <property name="minimumSize">
@@ -2165,12 +2022,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Góc tà mục tiêu</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -2182,10 +2033,14 @@ QLineEdit:disabled {
     border-bottom-left-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>Góc tà mục tiêu</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 1 -->
             <item>
              <widget class="Line" name="slopeAngleSep1">
               <property name="minimumSize">
@@ -2208,8 +2063,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Input Field -->
             <item>
              <widget class="QLineEdit" name="slopeAngleInput">
               <property name="minimumSize">
@@ -2223,12 +2076,6 @@ QLineEdit:disabled {
                 <width>100</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -2248,10 +2095,14 @@ QLineEdit:disabled {
     color: #808080;
 }</string>
               </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
-            
-            <!-- Separator 2 -->
             <item>
              <widget class="Line" name="slopeAngleSep2">
               <property name="minimumSize">
@@ -2274,8 +2125,6 @@ QLineEdit:disabled {
               </property>
              </widget>
             </item>
-            
-            <!-- Unit Label -->
             <item>
              <widget class="QLabel" name="slopeAngleUnit">
               <property name="minimumSize">
@@ -2290,12 +2139,6 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>ly giác</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
     background-color: #525252;
@@ -2307,13 +2150,17 @@ QLineEdit:disabled {
     border-bottom-right-radius: 25px;
 }</string>
               </property>
+              <property name="text">
+               <string>ly giác</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-         <!-- Note Label -->
          <item>
           <widget class="QLabel" name="slopeAngleNote">
            <property name="minimumSize">
@@ -2328,15 +2175,6 @@ QLineEdit:disabled {
              <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>Góc chênh của mục tiêu (dương: mục tiêu cao hơn, âm: mục tiêu thấp hơn)</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
            <property name="styleSheet">
             <string notr="true">QLabel {
     background-color: transparent;
@@ -2347,13 +2185,20 @@ QLineEdit:disabled {
     padding-right: 5px;
 }</string>
            </property>
+           <property name="text">
+            <string>Góc chênh của mục tiêu (dương: mục tiêu cao hơn, âm: mục tiêu thấp hơn)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-
-      
       <item>
        <spacer name="leftPanelSpacer">
         <property name="orientation">
@@ -2370,8 +2215,6 @@ QLineEdit:disabled {
      </layout>
     </widget>
    </item>
-   
-   <!-- ==================== SEPARATOR ==================== -->
    <item>
     <widget class="Line" name="mainSeparator">
      <property name="minimumSize">
@@ -2394,16 +2237,12 @@ QLineEdit:disabled {
      </property>
     </widget>
    </item>
-   
-   <!-- ==================== RIGHT PANEL ==================== -->
    <item>
     <widget class="QWidget" name="rightPanel" native="true">
      <layout class="QVBoxLayout" name="rightPanelLayout">
       <property name="spacing">
        <number>15</number>
       </property>
-      
-      <!-- ========== MODE SELECTOR ========== -->
       <item>
        <widget class="QWidget" name="modeSelector" native="true">
         <layout class="QVBoxLayout" name="modeSelectorLayout">
@@ -2422,21 +2261,19 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
          <item>
           <widget class="QLabel" name="modeSelectorTitle">
+           <property name="styleSheet">
+            <string notr="true">font-size: 16px; font-weight: bold; color: #F1F5F9;</string>
+           </property>
            <property name="text">
             <string>Chế độ tính toán</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
-           <property name="styleSheet">
-            <string notr="true">font-size: 16px; font-weight: bold; color: #F1F5F9;</string>
-           </property>
           </widget>
          </item>
-         
          <item>
           <widget class="QWidget" name="radioButtonsContainer" native="true">
            <layout class="QHBoxLayout" name="radioButtonsLayout">
@@ -2455,15 +2292,40 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
             <item>
              <widget class="QRadioButton" name="autoRadio">
+              <property name="styleSheet">
+               <string notr="true">QRadioButton {
+    color: #F1F5F9;
+    font-size: 13px;
+    font-family: 'Tahoma', Arial, sans-serif;
+    spacing: 8px;
+}
+QRadioButton::indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 2px solid #64C8FF;
+    background-color: transparent;
+}
+QRadioButton::indicator:checked {
+    background-color: #64C8FF;
+    border: 2px solid #64C8FF;
+}
+QRadioButton:hover {
+    color: #FFFFFF;
+}</string>
+              </property>
               <property name="text">
                <string>Tự động</string>
               </property>
               <property name="checked">
                <bool>true</bool>
               </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="semiAutoRadio">
               <property name="styleSheet">
                <string notr="true">QRadioButton {
     color: #F1F5F9;
@@ -2486,44 +2348,13 @@ QRadioButton:hover {
     color: #FFFFFF;
 }</string>
               </property>
-             </widget>
-            </item>
-            
-            <item>
-             <widget class="QRadioButton" name="semiAutoRadio">
               <property name="text">
                <string>Bán tự động</string>
               </property>
-              <property name="styleSheet">
-               <string notr="true">QRadioButton {
-    color: #F1F5F9;
-    font-size: 13px;
-    font-family: 'Tahoma', Arial, sans-serif;
-    spacing: 8px;
-}
-QRadioButton::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    border: 2px solid #64C8FF;
-    background-color: transparent;
-}
-QRadioButton::indicator:checked {
-    background-color: #64C8FF;
-    border: 2px solid #64C8FF;
-}
-QRadioButton:hover {
-    color: #FFFFFF;
-}</string>
-              </property>
              </widget>
             </item>
-            
             <item>
              <widget class="QRadioButton" name="manualRadio">
-              <property name="text">
-               <string>Thủ công</string>
-              </property>
               <property name="styleSheet">
                <string notr="true">QRadioButton {
     color: #F1F5F9;
@@ -2545,6 +2376,9 @@ QRadioButton::indicator:checked {
 QRadioButton:hover {
     color: #FFFFFF;
 }</string>
+              </property>
+              <property name="text">
+               <string>Thủ công</string>
               </property>
              </widget>
             </item>
@@ -2554,8 +2388,6 @@ QRadioButton:hover {
         </layout>
        </widget>
       </item>
-      
-      <!-- ========== MANUAL PANEL ========== -->
       <item>
        <widget class="QWidget" name="manualPanel" native="true">
         <layout class="QVBoxLayout" name="manualPanelLayout">
@@ -2574,46 +2406,11 @@ QRadioButton:hover {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-
-      <!-- Khoảng cách tàu - mục tiêu -->
-      <item>
-       <widget class="QWidget" name="shipDistanceContainer" native="true">
-        <layout class="QVBoxLayout" name="shipDistanceLayout">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         
-         <!-- Capsule Input -->
          <item>
-          <widget class="QWidget" name="shipDistanceCapsule" native="true">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>40</height>
-            </size>
-           </property>
-           <layout class="QHBoxLayout" name="shipDistanceCapsuleLayout">
+          <widget class="QWidget" name="shipDistanceContainer" native="true">
+           <layout class="QVBoxLayout" name="shipDistanceLayout">
             <property name="spacing">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -2627,13 +2424,11 @@ QRadioButton:hover {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
-             <widget class="QLabel" name="shipDistanceLabel">
+             <widget class="QWidget" name="shipDistanceCapsule" native="true">
               <property name="minimumSize">
                <size>
-                <width>180</width>
+                <width>0</width>
                 <height>40</height>
                </size>
               </property>
@@ -2643,14 +2438,38 @@ QRadioButton:hover {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Khoảng cách tàu - mục tiêu</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+              <layout class="QHBoxLayout" name="shipDistanceCapsuleLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="shipDistanceLabel">
+                 <property name="minimumSize">
+                  <size>
+                   <width>180</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -2659,57 +2478,53 @@ QRadioButton:hover {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 1 -->
-            <item>
-             <widget class="Line" name="shipDistanceSep1">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Input Field -->
-            <item>
-             <widget class="QLineEdit" name="shipDistanceInput">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
+                 </property>
+                 <property name="text">
+                  <string>Khoảng cách tàu - mục tiêu</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="shipDistanceSep1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="shipDistanceInput">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLineEdit {
     background-color: #525252;
     color: #F1F5F9;
     border: none;
@@ -2725,57 +2540,53 @@ QLineEdit:disabled {
     background-color: #3a3a3a;
     color: #808080;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 2 -->
-            <item>
-             <widget class="Line" name="shipDistanceSep2">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Unit Label -->
-            <item>
-             <widget class="QLabel" name="shipDistanceUnit">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>m</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+                 </property>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="shipDistanceSep2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="shipDistanceUnit">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -2784,39 +2595,34 @@ QLineEdit:disabled {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
 }</string>
-              </property>
+                 </property>
+                 <property name="text">
+                  <string>m</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
-           </layout>
-          </widget>
-         </item>
-
-         <!-- Note Label -->
-         <item>
-          <widget class="QLabel" name="shipDistanceNote">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Khoảng cách từ quang điện tử trên tàu đến mục tiêu</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel {
+            <item>
+             <widget class="QLabel" name="shipDistanceNote">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel {
     background-color: transparent;
     color: #94A3B8;
     font-size: 11px;
@@ -2824,51 +2630,26 @@ QLineEdit:disabled {
     padding-left: 5px;
     padding-right: 5px;
 }</string>
-           </property>
+              </property>
+              <property name="text">
+               <string>Khoảng cách từ quang điện tử trên tàu đến mục tiêu</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
-        </layout>
-       </widget>
-      </item>
-
-      <!-- Góc hướng tàu - mục tiêu -->
-      <item>
-       <widget class="QWidget" name="shipAzimuthContainer" native="true">
-        <layout class="QVBoxLayout" name="shipAzimuthLayout">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         
-         <!-- Capsule Input -->
          <item>
-          <widget class="QWidget" name="shipAzimuthCapsule" native="true">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>40</height>
-            </size>
-           </property>
-           <layout class="QHBoxLayout" name="shipAzimuthCapsuleLayout">
+          <widget class="QWidget" name="shipAzimuthContainer" native="true">
+           <layout class="QVBoxLayout" name="shipAzimuthLayout">
             <property name="spacing">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -2882,13 +2663,11 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
-             <widget class="QLabel" name="shipAzimuthLabel">
+             <widget class="QWidget" name="shipAzimuthCapsule" native="true">
               <property name="minimumSize">
                <size>
-                <width>180</width>
+                <width>0</width>
                 <height>40</height>
                </size>
               </property>
@@ -2898,14 +2677,38 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Góc hướng tàu - mục tiêu</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+              <layout class="QHBoxLayout" name="shipAzimuthCapsuleLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="shipAzimuthLabel">
+                 <property name="minimumSize">
+                  <size>
+                   <width>180</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -2914,57 +2717,53 @@ QLineEdit:disabled {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 1 -->
-            <item>
-             <widget class="Line" name="shipAzimuthSep1">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Input Field -->
-            <item>
-             <widget class="QLineEdit" name="shipAzimuthInput">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
+                 </property>
+                 <property name="text">
+                  <string>Góc hướng tàu - mục tiêu</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="shipAzimuthSep1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="shipAzimuthInput">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLineEdit {
     background-color: #525252;
     color: #F1F5F9;
     border: none;
@@ -2980,57 +2779,53 @@ QLineEdit:disabled {
     background-color: #3a3a3a;
     color: #808080;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 2 -->
-            <item>
-             <widget class="Line" name="shipAzimuthSep2">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Unit Label -->
-            <item>
-             <widget class="QLabel" name="shipAzimuthUnit">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>độ</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+                 </property>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="shipAzimuthSep2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="shipAzimuthUnit">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -3039,39 +2834,34 @@ QLineEdit:disabled {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
 }</string>
-              </property>
+                 </property>
+                 <property name="text">
+                  <string>độ</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
-           </layout>
-          </widget>
-         </item>
-
-         <!-- Note Label -->
-         <item>
-          <widget class="QLabel" name="shipAzimuthNote">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Góc hướng từ tàu đến mục tiêu (0° = phía trước, 90° = phải, -90° = trái)</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel {
+            <item>
+             <widget class="QLabel" name="shipAzimuthNote">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel {
     background-color: transparent;
     color: #94A3B8;
     font-size: 11px;
@@ -3079,52 +2869,54 @@ QLineEdit:disabled {
     padding-left: 5px;
     padding-right: 5px;
 }</string>
-           </property>
+              </property>
+              <property name="text">
+               <string>Góc hướng từ tàu đến mục tiêu (0° = phía trước, 90° = phải, -90° = trái)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
-        </layout>
-       </widget>
-      </item>
-
-         
-         <!-- Distance Display Labels -->
          <item>
           <widget class="QLabel" name="distanceDisplayTitle">
-           <property name="text">
-            <string>Khoảng cách tính toán cho từng pháo:</string>
-           </property>
            <property name="styleSheet">
             <string notr="true">font-size: 13px; font-weight: bold; color: #94A3B8; margin-top: 10px;</string>
            </property>
+           <property name="text">
+            <string>Khoảng cách tính toán cho từng pháo:</string>
+           </property>
           </widget>
          </item>
-         
          <item>
           <widget class="QLabel" name="cannonLeftDistance">
+           <property name="styleSheet">
+            <string notr="true">color: #94A3B8; font-size: 13px; padding: 5px;</string>
+           </property>
            <property name="text">
             <string>Khoảng cách pháo trái: 0 m</string>
            </property>
-           <property name="styleSheet">
-            <string notr="true">color: #94A3B8; font-size: 13px; padding: 5px;</string>
-           </property>
           </widget>
          </item>
-         
          <item>
           <widget class="QLabel" name="cannonRightDistance">
-           <property name="text">
-            <string>Khoảng cách pháo phải: 0 m</string>
-           </property>
            <property name="styleSheet">
             <string notr="true">color: #94A3B8; font-size: 13px; padding: 5px;</string>
+           </property>
+           <property name="text">
+            <string>Khoảng cách pháo phải: 0 m</string>
            </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-      
-      <!-- ========== SEPARATOR 1 ========== -->
       <item>
        <widget class="Line" name="rightPanelSep1">
         <property name="styleSheet">
@@ -3135,25 +2927,19 @@ QLineEdit:disabled {
         </property>
        </widget>
       </item>
-      
-      <!-- ========== ANGLE TABLE ========== -->
       <item>
        <widget class="QLabel" name="angleTableTitle">
-        <property name="text">
-         <string>Góc trước và sau khi áp dụng</string>
-        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 14px; font-weight: bold; color: #F1F5F9; margin-top: 5px;</string>
         </property>
+        <property name="text">
+         <string>Góc trước và sau khi áp dụng</string>
+        </property>
        </widget>
       </item>
-      
       <item>
        <widget class="QWidget" name="angleTable" native="true">
         <layout class="QGridLayout" name="angleTableLayout">
-         <property name="spacing">
-          <number>1</number>
-         </property>
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -3166,16 +2952,29 @@ QLineEdit:disabled {
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-         <!-- Row 0 & 1 - Headers -->
+         <property name="spacing">
+          <number>1</number>
+         </property>
          <item row="0" column="0" rowspan="2">
           <widget class="QLabel" name="headerEmpty">
+           <property name="styleSheet">
+            <string notr="true">background-color: #334155;
+color: #F1F5F9;
+font-weight: bold;
+font-size: 13px;
+padding: 10px;
+border: 1px solid #475569;</string>
+           </property>
            <property name="text">
             <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+          </widget>
+         </item>
+         <item row="0" column="1" colspan="2">
+          <widget class="QLabel" name="headerElevation">
            <property name="styleSheet">
             <string notr="true">background-color: #334155;
 color: #F1F5F9;
@@ -3184,17 +2983,16 @@ font-size: 13px;
 padding: 10px;
 border: 1px solid #475569;</string>
            </property>
-          </widget>
-         </item>
-         
-         <item row="0" column="1" colspan="2">
-          <widget class="QLabel" name="headerElevation">
            <property name="text">
             <string>Góc tầm</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+          </widget>
+         </item>
+         <item row="0" column="3" colspan="2">
+          <widget class="QLabel" name="headerDirection">
            <property name="styleSheet">
             <string notr="true">background-color: #334155;
 color: #F1F5F9;
@@ -3203,114 +3001,173 @@ font-size: 13px;
 padding: 10px;
 border: 1px solid #475569;</string>
            </property>
-          </widget>
-         </item>
-         
-         <item row="0" column="3" colspan="2">
-          <widget class="QLabel" name="headerDirection">
            <property name="text">
             <string>Góc hướng</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="subHeaderElevLeft">
+           <property name="styleSheet">
+            <string notr="true">background-color: #475569;
+color: #F1F5F9;
+font-weight: bold;
+font-size: 12px;
+padding: 8px;
+border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>Trái</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="subHeaderElevRight">
+           <property name="styleSheet">
+            <string notr="true">background-color: #475569;
+color: #F1F5F9;
+font-weight: bold;
+font-size: 12px;
+padding: 8px;
+border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>Phải</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLabel" name="subHeaderDirLeft">
+           <property name="styleSheet">
+            <string notr="true">background-color: #475569;
+color: #F1F5F9;
+font-weight: bold;
+font-size: 12px;
+padding: 8px;
+border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>Trái</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QLabel" name="subHeaderDirRight">
+           <property name="styleSheet">
+            <string notr="true">background-color: #475569;
+color: #F1F5F9;
+font-weight: bold;
+font-size: 12px;
+padding: 8px;
+border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>Phải</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="rowLabelDefault">
            <property name="styleSheet">
             <string notr="true">background-color: #334155;
 color: #F1F5F9;
-font-weight: bold;
 font-size: 13px;
 padding: 10px;
 border: 1px solid #475569;</string>
            </property>
-          </widget>
-         </item>
-         
-         <!-- Sub-headers Row 1 -->
-         <item row="1" column="1">
-          <widget class="QLabel" name="subHeaderElevLeft">
-           <property name="text">
-            <string>Trái</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #475569;
-color: #F1F5F9;
-font-weight: bold;
-font-size: 12px;
-padding: 8px;
-border: 1px solid #475569;</string>
-           </property>
-          </widget>
-         </item>
-         
-         <item row="1" column="2">
-          <widget class="QLabel" name="subHeaderElevRight">
-           <property name="text">
-            <string>Phải</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #475569;
-color: #F1F5F9;
-font-weight: bold;
-font-size: 12px;
-padding: 8px;
-border: 1px solid #475569;</string>
-           </property>
-          </widget>
-         </item>
-         
-         <item row="1" column="3">
-          <widget class="QLabel" name="subHeaderDirLeft">
-           <property name="text">
-            <string>Trái</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #475569;
-color: #F1F5F9;
-font-weight: bold;
-font-size: 12px;
-padding: 8px;
-border: 1px solid #475569;</string>
-           </property>
-          </widget>
-         </item>
-         
-         <item row="1" column="4">
-          <widget class="QLabel" name="subHeaderDirRight">
-           <property name="text">
-            <string>Phải</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #475569;
-color: #F1F5F9;
-font-weight: bold;
-font-size: 12px;
-padding: 8px;
-border: 1px solid #475569;</string>
-           </property>
-          </widget>
-         </item>
-         
-         <!-- Row 2 - Mặc định -->
-         <item row="2" column="0">
-          <widget class="QLabel" name="rowLabelDefault">
            <property name="text">
             <string>Mặc định</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="defaultElevationLeft">
+           <property name="styleSheet">
+            <string notr="true">background-color: #1E293B;
+color: #F1F5F9;
+font-size: 14px;
+padding: 10px;
+border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>0.0°</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="defaultElevationRight">
+           <property name="styleSheet">
+            <string notr="true">background-color: #1E293B;
+color: #F1F5F9;
+font-size: 14px;
+padding: 10px;
+border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>0.0°</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QLabel" name="defaultDirectionLeft">
+           <property name="styleSheet">
+            <string notr="true">background-color: #1E293B;
+color: #F1F5F9;
+font-size: 14px;
+padding: 10px;
+border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>0.0°</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QLabel" name="defaultDirectionRight">
+           <property name="styleSheet">
+            <string notr="true">background-color: #1E293B;
+color: #F1F5F9;
+font-size: 14px;
+padding: 10px;
+border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>0.0°</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="rowLabelCorrected">
            <property name="styleSheet">
             <string notr="true">background-color: #334155;
 color: #F1F5F9;
@@ -3318,108 +3175,16 @@ font-size: 13px;
 padding: 10px;
 border: 1px solid #475569;</string>
            </property>
-          </widget>
-         </item>
-         
-         <item row="2" column="1">
-          <widget class="QLabel" name="defaultElevationLeft">
-           <property name="text">
-            <string>0.0°</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #1E293B;
-color: #F1F5F9;
-font-size: 14px;
-padding: 10px;
-border: 1px solid #475569;</string>
-           </property>
-          </widget>
-         </item>
-         
-         <item row="2" column="2">
-          <widget class="QLabel" name="defaultElevationRight">
-           <property name="text">
-            <string>0.0°</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #1E293B;
-color: #F1F5F9;
-font-size: 14px;
-padding: 10px;
-border: 1px solid #475569;</string>
-           </property>
-          </widget>
-         </item>
-         
-         <item row="2" column="3">
-          <widget class="QLabel" name="defaultDirectionLeft">
-           <property name="text">
-            <string>0.0°</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #1E293B;
-color: #F1F5F9;
-font-size: 14px;
-padding: 10px;
-border: 1px solid #475569;</string>
-           </property>
-          </widget>
-         </item>
-         
-         <item row="2" column="4">
-          <widget class="QLabel" name="defaultDirectionRight">
-           <property name="text">
-            <string>0.0°</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #1E293B;
-color: #F1F5F9;
-font-size: 14px;
-padding: 10px;
-border: 1px solid #475569;</string>
-           </property>
-          </widget>
-         </item>
-         
-         <!-- Row 3 - Áp dụng lượng sửa -->
-         <item row="3" column="0">
-          <widget class="QLabel" name="rowLabelCorrected">
            <property name="text">
             <string>Áp dụng lượng sửa</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #334155;
-color: #F1F5F9;
-font-size: 13px;
-padding: 10px;
-border: 1px solid #475569;</string>
-           </property>
           </widget>
          </item>
-         
          <item row="3" column="1">
           <widget class="QLabel" name="correctedElevationLeft">
-           <property name="text">
-            <string>0.0°</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
            <property name="styleSheet">
             <string notr="true">background-color: #1E293B;
 color: #F1F5F9;
@@ -3427,17 +3192,16 @@ font-size: 14px;
 padding: 10px;
 border: 1px solid #475569;</string>
            </property>
+           <property name="text">
+            <string>0.0°</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
           </widget>
          </item>
-         
          <item row="3" column="2">
           <widget class="QLabel" name="correctedElevationRight">
-           <property name="text">
-            <string>0.0°</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
            <property name="styleSheet">
             <string notr="true">background-color: #1E293B;
 color: #F1F5F9;
@@ -3445,49 +3209,51 @@ font-size: 14px;
 padding: 10px;
 border: 1px solid #475569;</string>
            </property>
+           <property name="text">
+            <string>0.0°</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
           </widget>
          </item>
-         
          <item row="3" column="3">
           <widget class="QLabel" name="correctedDirectionLeft">
-           <property name="text">
-            <string>0.0°</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
            <property name="styleSheet">
             <string notr="true">background-color: #1E293B;
 color: #F1F5F9;
 font-size: 14px;
 padding: 10px;
 border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>0.0°</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
-         
          <item row="3" column="4">
           <widget class="QLabel" name="correctedDirectionRight">
-           <property name="text">
-            <string>0.0°</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
            <property name="styleSheet">
             <string notr="true">background-color: #1E293B;
 color: #F1F5F9;
 font-size: 14px;
 padding: 10px;
 border: 1px solid #475569;</string>
+           </property>
+           <property name="text">
+            <string>0.0°</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-      
-      <!-- ========== SEPARATOR 2 ========== -->
       <item>
        <widget class="Line" name="rightPanelSep2">
         <property name="styleSheet">
@@ -3498,19 +3264,16 @@ border: 1px solid #475569;</string>
         </property>
        </widget>
       </item>
-      
-      <!-- ========== STANDARD VALUES ========== -->
       <item>
        <widget class="QLabel" name="standardValuesTitle">
-        <property name="text">
-         <string>Giá trị tiêu chuẩn</string>
-        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 14px; font-weight: bold; color: #F1F5F9;</string>
         </property>
+        <property name="text">
+         <string>Giá trị tiêu chuẩn</string>
+        </property>
        </widget>
       </item>
-      
       <item>
        <widget class="QWidget" name="standardValuesPanel" native="true">
         <layout class="QVBoxLayout" name="standardValuesPanelLayout">
@@ -3529,46 +3292,11 @@ border: 1px solid #475569;</string>
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         
-
-      <!-- Nhiệt độ không khí tiêu chuẩn -->
-      <item>
-       <widget class="QWidget" name="stdAirTempContainer" native="true">
-        <layout class="QVBoxLayout" name="stdAirTempLayout">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         
-         <!-- Capsule Input -->
          <item>
-          <widget class="QWidget" name="stdAirTempCapsule" native="true">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>40</height>
-            </size>
-           </property>
-           <layout class="QHBoxLayout" name="stdAirTempCapsuleLayout">
+          <widget class="QWidget" name="stdAirTempContainer" native="true">
+           <layout class="QVBoxLayout" name="stdAirTempLayout">
             <property name="spacing">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -3582,13 +3310,11 @@ border: 1px solid #475569;</string>
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
-             <widget class="QLabel" name="stdAirTempLabel">
+             <widget class="QWidget" name="stdAirTempCapsule" native="true">
               <property name="minimumSize">
                <size>
-                <width>180</width>
+                <width>0</width>
                 <height>40</height>
                </size>
               </property>
@@ -3598,14 +3324,38 @@ border: 1px solid #475569;</string>
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Nhiệt độ không khí tiêu chuẩn</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+              <layout class="QHBoxLayout" name="stdAirTempCapsuleLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="stdAirTempLabel">
+                 <property name="minimumSize">
+                  <size>
+                   <width>180</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -3614,57 +3364,53 @@ border: 1px solid #475569;</string>
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 1 -->
-            <item>
-             <widget class="Line" name="stdAirTempSep1">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Input Field -->
-            <item>
-             <widget class="QLineEdit" name="stdAirTempInput">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>15.9</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
+                 </property>
+                 <property name="text">
+                  <string>Nhiệt độ không khí tiêu chuẩn</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="stdAirTempSep1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="stdAirTempInput">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLineEdit {
     background-color: #525252;
     color: #F1F5F9;
     border: none;
@@ -3680,57 +3426,53 @@ QLineEdit:disabled {
     background-color: #3a3a3a;
     color: #808080;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 2 -->
-            <item>
-             <widget class="Line" name="stdAirTempSep2">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Unit Label -->
-            <item>
-             <widget class="QLabel" name="stdAirTempUnit">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>°C</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+                 </property>
+                 <property name="text">
+                  <string>15.9</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="stdAirTempSep2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="stdAirTempUnit">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -3739,55 +3481,26 @@ QLineEdit:disabled {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
 }</string>
-              </property>
+                 </property>
+                 <property name="text">
+                  <string>°C</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-        </layout>
-       </widget>
-      </item>
-
-      <!-- Áp suất khí quyển tiêu chuẩn -->
-      <item>
-       <widget class="QWidget" name="stdPressureContainer" native="true">
-        <layout class="QVBoxLayout" name="stdPressureLayout">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         
-         <!-- Capsule Input -->
          <item>
-          <widget class="QWidget" name="stdPressureCapsule" native="true">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>40</height>
-            </size>
-           </property>
-           <layout class="QHBoxLayout" name="stdPressureCapsuleLayout">
+          <widget class="QWidget" name="stdPressureContainer" native="true">
+           <layout class="QVBoxLayout" name="stdPressureLayout">
             <property name="spacing">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -3801,13 +3514,11 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
-             <widget class="QLabel" name="stdPressureLabel">
+             <widget class="QWidget" name="stdPressureCapsule" native="true">
               <property name="minimumSize">
                <size>
-                <width>180</width>
+                <width>0</width>
                 <height>40</height>
                </size>
               </property>
@@ -3817,14 +3528,38 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Áp suất khí quyển tiêu chuẩn</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+              <layout class="QHBoxLayout" name="stdPressureCapsuleLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="stdPressureLabel">
+                 <property name="minimumSize">
+                  <size>
+                   <width>180</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -3833,57 +3568,53 @@ QLineEdit:disabled {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 1 -->
-            <item>
-             <widget class="Line" name="stdPressureSep1">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Input Field -->
-            <item>
-             <widget class="QLineEdit" name="stdPressureInput">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>750</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
+                 </property>
+                 <property name="text">
+                  <string>Áp suất khí quyển tiêu chuẩn</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="stdPressureSep1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="stdPressureInput">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLineEdit {
     background-color: #525252;
     color: #F1F5F9;
     border: none;
@@ -3899,57 +3630,53 @@ QLineEdit:disabled {
     background-color: #3a3a3a;
     color: #808080;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 2 -->
-            <item>
-             <widget class="Line" name="stdPressureSep2">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Unit Label -->
-            <item>
-             <widget class="QLabel" name="stdPressureUnit">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>mmHg</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+                 </property>
+                 <property name="text">
+                  <string>750</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="stdPressureSep2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="stdPressureUnit">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -3958,55 +3685,26 @@ QLineEdit:disabled {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
 }</string>
-              </property>
+                 </property>
+                 <property name="text">
+                  <string>mmHg</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
-        </layout>
-       </widget>
-      </item>
-
-      <!-- Nhiệt độ liều phóng tiêu chuẩn -->
-      <item>
-       <widget class="QWidget" name="stdChargeTempContainer" native="true">
-        <layout class="QVBoxLayout" name="stdChargeTempLayout">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         
-         <!-- Capsule Input -->
          <item>
-          <widget class="QWidget" name="stdChargeTempCapsule" native="true">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>40</height>
-            </size>
-           </property>
-           <layout class="QHBoxLayout" name="stdChargeTempCapsuleLayout">
+          <widget class="QWidget" name="stdChargeTempContainer" native="true">
+           <layout class="QVBoxLayout" name="stdChargeTempLayout">
             <property name="spacing">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -4020,13 +3718,11 @@ QLineEdit:disabled {
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            
-            <!-- Label bên trái -->
             <item>
-             <widget class="QLabel" name="stdChargeTempLabel">
+             <widget class="QWidget" name="stdChargeTempCapsule" native="true">
               <property name="minimumSize">
                <size>
-                <width>180</width>
+                <width>0</width>
                 <height>40</height>
                </size>
               </property>
@@ -4036,14 +3732,38 @@ QLineEdit:disabled {
                 <height>40</height>
                </size>
               </property>
-              <property name="text">
-               <string>Nhiệt độ liều phóng tiêu chuẩn</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+              <layout class="QHBoxLayout" name="stdChargeTempCapsuleLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="stdChargeTempLabel">
+                 <property name="minimumSize">
+                  <size>
+                   <width>180</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -4052,57 +3772,53 @@ QLineEdit:disabled {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 1 -->
-            <item>
-             <widget class="Line" name="stdChargeTempSep1">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Input Field -->
-            <item>
-             <widget class="QLineEdit" name="stdChargeTempInput">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>15</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
+                 </property>
+                 <property name="text">
+                  <string>Nhiệt độ liều phóng tiêu chuẩn</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="stdChargeTempSep1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="stdChargeTempInput">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLineEdit {
     background-color: #525252;
     color: #F1F5F9;
     border: none;
@@ -4118,57 +3834,53 @@ QLineEdit:disabled {
     background-color: #3a3a3a;
     color: #808080;
 }</string>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Separator 2 -->
-            <item>
-             <widget class="Line" name="stdChargeTempSep2">
-              <property name="minimumSize">
-               <size>
-                <width>1</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: #F1F5F9;</string>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            
-            <!-- Unit Label -->
-            <item>
-             <widget class="QLabel" name="stdChargeTempUnit">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>°C</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignVCenter</set>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel {
+                 </property>
+                 <property name="text">
+                  <string>15</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="stdChargeTempSep2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: #F1F5F9;</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="stdChargeTempUnit">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
     background-color: #525252;
     color: #F1F5F9;
     font-size: 14px;
@@ -4177,28 +3889,29 @@ QLineEdit:disabled {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
 }</string>
-              </property>
+                 </property>
+                 <property name="text">
+                  <string>°C</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-
         </layout>
        </widget>
       </item>
-
-        </layout>
-       </widget>
-      </item>
-      
-      <!-- ========== BUTTONS ========== -->
       <item>
        <layout class="QHBoxLayout" name="buttonsLayout">
         <property name="spacing">
          <number>15</number>
         </property>
-        
         <item>
          <widget class="QPushButton" name="resetButton">
           <property name="minimumSize">
@@ -4212,9 +3925,6 @@ QLineEdit:disabled {
             <width>40</width>
             <height>40</height>
            </size>
-          </property>
-          <property name="text">
-           <string>↻</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
@@ -4233,9 +3943,11 @@ QPushButton:pressed {
     background-color: #374151;
 }</string>
           </property>
+          <property name="text">
+           <string>↻</string>
+          </property>
          </widget>
         </item>
-        
         <item>
          <spacer name="buttonSpacer">
           <property name="orientation">
@@ -4249,7 +3961,6 @@ QPushButton:pressed {
           </property>
          </spacer>
         </item>
-        
         <item>
          <widget class="QPushButton" name="okButton">
           <property name="minimumSize">
@@ -4263,9 +3974,6 @@ QPushButton:pressed {
             <width>40</width>
             <height>40</height>
            </size>
-          </property>
-          <property name="text">
-           <string>✓</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
@@ -4284,9 +3992,11 @@ QPushButton:pressed {
     background-color: #047857;
 }</string>
           </property>
+          <property name="text">
+           <string>✓</string>
+          </property>
          </widget>
         </item>
-        
         <item>
          <widget class="QPushButton" name="cancelButton">
           <property name="minimumSize">
@@ -4300,9 +4010,6 @@ QPushButton:pressed {
             <width>40</width>
             <height>40</height>
            </size>
-          </property>
-          <property name="text">
-           <string>✕</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
@@ -4320,6 +4027,9 @@ QPushButton:hover {
 QPushButton:pressed {
     background-color: #991B1B;
 }</string>
+          </property>
+          <property name="text">
+           <string>✕</string>
           </property>
          </widget>
         </item>

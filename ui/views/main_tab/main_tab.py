@@ -11,23 +11,9 @@ from ...widgets.features.numeric_display_widget import NumericDataWidget
 from ..effects.grid_background_renderer import GridBackgroundWidget
 from ..angle_input import AngleInputView
 from ..ballistic_calculator import BallisticCalculatorWidget
+from application.dto.angle_input.limit import ANGLE_INPUT_VALIDATOR
+from ui.styles.isometric_button.praser import IsometricTheme
 
-
-DEFAULT_ISO_ENABLED = IsometricVisualState(
-    top_color=QColor("#30ffffff"),
-    border_color=QColor("#30ffffff"),
-    text_color=QColor("#ffffff"),
-    depth=6.0,
-    enabled=True,
-)
-
-DEFAULT_ISO_DISABLED = IsometricVisualState(
-    top_color=QColor("#121212"),
-    border_color=QColor("#30ffffff"),
-    text_color=QColor("#888888"),
-    depth=6.0,
-    enabled=False,
-)
 
 
 class MainTab(GridBackgroundWidget):
@@ -35,12 +21,14 @@ class MainTab(GridBackgroundWidget):
     ok_clicked = QtCore.pyqtSignal()
     cancel_clicked = QtCore.pyqtSignal()
     launch_all_clicked = QtCore.pyqtSignal()
-    calculator_clicked = QtCore.pyqtSignal()
-    angle_input_clicked = QtCore.pyqtSignal(str)  # "left" | "right"
+    calculator_accepted = QtCore.pyqtSignal()
+    change_angle_input_clicked = QtCore.pyqtSignal(str)  # "left" | "right"
+    cancel_angle_input_clicked = QtCore.pyqtSignal()
+    # angle_input_clicked = QtCore.pyqtSignal(str)  # "left" | "right"
 
     def __init__(self, ui_path:str, parent=None, enable_animation=True):
         super().__init__(parent, enable_animation=enable_animation)
-
+        self.isometric_theme = IsometricTheme("ui/styles/isometric_button/theme.yaml")
         self._load_ui(ui_path)
         self._bind_placeholders()
         self._bind_signals()
@@ -53,7 +41,9 @@ class MainTab(GridBackgroundWidget):
         self.bullet_widget = replace_ui_widget(
             ui, "bullet_widget", BulletWidget
         )
-
+        self.bullet_widget.update_launcher("Giàn trái", [True] * 18, {1, 2, 3, 4, 8, 10, 14, 17})
+        self.bullet_widget.update_launcher("Giàn phải", [False] * 18, {1, 2})
+        print(self.bullet_widget._buttons["Giàn trái"][1].fontInfo().pointSize())
         self.compass_left = replace_ui_widget(
             ui, "compass_left",
             AngleCompass, 35, 35, [210, 360], 0
@@ -76,26 +66,34 @@ class MainTab(GridBackgroundWidget):
 
         self.ok_button = replace_ui_widget(
             self, "ok_button",
-            SVGIsometricButton, state=DEFAULT_ISO_ENABLED, svg_path="ui/resources/Icons/launch.svg")
+            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'disabled'), svg_path="ui/resources/Icons/launch.svg", icon_size=(70, 70))
         self.cancel_button = replace_ui_widget(
             ui, "cancel_button",
-            SVGIsometricButton, state=DEFAULT_ISO_ENABLED, svg_path="ui/resources/Icons/cancel.svg")
+            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'disabled'), svg_path="ui/resources/Icons/cancel.svg", icon_size=(70, 70))
         self.launch_all_button = replace_ui_widget(
             ui, "launch_all_button",
-            SVGIsometricButton, state=DEFAULT_ISO_ENABLED, svg_path="ui/resources/Icons/launch_all.svg")
+            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'disabled'), svg_path="ui/resources/Icons/launch_all.svg", icon_size=(70, 70))
         self.calculator_button = replace_ui_widget(
             ui, "calculator_button",
-            SVGIsometricButton, state=DEFAULT_ISO_ENABLED, svg_path="ui/resources/Icons/calculator.svg")
+            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'enabled'), svg_path="ui/resources/Icons/calculator.svg", icon_size=(75, 75))
         self.numeric_data_widget = replace_ui_widget(
             ui, "numeric_data_widget", NumericDataWidget
         )
         self.angle_input_button_left = ui.findChild(
             QWidget, "angle_input_button_left"
         )
+        self.angle_input_button_left.raise_()
         self.angle_input_button_right = ui.findChild(
             QWidget, "angle_input_button_right"
         )
-
+        self.angle_input_button_right.raise_()
+        self.angle_input_widget_left = AngleInputView('ui/views/angle_input/angle_input.ui', limits=ANGLE_INPUT_VALIDATOR, side_label="Trái", parent=self)
+        self.angle_input_widget_right = AngleInputView('ui/views/angle_input/angle_input.ui', limits=ANGLE_INPUT_VALIDATOR, side_label="Phải", parent=self)
+        self.angle_input_widget_left.hide()
+        self.angle_input_widget_right.hide()
+        
+        self.calculator_widget = BallisticCalculatorWidget(parent=self, ui_path="ui/views/ballistic_calculator/ballistic_calculator.ui")
+        self.calculator_widget.hide()
     # -------------------------------------------------
     # Signal binding
     # -------------------------------------------------
@@ -103,15 +101,52 @@ class MainTab(GridBackgroundWidget):
         self.ok_button.clicked.connect(self.ok_clicked)
         self.cancel_button.clicked.connect(self.cancel_clicked)
         self.launch_all_button.clicked.connect(self.launch_all_clicked)
-        self.calculator_button.clicked.connect(self.calculator_clicked)
-
+        
+        self.calculator_button.clicked.connect(self.on_calculator_clicked)
+        self.calculator_widget.accepted.connect(self.on_calculator_accepted)
+        self.calculator_widget.canceled.connect(self.on_calculator_canceled)
+        
         self.angle_input_button_left.clicked.connect(
-            lambda: self.angle_input_clicked.emit("left")
+            lambda: self.on_angle_input_clicked("left")
         )
         self.angle_input_button_right.clicked.connect(
-            lambda: self.angle_input_clicked.emit("right")
+            lambda: self.on_angle_input_clicked("right")
         )
-
+        self.angle_input_widget_left.accepted.connect(lambda: self.on_angle_input_accepted("left"))
+        self.angle_input_widget_right.accepted.connect(lambda: self.on_angle_input_accepted("right"))
+        self.angle_input_widget_left.rejected.connect(lambda: self.on_angle_input_rejected("left"))
+        self.angle_input_widget_right.rejected.connect(lambda: self.on_angle_input_rejected("right"))
+        
+    def on_angle_input_clicked(self, direction: str):
+        print(direction)
+        if direction == "left":
+            self.angle_input_widget_left.show()
+        elif direction == "right":
+            self.angle_input_widget_right.show()
+    
+    def hide_angle_input(self):
+        self.angle_input_widget_left.hide()
+        self.angle_input_widget_right.hide()
+        
+    def on_angle_input_accepted(self, direction: str):
+        #TO DO: emit data to main
+        self.hide_angle_input()
+        
+    def on_angle_input_rejected(self, direction: str):
+        self.hide_angle_input()
+    
+    def on_calculator_clicked(self):
+        self.calculator_widget.show()
+        print("calculator clicked")
+        
+    def on_calculator_accepted(self):
+        self.calculator_widget.hide()
+        self.calculator_accepted.emit()
+        print("calculator accepted")
+        
+    def on_calculator_canceled(self):
+        self.calculator_widget.hide()
+        print("calculator canceled")
     # -------------------------------------------------
     # UI update methods (NO business logic)
     # -------------------------------------------------
@@ -137,7 +172,6 @@ if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
     main_tab = MainTab(ui_path="ui/views/main_tab/main_control_tab.ui")
-    print(main_tab.styleSheet())
     colors = {
         "ready": QColor(0, 200, 0),
         "selected": QColor(0, 255, 0),
@@ -146,8 +180,8 @@ if __name__ == "__main__":
         "text": QColor(255, 255, 255),
     }
     import random
-    main_tab.bullet_widget.update_launcher("Giàn trái", [random.choice([True, False]) for _ in range(18)], {1, 2}, colors=colors)
-    main_tab.bullet_widget.update_launcher("Giàn phải", [random.choice([True, False]) for _ in range(18)], {1, 2}, colors=colors)
+    main_tab.bullet_widget.update_launcher("Giàn trái", [random.choice([True, False]) for _ in range(18)], {1, 2})
+    main_tab.bullet_widget.update_launcher("Giàn phải", [random.choice([True, False]) for _ in range(18)], {1, 2})
     # main_tab.update_compass(left=0, right=0)
     # main_tab.update_half_compass(left=0, right=0)
     # main_tab.update_bullet_state(left_status=)
