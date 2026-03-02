@@ -18,13 +18,24 @@ class LauncherInputPort(ABC):
         return 0x12, 0.0
 
     @abstractmethod
-    def on_angle_feedback(self):
+    def on_current_angle_feedback(self):
         """Nhận góc hướng, góc tầm thực tế từ cảm biến
         
         Return: 
             id_launcher: id của giàn phóng trong hệ thống,
             float: góc tầm thực tế từ cảm biến
             float: góc hướng thực tế từ cảm biến"""
+        return 0x12, 0.0, 0.0
+    
+    def on_target_angle_feedback(self):
+        """Nhận góc hướng, góc tầm mục tiêu từ cảm biến và giao diện
+        
+        Return: 
+            id_launcher: id của giàn phóng trong hệ thống,
+            float: góc hướng mục tiêu từ cảm biến
+            float: góc tầm mục tiêu từ cảm biến
+        """
+        
         return 0x12, 0.0, 0.0
     
     def on_distance_feedback(self) -> float:

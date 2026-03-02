@@ -16,6 +16,7 @@ class FireControlUI(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.all_tab_buttons = []
+        self_all_tab_widgets = []
         self._setup_window()
         self._setup_tabbar()
         self._setup_stack()
@@ -52,11 +53,21 @@ class FireControlUI(QtWidgets.QMainWindow):
         self.stack.setObjectName("MainStack")
         qss.set_multiple_property(self.stack, role="background")
 
-        self.stack.addWidget(MainTab(ui_path="ui/views/main_tab/main_control_tab.ui", parent=self.stack))
-        self.stack.addWidget(InfoTab(None, self.stack))
-        self.stack.addWidget(FiringCircultTab(None, self.stack))
-        self.stack.addWidget(MainCircultTab(None, self.stack))
-        self.stack.addWidget(LogTab(parent=self.stack))
+        self.main_tab = MainTab(
+            ui_path="ui/views/main_tab/main_control_tab.ui",
+            parent=self.stack
+        )
+
+        self.info_tab = InfoTab(None, self.stack)
+        self.firing_circult_tab = FiringCircultTab(None, self.stack)
+        self.main_circult_tab = MainCircultTab(None, self.stack)
+        self.log_tab = LogTab(parent=self.stack)
+
+        self.stack.addWidget(self.main_tab)
+        self.stack.addWidget(self.info_tab)
+        self.stack.addWidget(self.firing_circult_tab)
+        self.stack.addWidget(self.main_circult_tab)
+        self.stack.addWidget(self.log_tab)
 
     def _make_tab(self, text, x): 
         btn = QtWidgets.QPushButton(text, self.tab_bar) 

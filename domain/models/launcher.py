@@ -43,6 +43,10 @@ class Launcher:
     #     """
     #     self.bullets_statuses = status
     
+    def set_current_angle(self, azimuth: float, elevation: float):
+        self.azimuth.current_value = azimuth   
+        self.elevation.current_value = elevation
+    
     def set_target_angle(self, azimuth: float, elevation: float):
         self.azimuth.target_value = azimuth
         self.elevation.target_value = elevation

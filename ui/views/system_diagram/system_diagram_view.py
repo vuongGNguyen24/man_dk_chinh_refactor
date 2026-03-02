@@ -8,7 +8,7 @@ from ...helpers.ui_widget_replacer import replace_ui_widget
 from ...widgets.components.clickable_node_label import ClickableLabel
 from .diagram_layout_loader import DiagramLayoutLoader
 from .effects import EffectManager, PathSegment, ConnectionRender
-from adapters.ui.node_status import QtSystemStatusAdapter
+from adapters.outbound.ui.node_status import QtSystemStatusAdapter
 from application.dto import NodeStatus
 
 class SystemDiagramView(QWidget):

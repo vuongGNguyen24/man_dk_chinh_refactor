@@ -1,5 +1,5 @@
 from domain.value_objects.point import Point2D
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 class Ship:
     def __init__(self, length: float = 30, width: float = 10):
         self.length = length
@@ -16,6 +16,6 @@ class Ship:
         """Trả về vị trí của quang điện tử."""
         return self.optoelectronic
     
-    def get_cannons(self) -> List[Tuple[str, Point2D]]:
+    def get_cannons(self) -> Dict[str, Point2D]:
         """Trả về vị trí của các khẩu pháo."""
-        return [("cannon_1", self.cannon_1), ("cannon_2", self.cannon_2)]
+        return {"left": self.cannon_1, "right": self.cannon_2}

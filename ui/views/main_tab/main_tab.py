@@ -6,21 +6,22 @@ from ...helpers.ui_widget_replacer import replace_ui_widget
 from ...widgets.features.bullet_widget import BulletWidget
 from ...widgets.features.compass_widget import AngleCompass
 from ...widgets.features.vertical_compass_widget import VerticalCompassWidget
+from ...widgets.components.custom_message_box_widget import ConfirmationWidget
 from ...widgets.components.isometric_buttons import SVGIsometricButton, IsometricVisualState
 from ...widgets.features.numeric_display_widget import NumericDataWidget
 from ..effects.grid_background_renderer import GridBackgroundWidget
 from ..angle_input import AngleInputView
 from ..ballistic_calculator import BallisticCalculatorWidget
-from application.dto.angle_input.limit import ANGLE_INPUT_VALIDATOR
+from application.dto.angle.limit import ANGLE_INPUT_VALIDATOR
 from ui.styles.isometric_button.praser import IsometricTheme
 
 
 
 class MainTab(GridBackgroundWidget):
     # ===== UI intents (signals) =====
-    ok_clicked = QtCore.pyqtSignal()
+    # ok_clicked = QtCore.pyqtSignal()
     cancel_clicked = QtCore.pyqtSignal()
-    launch_all_clicked = QtCore.pyqtSignal()
+    launch_clicked = QtCore.pyqtSignal()
     calculator_accepted = QtCore.pyqtSignal()
     change_angle_input_clicked = QtCore.pyqtSignal(str)  # "left" | "right"
     cancel_angle_input_clicked = QtCore.pyqtSignal()
@@ -41,9 +42,9 @@ class MainTab(GridBackgroundWidget):
         self.bullet_widget = replace_ui_widget(
             ui, "bullet_widget", BulletWidget
         )
-        self.bullet_widget.update_launcher("Giàn trái", [True] * 18, {1, 2, 3, 4, 8, 10, 14, 17})
-        self.bullet_widget.update_launcher("Giàn phải", [False] * 18, {1, 2})
-        print(self.bullet_widget._buttons["Giàn trái"][1].fontInfo().pointSize())
+        self.bullet_widget.update_launcher("left", [True] * 18, {1, 2, 3, 4, 8, 10, 14, 17})
+        self.bullet_widget.update_launcher("right", [False] * 18, {1, 2})
+        # print(self.bullet_widget._buttons["Giàn trái"][1].fontInfo().pointSize())
         self.compass_left = replace_ui_widget(
             ui, "compass_left",
             AngleCompass, 35, 35, [210, 360], 0
@@ -64,9 +65,9 @@ class MainTab(GridBackgroundWidget):
             VerticalCompassWidget, 30, 25
         )
 
-        self.ok_button = replace_ui_widget(
+        self.launch_button = replace_ui_widget(
             self, "ok_button",
-            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'disabled'), svg_path="ui/resources/Icons/launch.svg", icon_size=(70, 70))
+            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'enabled'), svg_path="ui/resources/Icons/launch.svg", icon_size=(70, 70))
         self.cancel_button = replace_ui_widget(
             ui, "cancel_button",
             SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'disabled'), svg_path="ui/resources/Icons/cancel.svg", icon_size=(70, 70))
@@ -94,13 +95,16 @@ class MainTab(GridBackgroundWidget):
         
         self.calculator_widget = BallisticCalculatorWidget(parent=self, ui_path="ui/views/ballistic_calculator/ballistic_calculator.ui")
         self.calculator_widget.hide()
+        
+        self.cofimation_widget = ConfirmationWidget(parent=self)
+        self.cofimation_widget.hide()
     # -------------------------------------------------
     # Signal binding
     # -------------------------------------------------
     def _bind_signals(self):
-        self.ok_button.clicked.connect(self.ok_clicked)
+        self.launch_button.clicked.connect(self.on_launch_clicked)
         self.cancel_button.clicked.connect(self.cancel_clicked)
-        self.launch_all_button.clicked.connect(self.launch_all_clicked)
+        self.launch_all_button.clicked.connect(self.on_launch_all_clicked)
         
         self.calculator_button.clicked.connect(self.on_calculator_clicked)
         self.calculator_widget.accepted.connect(self.on_calculator_accepted)
@@ -116,6 +120,15 @@ class MainTab(GridBackgroundWidget):
         self.angle_input_widget_right.accepted.connect(lambda: self.on_angle_input_accepted("right"))
         self.angle_input_widget_left.rejected.connect(lambda: self.on_angle_input_rejected("left"))
         self.angle_input_widget_right.rejected.connect(lambda: self.on_angle_input_rejected("right"))
+        self.cofimation_widget.confirmed.connect(self.launch_clicked.emit)
+    
+    def on_launch_clicked(self):
+        self.cofimation_widget.show_confirmation("Thông báo", "Bạn có chắc chắn muốn chọn đạn")
+    
+    def on_launch_all_clicked(self):
+        #chọn hết tất cả đạn đang có
+        
+        self.on_launch_clicked()
         
     def on_angle_input_clicked(self, direction: str):
         print(direction)

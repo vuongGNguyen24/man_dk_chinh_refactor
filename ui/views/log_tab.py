@@ -46,12 +46,15 @@ class LogTab(QtWidgets.QWidget):
 
 
 if __name__ == "__main__":
+    
     import sys
     from PyQt5.QtWidgets import QApplication
     from ui.helpers.qss import load_app_qss
-    from adapters.ui.log_tab import LogTabAdapter
+    from adapters.outbound.ui.log_tab import LogTabAdapter
     from application.dto import LogEvent
     from datetime import datetime
+    import time
+    start_time = time.time() 
     app = QApplication(sys.argv)
     #set qss file
     main_tab = LogTab(None)
@@ -62,4 +65,5 @@ if __name__ == "__main__":
     log_adapter.append(LogEvent(datetime.now(), "SUCCESS", "Hello World!"))
     
     main_tab.show()
+    end_time = time.time()
     sys.exit(app.exec_())

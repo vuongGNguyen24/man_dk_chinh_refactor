@@ -10,23 +10,31 @@ class ElectricalPointMonitorService:
         self,
         observer: Optional[ElectricalPointObserverPort] = None,
         ownership: Dict[str, Set[str]] = {},
+        debug: bool = False,
     ):
         self._observer = observer
 
         # state hiện tại trong application
         self._current: Dict[str, bool] = {}
         self._ownership: Dict[str, Set[str]] = ownership
-    
+        self._debug = debug
     def on_rs485_snapshot(self, snapshot: Dict[str, bool]):
+        if self._debug:
+            print("RS485 snapshot")
+            print(snapshot)
         self._handle_snapshot(snapshot, self._ownership.get("rs485", set()))
     
     def on_udp_snapshot(self, snapshot: Dict[str, bool]):
+        if self._debug:
+            print("UDP snapshot")
+            print(snapshot)
         self._handle_snapshot(snapshot, self._ownership.get("udp", set()))
         
     def _handle_snapshot(self, snapshot: Dict[str, bool], allowed_points: Set[str]):
-        for pid in snapshot.keys():
-            if pid not in allowed_points:
-                snapshot.pop(pid)
+        if allowed_points:
+            for pid in snapshot.keys():
+                if pid not in allowed_points:
+                    snapshot.pop(pid)
                 
         changed = self._diff(snapshot)
         if changed and self._observer:

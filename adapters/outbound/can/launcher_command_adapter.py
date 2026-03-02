@@ -2,7 +2,7 @@ from typing import Set, Union, Literal
 import struct
 from dataclasses import dataclass
 from application.ports.launcher_output_port import LauncherCommandPort
-from application.dto.angle_input.packet import AngleInputPacket
+from application.dto.angle.packet import AnglePacket
 from infrastructure.can.can_server import CANServer
 
 
@@ -54,10 +54,10 @@ class CANLauncherCommandAdapter(LauncherCommandPort):
             is_extended_id=False,
         )
 
-    def send_angle_input(
+    def send_target_angle(
         self,
         launcher_id: Literal["left", "right"],
-        angle_input_deg: AngleInputPacket,
+        angle_input_deg: AnglePacket,
     ) -> None:
         """
         Encode góc phương vị & góc tầm thành CAN payload
@@ -106,7 +106,7 @@ class CANLauncherCommandAdapter(LauncherCommandPort):
         ])
             
 
-    def _encode_angle_input(self, packet: AngleInputPacket) -> bytes:
+    def _encode_angle_input(self, packet: AnglePacket) -> bytes:
         """
         Tạm encode:
         - 2 float32: azimuth, elevation

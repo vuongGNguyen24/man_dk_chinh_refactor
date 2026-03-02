@@ -30,8 +30,8 @@ class BulletWidget(QWidget):
         super().__init__(parent)
 
         self._buttons: Dict[str, Dict[int, BulletIsometricButton]] = {
-            "Giàn trái": {},
-            "Giàn phải": {},
+            "left": {},
+            "right": {},
         }
         self.isometric_theme = IsometricTheme("ui/styles/isometric_button/theme.yaml")
         self._create_launcher_frame("Giàn trái", 10, 15)
@@ -46,9 +46,11 @@ class BulletWidget(QWidget):
         title_label.setGeometry(x, y, 590, 34)
         title_label.setAlignment(Qt.AlignCenter)
         qss.set_multiple_property(title_label, role="bullet-widget", variant="title")
-        self._create_launcher_buttons(title, x, y)
         
-    def _create_launcher_buttons(self, side: str, base_x: int, base_y: int):
+        launcher_id = 'left' if 'trái' in title else 'right'
+        self._create_launcher_buttons(launcher_id, x, y)
+        
+    def _create_launcher_buttons(self, launcher_id: str, base_x: int, base_y: int):
         button_size = 70
         cols, rows = 6, 3
 
@@ -64,11 +66,11 @@ class BulletWidget(QWidget):
                 btn.setGeometry(x, y, button_size, 86)
 
                 btn.clicked.connect(
-                    lambda _, s=side, i=index:
+                    lambda _, s=launcher_id, i=index:
                     self.launcher_clicked.emit(s, i)
                 )
 
-                self._buttons[side][index] = btn
+                self._buttons[launcher_id][index] = btn
                 
     
     def update_launcher(

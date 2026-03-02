@@ -39,19 +39,22 @@ class FiringTableInterpolator:
         for k, v in self.extra_fields.items():
             self.extra_fields[k] = np.asarray(v)[order]
 
-    def _interp(self, x: float, y: np.ndarray) -> float:
-        if x < self.ranges[0]:
-            return np.interp(x, self.ranges[:2], y[:2])
+    def _interp(self, x: float, y: np.ndarray, z: np.ndarray) -> float:
+        if x < z[0]:
+            return np.interp(x, z[:2], y[:2])
         if x > self.ranges[-1]:
-            return np.interp(x, self.ranges[-2:], y[-2:])
-        return float(np.interp(x, self.ranges, y))
+            return np.interp(x, z[-2:], y[-2:])
+        return float(np.interp(x, z, y))
 
     def elevation_mils(self, range_m: float) -> float:
-        return self._interp(range_m, self.angle_mils)
+        return self._interp(range_m, self.angle_mils, self.ranges)
 
     def elevation_deg(self, range_m: float) -> float:
         return self.elevation_mils(range_m) * 0.06
 
+    def range(self, elevation_deg: float) -> float:
+        return self._interp(elevation_deg, self.ranges, self.angle_mils)
+    
     def value(self, field: str, range_m: float) -> float:
         """
         Tra một đại lượng hiệu chỉnh theo range.
@@ -68,7 +71,7 @@ class FiringTableInterpolator:
 class TargetingSystem:
     """Hệ thống nhắm mục tiêu tính toán giải pháp bắn."""
 
-    def __init__(self, ship: Ship, interpolator: FiringTableInterpolator):
+    def __init__(self, interpolator: FiringTableInterpolator, ship=Ship()):
         self.ship = ship
         self.interpolator = interpolator
 
@@ -83,9 +86,20 @@ class TargetingSystem:
         
         return Point2D(target_x, target_y)
 
-    def calculate_firing_solutions(self, target_position: Point2D) -> List[FiringSolution]:
+    def calculate_range_from_elevation(self, elevation_deg: float) -> float:
+        """Nội suy ngược: từ góc tầm (độ) tìm khoảng cách.
+        
+        Args:
+            target_angle_degrees: Góc tầm mục tiêu (độ)
+            
+        Returns:
+            Khoảng cách bắn được (mét)
+        """
+        return self.interpolator.range(elevation_deg)
+    
+    def calculate_firing_solutions(self, target_position: Point2D) -> Dict[str, FiringSolution]:
         """Tính toán giải pháp bắn cho từng khẩu pháo."""
-        solutions = []
+        solutions = dict()
         
         for cannon_name, cannon_pos in self.ship.get_cannons():
             distance_to_target = cannon_pos.distance(target_position)
@@ -101,5 +115,5 @@ class TargetingSystem:
             
             elevation_angle_deg = self.interpolator.elevation_deg(distance_to_target)
             
-            solutions.append(FiringSolution(float(distance_to_target), float(azimuth_deg), float(elevation_angle_deg)))
+            solutions[cannon_name] = FiringSolution(float(distance_to_target), float(azimuth_deg), float(elevation_angle_deg))
         return solutions

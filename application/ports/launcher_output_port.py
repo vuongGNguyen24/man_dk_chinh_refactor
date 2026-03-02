@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from application.dto.angle_input.packet import AngleInputPacket
+from application.dto.angle.packet import AnglePacket
 class LauncherCommandPort(ABC):
     """Port gửi lệnh điều khiển giàn phóng ra bên ngoài"""
 
@@ -16,7 +16,7 @@ class LauncherCommandPort(ABC):
         pass
     
     @abstractmethod
-    def send_angle_input(self, launcher_id, angle_input_deg: AngleInputPacket) -> None:
+    def send_target_angle(self, launcher_id, angle_input_deg: AnglePacket) -> None:
         """Gửi tín hiệu chuyển góc đến các giàn 
 
         Args:

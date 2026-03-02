@@ -6,7 +6,7 @@ from ui.views.effects.grid_background_renderer import GridBackgroundWidget
 from ui.views.system_diagram.system_diagram_view import SystemDiagramView
 from ui.views.info_view.info_panel_renderer import InfoPanelRenderer
 from ui.widgets.components.status_indicator_widget import StatusIndicatorWidget
-from adapters.ui.node_status import QtSystemStatusAdapter
+from adapters.outbound.ui.node_status import QtSystemStatusAdapter
 from ui.helpers.qss import set_multiple_property
 
 class FiringCircultTab(GridBackgroundWidget):

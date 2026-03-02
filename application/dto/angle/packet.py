@@ -2,6 +2,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class AngleInputPacket:
+class AnglePacket:
     azimuth: float
     elevation: float

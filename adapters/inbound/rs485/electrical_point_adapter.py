@@ -67,4 +67,4 @@ class RS485ElectricalPointInputAdapter(ElectricalPointInputPort):
                 if snapshot and self.subscribers:
                     for func in self.subscribers:
                         func(snapshot)
-                time.sleep(0.05)
+                time.sleep(0.03)

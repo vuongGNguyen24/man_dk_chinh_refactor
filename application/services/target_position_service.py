@@ -1,37 +1,34 @@
 from typing import Dict
+import math
+
+from domain.value_objects.point import Point2D
+from domain.value_objects.ship import Ship
+from domain.value_objects.firing_solution import FiringSolution
+from domain.rules import normalize_azimuth_angle
 from domain.services.targeting_system import TargetingSystem
-from application.dto import CannonTargetResult
 
 class TargetPositionService:
-    def __init__(self, targeting_system: TargetingSystem):
-        self.targeting_system = targeting_system
+    def __init__(self, low_targeting_system: TargetingSystem, high_targeting_system: TargetingSystem):
+        self.low_targeting_system = low_targeting_system
+        self.high_targeting_system = high_targeting_system
+    def calculate_target_position(self, distance_optoelectronic: float, azimuth_optoelectronic_deg: float, use_high_table: bool = False) -> Point2D:
+        """Tính toán vị trí mục tiêu dựa trên dữ liệu từ quang điện tử."""
+        targeting_system = self.high_targeting_system if use_high_table else self.low_targeting_system
+        return targeting_system.calculate_target_position(distance_optoelectronic, azimuth_optoelectronic_deg)
 
-    def update_target_from_optoelectronic(
-        self,
-        distance_ship_to_target: float,
-        azimuth_ship_to_target_deg: float,
-    ) -> Dict[str, CannonTargetResult]:
+    def calculate_range_from_elevation(self, elevation_deg: float) -> float:
+        """Nội suy ngược: từ góc tầm (độ) tìm khoảng cách.
+        
+        Args:
+            target_angle_degrees: Góc tầm mục tiêu (độ)
+            
+        Returns:
+            Khoảng cách bắn được (mét)
         """
-        Use-case:
-        - Từ dữ liệu quang điện tử
-        - Tính khoảng cách + góc cho từng pháo
-        """
-        target_position = self.targeting_system.calculate_target_position(
-            distance_ship_to_target,
-            azimuth_ship_to_target_deg,
-        )
-
-        solutions = self.targeting_system.calculate_firing_solutions(target_position)
-
-        results = {}
-        for cannon_name, solution in zip(
-            [c[0] for c in self.targeting_system.ship.get_cannons()],
-            solutions,
-        ):
-            results[cannon_name] = CannonTargetResult(
-                distance=solution.distance,
-                azimuth_deg=solution.azimuth,
-                elevation_deg=solution.elevation,
-            )
-
-        return results
+        targeting_system = self.low_targeting_system
+        return targeting_system.calculate_range_from_elevation(elevation_deg)
+    
+    def calculate_firing_solutions(self, target_position: Point2D, use_high_table: bool = False) -> Dict[str, FiringSolution]:
+        """Tính toán giải pháp bắn cho từng khẩu pháo."""
+        targeting_system = use_high_table and self.high_targeting_system or self.low_targeting_system
+        return targeting_system.calculate_firing_solutions(target_position)

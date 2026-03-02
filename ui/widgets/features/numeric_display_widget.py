@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-
+from typing import Dict, Literal
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter, QBrush, QColor, QPen, QFont, QTextOption
 from PyQt5.QtCore import Qt, QRectF, QLineF
@@ -18,7 +18,54 @@ class NumericDataWidget(QWidget):
             "Khoảng cách (m)": ("0", "0"),
         }
 
+    def get_data(self, side:Literal["left", "right"], key: str) -> str:
+        """
 
+        Lấy thông tin hiện tại từ bảng thông số
+
+        Args:
+            side (Literal[&quot;left&quot;, &quot;right&quot;]): giàn trái hay giàn phải
+            key (str): tên thông số
+
+        Returns:
+            str: thông số hiện tại dạng string
+
+        Raises:
+            ValueError: thông số không tồn tại
+        """
+        if key not in self.data:
+            raise ValueError(f"Không tìm thấy thông số {key}")
+        
+        index = 0 if side == "left" else 1
+        return self.data[key][index]
+    
+    def update_data_on_launcher(self, side: Literal["left", "right"], **kwargs: Dict[str, int]) -> None:
+        """
+        Cập nhật dữ liệu cho bảng thông số của một giàn. Cho phép cập nhật từng trường riêng lẻ.
+        
+        Args:
+            side (Literal[&quot;left&quot;, &quot;right&quot;]): giàn trái hay giàn phải
+            **kwargs: Các cặp key-value cần cập nhật
+                Các key hợp lệ:
+                - "Current Direction": tuple(str, str)
+                - "Aim Direction": tuple(str, str)
+                - "Current Angle": tuple(str, str)
+                - "Aim Angle": tuple(str, str)
+                - "Available Missiles": tuple(str, str)
+                - "Selected Missiles": tuple(str, str)
+                - "Distance": tuple(str, str)
+        
+        Returns:
+            None
+        """
+        index = 0 if side == "left" else 1
+        data = self.data
+        for key, value in kwargs.items():
+            if key in data:  
+                data[key][index] = value
+            else:
+                raise ValueError(f"Không tìm thấy thông số {key}")
+            
     def update_data(self, **kwargs) -> None:
         """
         Cập nhật dữ liệu cho bảng thông số. Cho phép cập nhật từng trường riêng lẻ.
