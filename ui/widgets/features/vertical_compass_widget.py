@@ -101,6 +101,14 @@ class VerticalCompassWidget(QWidget):
         if painter.isActive():
             painter.end()
 
+    def setCurrentDirection(self, value: float):
+        self._current_direction = value
+        self.update()
+        
+    def setAimDirection(self, value: float):
+        self._aim_direction = value
+        self.update()
+        
     def update_angle(self, current_angle: float = 0, aim_angle: float = 0, 
                      current_direction: float = 0, aim_direction: float = 0) -> None:
         """Cập nhật góc tầm và góc hướng của giàn phóng với animation"""
@@ -1067,13 +1075,15 @@ class VerticalCompassWidget(QWidget):
         painter.setPen(QPen(Qt.black, 20))
         painter.drawText(text_rect, Qt.AlignCenter, f"{current_angle:.1f}°")
 
-# if __name__ == "__main__":
-#     from PyQt5.QtWidgets import QApplication
-#     import sys
+if __name__ == "__main__":
+    from PyQt5.QtWidgets import QApplication
+    import sys
 
-#     app = QApplication(sys.argv)
-#     widget = HalfCircleWidget(0, 0)
-#     widget.resize(400, 300)
-#     widget.setStyleSheet("background-color: black;")
-#     widget.show()
-#     sys.exit(app.exec_())
+    app = QApplication(sys.argv)
+    widget = VerticalCompassWidget(0, 0)
+    widget.resize(400, 300)
+    widget.setAimDirection(11)
+    widget.setCurrentDirection(15)
+    widget.setStyleSheet("background-color: black;")
+    widget.show()
+    sys.exit(app.exec_())

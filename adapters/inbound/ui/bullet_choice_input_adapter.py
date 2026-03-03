@@ -42,4 +42,3 @@ class BulletChoiceInputAdapter:
         else:
             self._service.launchers[side].choose_bullet(index)
         
-    # def 

@@ -52,7 +52,7 @@ class AngleInputAdapter:
         """
         Called when user presses OK.
         """
-
+        azimuth_deg, elevation_deg, distance_m = None, None, None
         # ---- Direction ----
         if self._view.direction_control_mode == ControlMode.MANUAL:
             azimuth_text = self._view.directionInput.text()
@@ -69,6 +69,7 @@ class AngleInputAdapter:
             if not distance_text:
                 return
             
+            distance_m = float(distance_text)
             elevation_deg = float(self._view.elevationDmsLabel.text())
             self._service.set_target_angle(self._launcher_id, azimuth_deg, elevation_deg)
 
@@ -76,10 +77,10 @@ class AngleInputAdapter:
             elevation_text = self._view.elevationInput.text()
             if not elevation_text:
                 return
-
+            
+            distance_m = float(self._view.distancePreviewLabel.text())
             elevation_deg = float(elevation_text)
-
-            self._service.set_target_angle(self._launcher_id, azimuth_deg, elevation_deg)
+            self._service.set_target_angle(self._launcher_id, azimuth_deg, elevation_deg, distance_m)
 
     def _on_rejected(self) -> None:
         """

@@ -71,7 +71,6 @@ class BulletWidget(QWidget):
                 )
 
                 self._buttons[launcher_id][index] = btn
-                
     
     def update_launcher(
         self,

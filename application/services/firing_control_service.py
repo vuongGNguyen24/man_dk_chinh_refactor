@@ -2,7 +2,6 @@ from typing import Tuple, List, Any, Dict
 
 from domain.value_objects import FiringSolution, Point2D, BulletStatus
 from domain.models.launcher import Launcher
-# from domain.services.targeting_system import TargetingSystem
 from domain.rules import normalize_azimuth_angle
 
 from application.ports.launcher_input_port import LauncherInputPort
@@ -11,6 +10,8 @@ from application.ports.ui_firing_output_port import FiringStatusOutputPort
 from application.dto.angle.packet import AnglePacket
 from application.dto.optoelectronics_state import OptoelectronicsState
 from application.services.target_position_service import TargetPositionService
+
+
 class FiringControlService:
     """Lớp hệ thống điều khiển băn tổng quát cho nhiều giàn
     """
@@ -19,19 +20,15 @@ class FiringControlService:
                  input_port: LauncherInputPort, 
                  output_port: LauncherCommandPort, 
                  targeting_system: TargetPositionService,
-                 bullet_observer: FiringStatusOutputPort=None):
+                 firing_status_observer: FiringStatusOutputPort=None):
         self.launchers = launchers
         self.input_port = input_port
         self.output_port = output_port
         self.targeting_system = targeting_system
         self.optoelectronics_state = OptoelectronicsState()
-        self.bullet_observer = bullet_observer
+        self.firing_status_observer = firing_status_observer
         self.input_port.subcribe(self._on_hardware_event)
         
-    
-        
-    # def set_target_elevation(self, launcher_id: str, angle_deg: float):
-    #     self.output_port.set_target_elevation(launcher_id, angle_deg)
     def _on_hardware_event(self, can_id: int, data: Any) -> None:
         """
         Entry point duy nhất cho mọi tín hiệu từ CAN
@@ -70,8 +67,8 @@ class FiringControlService:
             elif launcher.get_bullet_status(index) == BulletStatus.EMPTY:
                 launcher.set_bullet_status(index, status)
         
-        if self.bullet_observer:
-            self.bullet_observer.on_bullet_status_changed(launcher_id, bullets_status)
+        if self.firing_status_observer:
+            self.firing_status_observer.on_bullet_status_changed(launcher_id, bullets_status)
         
     def _handle_current_angle_feedback(self, launcher_id: int, packet: AnglePacket) -> None:
         launcher = self.launchers[launcher_id]
@@ -80,6 +77,7 @@ class FiringControlService:
         elevation = packet.elevation
 
         launcher.set_current_angle(azimuth, elevation)
+        self.firing_status_observer.on_current_angle_changed(launcher_id, packet)
 
     def compute_all_firing_solutions(self, distance_m: float, use_high_table: bool = False) -> Dict[str, FiringSolution]:
         target_point = self.targeting_system.calculate_target_position(
@@ -97,38 +95,12 @@ class FiringControlService:
     
     def _handle_distance_feedback(self, distance_m: float) -> None:
         self.optoelectronics_state.distance.current_value = distance_m
-        self.set_target_angle()
+        self.firing_status_observer.on_distance_input_changed('left', distance_m)
+        self.firing_status_observer.on_distance_input_changed('right', distance_m)
     
     def _handle_optoelectronic_azimuth_feedback(self, azimuth_deg: float) -> None:
-        self.optoelectronics_state.azimuth.current_value = azimuth_deg
-    
-    def update_bullet_status(self):
-        """Cập nhật trạng thái đạn từ dữ liệu phần cứng
+        self.optoelectronics_state.azimuth.current_value = azimuth_deg    
 
-        Raises:
-            ValueError: Nếu số lượng đạn không khớp với số lượng giàn
-        """
-        id_launcher, bullets_status = self.input_port.on_ammo_status()
-        if len(bullets_status) != len(self.launchers[id_launcher]):
-            raise ValueError("Số lượng đạn không khớp với số lượng giàn")
-        
-        # Ưu tiên tín hiệu phần cứng
-        for index, status in enumerate(bullets_status):
-            if status == BulletStatus.EMPTY:
-                self.launchers[id_launcher].set_bullet_status(index, BulletStatus.EMPTY)
-            elif self.launchers[id_launcher].get_bullet_status(index) == BulletStatus.EMPTY:
-                self.launchers[id_launcher].set_bullet_status(index, status)
-     
-               
-    def update_launcher_position(self):
-        """
-        Cập nhật góc tầm và góc hướng của một giàn phóng qua tín hiệu phần cứng
-        """
-        
-        id_launcher, elevation_deg, azimuth_deg = self.input_port.on_angle_feedback()
-        self.launchers[id_launcher].set_target_angle(normalize_azimuth_angle(azimuth_deg), elevation_deg)
-        
-            
     def select_bullets(self, launcher_id: str):
         """Gửi tín hiệu chọn đạn cho giàn "launcher_id" ra phần cứng
 
@@ -145,57 +117,10 @@ class FiringControlService:
         
         self.output_port.select_bullets(launcher_id, choice_bullets)
         
-    def set_target_angle(self, launcher_id: str, azimuth_deg: float, elevation_deg: float):
+    def set_target_angle(self, launcher_id: str, azimuth_deg: float, elevation_deg: float, distance_m: float=0):
         
         launcher = self.launchers[launcher_id]
         launcher.set_target_angle(normalize_azimuth_angle(azimuth_deg), elevation_deg)
         self.output_port.send_target_angle(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg))
-    
-    def set_target_distance(
-        self,
-        launcher_id: str,
-        distance_m: float,
-        azimuth_deg: float,
-        use_high_table: bool = False,
-    ):
-        self._use_high_table[launcher_id] = use_high_table
-
-        target_point = self.targeting_system.calculate_target_position(
-            distance_m,
-            azimuth_deg,
-        )
-
-        solution: FiringSolution = self.targeting_system.calculate_single_solution(
-            launcher_id,
-            target_point,
-            use_high_table=use_high_table,
-        )
-
-        azimuth = normalize_azimuth_angle(solution.azimuth)
-
-        launcher = self.launchers[launcher_id]
-        launcher.set_target_angle(azimuth, solution.elevation)
-
-        self.output_port.set_target_elevation(launcher_id, solution.elevation)
-        self.output_port.set_target_azimuth(launcher_id, azimuth)
-
-        return solution
-    
-        
-    # def launch_all_ready(self, launcher_id: str):
-    #     launcher = self.launchers[launcher_id]
-    #     ready = launcher.get_ready_bullets()
-
-    #     if not ready:
-    #         return False
-
-    #     self.output_port.fire(launcher_id, ready)
-    #     launcher.mark_bullets_fired(ready)
-    #     return True
-
-
-    
-
-
-        
-        
+        self.firing_status_observer.on_target_angle_and_distance_changed(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg), distance_m)
+      

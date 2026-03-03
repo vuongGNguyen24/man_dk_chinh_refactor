@@ -19,13 +19,14 @@ from ui.styles.isometric_button.praser import IsometricTheme
 
 class MainTab(GridBackgroundWidget):
     # ===== UI intents (signals) =====
-    # ok_clicked = QtCore.pyqtSignal()
+    select_all_clicked = QtCore.pyqtSignal()
+    unselect_all_clicked = QtCore.pyqtSignal()
     cancel_clicked = QtCore.pyqtSignal()
     launch_clicked = QtCore.pyqtSignal()
     calculator_accepted = QtCore.pyqtSignal()
     change_angle_input_clicked = QtCore.pyqtSignal(str)  # "left" | "right"
     cancel_angle_input_clicked = QtCore.pyqtSignal()
-    # angle_input_clicked = QtCore.pyqtSignal(str)  # "left" | "right"
+    
 
     def __init__(self, ui_path:str, parent=None, enable_animation=True):
         super().__init__(parent, enable_animation=enable_animation)
@@ -103,7 +104,7 @@ class MainTab(GridBackgroundWidget):
     # -------------------------------------------------
     def _bind_signals(self):
         self.launch_button.clicked.connect(self.on_launch_clicked)
-        self.cancel_button.clicked.connect(self.cancel_clicked)
+        self.cancel_button.clicked.connect(self.on_cancel_launch_clicked)
         self.launch_all_button.clicked.connect(self.on_launch_all_clicked)
         
         self.calculator_button.clicked.connect(self.on_calculator_clicked)
@@ -123,12 +124,17 @@ class MainTab(GridBackgroundWidget):
         self.cofimation_widget.confirmed.connect(self.launch_clicked.emit)
     
     def on_launch_clicked(self):
+        
         self.cofimation_widget.show_confirmation("Thông báo", "Bạn có chắc chắn muốn chọn đạn")
-    
+        
     def on_launch_all_clicked(self):
         #chọn hết tất cả đạn đang có
-        
+        self.select_all_clicked.emit()
         self.on_launch_clicked()
+        
+    def on_cancel_launch_clicked(self):
+        self.unselect_all_clicked.emit()
+        self.cofimation_widget.show_confirmation("Thông báo", "Bạn có chắc chắn muốn hủy việc chọn đạn")
         
     def on_angle_input_clicked(self, direction: str):
         print(direction)

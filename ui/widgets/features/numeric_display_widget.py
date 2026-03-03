@@ -9,8 +9,8 @@ class NumericDataWidget(QWidget):
         super().__init__(parent)
 
         self.data = {
-            "Hướng ngắm hiện tại (độ)": ("0", "0"),
-            "Hướng ngắm mục tiêu (độ)": ("0", "0"),
+            "Góc hướng hiện tại (độ)": ("0", "0"),
+            "Góc hướng mục tiêu (độ)": ("0", "0"),
             "Góc tầm hiện tại (độ)": ("0", "0"),
             "Góc tầm mục tiêu (độ)": ("0", "0"),
             "Pháo sẵn sàng": ("0", "0"),
@@ -39,7 +39,7 @@ class NumericDataWidget(QWidget):
         index = 0 if side == "left" else 1
         return self.data[key][index]
     
-    def update_data_on_launcher(self, side: Literal["left", "right"], **kwargs: Dict[str, int]) -> None:
+    def update_data_on_launcher(self, side: Literal["left", "right"], **kwargs: Dict[str, float]) -> None:
         """
         Cập nhật dữ liệu cho bảng thông số của một giàn. Cho phép cập nhật từng trường riêng lẻ.
         
@@ -178,9 +178,9 @@ class NumericDataWidget(QWidget):
 
         # Nội dung bảng
         for idx, (key, (left_val, right_val)) in enumerate(self.data.items()):
-            painter.drawText(QRectF(x_left, y, col_width, row_height), int(Qt.AlignVCenter | Qt.AlignHCenter), left_val)
+            painter.drawText(QRectF(x_left, y, col_width, row_height), int(Qt.AlignVCenter | Qt.AlignHCenter), str(left_val))
             painter.drawText(QRectF(x_key, y, col_key_width, row_height), int(Qt.AlignVCenter | Qt.AlignHCenter), key)
-            painter.drawText(QRectF(x_right, y, col_width, row_height), int(Qt.AlignVCenter | Qt.AlignHCenter), right_val)
+            painter.drawText(QRectF(x_right, y, col_width, row_height), int(Qt.AlignVCenter | Qt.AlignHCenter), str(right_val))
             if idx < len(self.data) - 1:
                 pen = QPen(mixed_white, 1, Qt.DashLine)
                 painter.setPen(pen)
