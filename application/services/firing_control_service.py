@@ -1,5 +1,5 @@
 from typing import Tuple, List, Any, Dict
-
+from enum import Enum
 from domain.value_objects import FiringSolution, Point2D, BulletStatus
 from domain.models.launcher import Launcher
 from domain.rules import normalize_azimuth_angle
@@ -8,8 +8,9 @@ from application.ports.launcher_input_port import LauncherInputPort
 from application.ports.launcher_output_port import LauncherCommandPort
 from application.ports.ui_firing_output_port import FiringStatusOutputPort
 from application.dto.angle.packet import AnglePacket
-from application.dto.optoelectronics_state import OptoelectronicsState
+from application.dto import OptoelectronicsState, HardwareEventId
 from application.services.target_position_service import TargetPositionService
+
 
 
 class FiringControlService:
@@ -29,24 +30,25 @@ class FiringControlService:
         self.firing_status_observer = firing_status_observer
         self.input_port.subcribe(self._on_hardware_event)
         
-    def _on_hardware_event(self, can_id: int, data: Any) -> None:
+    def _on_hardware_event(self, event_id: HardwareEventId, data: Any) -> None:
         """
-        Entry point duy nhất cho mọi tín hiệu từ CAN
+        Entry point duy nhất cho mọi tín hiệu từ infrastructure
         """
 
-        if can_id in (0x98, 0x99):  # AMMO_STATUS_LEFT / RIGHT
-            self._handle_bullet_status(can_id, data)
+        handler_mapping = {
+            HardwareEventId.AMMO_STATUS_LEFT: lambda: self._handle_bullet_status("left", data),
+            HardwareEventId.AMMO_STATUS_RIGHT: lambda: self._handle_bullet_status("right", data),
+            HardwareEventId.ANGLE_LEFT: lambda: self._handle_current_angle_feedback("left", data),
+            HardwareEventId.ANGLE_RIGHT: lambda: self._handle_current_angle_feedback("right", data),
+            HardwareEventId.DISTANCE: lambda: self._handle_distance_feedback(data),
+            HardwareEventId.AZIMUTH: lambda: self._handle_optoelectronic_azimuth_feedback(data),
+        }
 
-        elif can_id in (0x00F, 0x00E):  # ANGLE_CANNON_LEFT / RIGHT
-            self._handle_current_angle_feedback(can_id, data)
+        handler = handler_mapping.get(event_id)
+        if handler:
+            handler()
 
-        elif can_id == 0x100:  # DISTANCE
-            self._handle_distance_feedback(data)
-        
-        elif can_id == 0x102:  # AZIMUTH
-            self._handle_optoelectronic_azimuth_feedback(data)
-
-    def _handle_bullet_status(self, launcher_id: int, bullets_status: List[bool]) -> None:
+    def _handle_bullet_status(self, launcher_id: str, bullets_status: List[bool]) -> None:
         """Xử lý tín hiệu báo đạn từ phần cứng
 
         Args:
@@ -70,7 +72,7 @@ class FiringControlService:
         if self.firing_status_observer:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, bullets_status)
         
-    def _handle_current_angle_feedback(self, launcher_id: int, packet: AnglePacket) -> None:
+    def _handle_current_angle_feedback(self, launcher_id: str, packet: AnglePacket) -> None:
         launcher = self.launchers[launcher_id]
 
         azimuth = normalize_azimuth_angle(packet.azimuth)

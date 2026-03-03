@@ -1,3 +1,3 @@
-ip_jetson_left: '192.168.1.100'
-ip_jetson_right: '192.168.1.101'
-ip_jetson_qdt: '192.168.1.102'
+ip_jetson_left: '192.168.100.31'
+ip_jetson_right: '192.168.100.101'
+ip_jetson_qdt: '192.168.100.50'
