@@ -14,14 +14,10 @@ from PyQt5.QtWidgets import QApplication
 import yaml
 import time
 import adapters.inbound.mock as mock
-def load_rs485_config(config_path: str) -> SerialConfig:
-    with open(config_path) as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
-        return SerialConfig.from_dict(config['rs485'])
+
 
 
 def main():
-    startTime = time.time()
     app = QApplication(sys.argv)
     qss.load_styles_from_yaml(app, "style_manifest.yaml", base_path="ui/styles")
     # udp_server = UDPServer(UDPSocketManager("0.0.0.0", 8888))
@@ -52,8 +48,6 @@ def main():
     
     
     main_window.show()
-    endTime = time.time()
-    print("time elapsed: ", endTime - startTime)
     sys.exit(app.exec_())
     
 if __name__ == "__main__":

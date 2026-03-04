@@ -10,24 +10,29 @@ from application.ports.ui_firing_output_port import FiringStatusOutputPort
 from application.dto.angle.packet import AnglePacket
 from application.dto import OptoelectronicsState, HardwareEventId
 from application.services.target_position_service import TargetPositionService
-
+from application.services.correction_application_service import CorrectionApplicationService
 
 
 class FiringControlService:
     """Lớp hệ thống điều khiển băn tổng quát cho nhiều giàn
     """
     def __init__(self, 
-                 launchers: Dict[str, Launcher], 
                  input_port: LauncherInputPort, 
                  output_port: LauncherCommandPort, 
                  targeting_system: TargetPositionService,
+                #  correction_service: CorrectionApplicationService=None,
+                 launchers: Dict[str, Launcher]=None, 
                  firing_status_observer: FiringStatusOutputPort=None):
-        self.launchers = launchers
+        if launchers is None:
+            self.launchers = {'left': Launcher(), 'right': Launcher()}
+        else:
+            self.launchers = launchers
         self.input_port = input_port
         self.output_port = output_port
         self.targeting_system = targeting_system
-        self.optoelectronics_state = OptoelectronicsState()
         self.firing_status_observer = firing_status_observer
+        # self.correction_service = correction_service
+        self.optoelectronics_state = OptoelectronicsState()
         self.input_port.subcribe(self._on_hardware_event)
         
     def _on_hardware_event(self, event_id: HardwareEventId, data: Any) -> None:

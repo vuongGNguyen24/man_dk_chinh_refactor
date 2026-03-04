@@ -1,16 +1,17 @@
-from application.dto import CorrectionResult
+from application.dto import CorrectionResult, CorrectionInput
 from application.services import CorrectionApplicationService
-from ui.views.main_tab.ballistic_calculator_view import BallisticCalculatorView
+from ui.views.ballistic_calculator import BallisticCalculatorWidget
 
 
 class BallisticCalculatorAdapter:
     def __init__(
         self,
-        view: BallisticCalculatorView,
+        view: BallisticCalculatorWidget,
         service: CorrectionApplicationService,
     ):
         self.view = view
         self.service = service
+        self.view.resetButton.clicked.connect(self.reset)
 
     def recalculate(self):
         # 1. Thu thập input
@@ -29,3 +30,8 @@ class BallisticCalculatorAdapter:
 
         # 3. Trả kết quả cho UI
         self.view.display_correction_result(result)
+        
+    def reset(self):
+        correction_input = CorrectionInput.standard()
+        
+        

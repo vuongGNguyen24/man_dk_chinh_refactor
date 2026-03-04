@@ -11,9 +11,20 @@ class CorrectionInput:
     charge_temp: float
     kacn14: int
     slope_angle: float
-    std_temp: float
-    std_pressure: float
-    std_charge_temp: float
+    
+    @staticmethod
+    def standard() -> 'CorrectionInput':
+        return CorrectionInput(
+            wind_along_low=0.0,
+            wind_along_high=0.0,
+            wind_cross_low=0.0,
+            wind_cross_high=0.0,
+            air_pressure=750,
+            air_temp=15.9,
+            charge_temp=15,
+            kacn14=0,
+            slope_angle=0.0,
+        )
 
 
 @dataclass(frozen=True)

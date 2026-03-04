@@ -21,7 +21,7 @@ class AngleInputAdapter:
         self,
         view: AngleInputView,
         service: FiringControlService,
-        launcher_id: int,
+        launcher_id: str,
     ):
         self._view = view
         self._service = service

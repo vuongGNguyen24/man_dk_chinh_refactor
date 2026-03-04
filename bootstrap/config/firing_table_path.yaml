@@ -1,0 +1,3 @@
+low_table: "adapter/inbound/csv/resources/table1.csv"
+high_table: "adapter/inbound/csv/resources/table1_high.csv"
+"slope_correction_table": "adapter/inbound/csv/resources/table2.csv"

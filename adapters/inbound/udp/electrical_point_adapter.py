@@ -60,3 +60,4 @@ class UDPElectricalPointInputAdapter(ElectricalPointInputPort):
             result[point_id] = bool(get_bit(tmp[0], bit_index))
 
         return result
+    

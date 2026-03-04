@@ -13,7 +13,8 @@ class CorrectionApplicationService:
     ):
         self.interpolator = interpolator
         self.slope_service = slope_service
-
+        self.current_input: CorrectionInput = None
+        self.standard_input = CorrectionInput.standard()
     def calculate(
         self,
         input: CorrectionInput,
@@ -23,9 +24,9 @@ class CorrectionApplicationService:
         elev_right_deg: float,
     ) -> CorrectionResult:
         # --- Tra bảng ---
-        def elev_corr(range_m, std_elev_deg):
-            delta = self.interpolator.value("delta_XT", range_m) * (input.air_temp - input.std_temp)
-            delta += self.interpolator.value("delta_XH", range_m) * (input.air_pressure - input.std_pressure)
+        def elev_corr(range_m: float):
+            delta = self.interpolator.value("delta_XT", range_m) * (input.air_temp - self.standard_input.air_temp)
+            delta += self.interpolator.value("delta_XH", range_m) * (input.air_pressure - self.standard_input.air_pressure)
             return delta
 
         elev_l = elev_corr(distance_left, elev_left_deg)
