@@ -29,8 +29,8 @@ class CorrectionApplicationService:
             delta += self.interpolator.value("delta_XH", range_m) * (input.air_pressure - self.standard_input.air_pressure)
             return delta
 
-        elev_l = elev_corr(distance_left, elev_left_deg)
-        elev_r = elev_corr(distance_right, elev_right_deg)
+        elev_l = elev_corr(distance_left)
+        elev_r = elev_corr(distance_right)
 
         # --- Chênh tà ---
         if self.slope_service and input.slope_angle != 0:

@@ -159,19 +159,19 @@ class AngleInputView(QWidget):
     def _apply_distance_input_ui(self):
         self.elevationInput.hide()
         self.distanceInput.show()
-        self.elevationContainer.hide()
-        self.tableSelectionContainer.hide()
-        self.distanceValueContainer.show()
-        self.elevationPreviewGroup.setTitle("Khoảng cách bắn được")
+        self.elevationContainer.show()
+        self.tableSelectionContainer.show()
+        self.distanceValueContainer.hide()
+        self.elevationPreviewGroup.setTitle("Góc tầm tính toán")
         self._apply_distance_and_elevation_control_mode_ui()
         
     def _apply_elevation_input_ui(self):
         self.elevationInput.show()
         self.distanceInput.hide()
-        self.elevationContainer.show()
-        self.tableSelectionContainer.show()
-        self.distanceValueContainer.hide()
-        self.elevationPreviewGroup.setTitle("Góc tầm tính toán")
+        self.elevationContainer.hide()
+        self.tableSelectionContainer.hide()
+        self.distanceValueContainer.show()
+        self.elevationPreviewGroup.setTitle("Khoảng cách bắn được")
         self._apply_distance_and_elevation_control_mode_ui()
         
     def _apply_direction_control_mode_ui(self):

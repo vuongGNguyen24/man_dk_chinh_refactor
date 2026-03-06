@@ -30,6 +30,8 @@ class BulletChoiceInputAdapter:
     def _wire(self):
         self._view.bullet_widget.launcher_clicked.connect(self._on_chosen_bullet_clicked)
         self._view.launch_clicked.connect(self._on_launch_clicked)
+        self._view.select_all_clicked.connect(self._on_select_all_clicked)
+        self._view.unselect_all_clicked.connect(self._on_unselect_all_clicked)
     
     def _on_launch_clicked(self):
         for launcher_id in self._service.launchers.keys():
@@ -38,7 +40,13 @@ class BulletChoiceInputAdapter:
     def _on_chosen_bullet_clicked(self, side: str, index: int):
         state = self._service.launchers[side].get_bullet_status(index)
         if state == BulletStatus.SELECTED:
-            self._service.unchoose_bullet(side=side, index=index)
+            self._service.unchoose_bullet(launcher_id=side, index=index)
         else:
-            self._service.launchers[side].choose_bullet(index)
+            self._service.choose_bullet(launcher_id=side, index=index)
+            
+    def _on_select_all_clicked(self):
+        self._service.select_all_bullets()
+        
+    def _on_unselect_all_clicked(self):
+        self._service.unselect_all_bullets()
         

@@ -71,13 +71,14 @@ class MainTab(GridBackgroundWidget):
             SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'enabled'), svg_path="ui/resources/Icons/launch.svg", icon_size=(70, 70))
         self.cancel_button = replace_ui_widget(
             ui, "cancel_button",
-            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'disabled'), svg_path="ui/resources/Icons/cancel.svg", icon_size=(70, 70))
+            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'enabled'), svg_path="ui/resources/Icons/cancel.svg", icon_size=(70, 70))
         self.launch_all_button = replace_ui_widget(
             ui, "launch_all_button",
-            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'disabled'), svg_path="ui/resources/Icons/launch_all.svg", icon_size=(70, 70))
+            SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'enabled'), svg_path="ui/resources/Icons/launch_all.svg", icon_size=(70, 70))
         self.calculator_button = replace_ui_widget(
             ui, "calculator_button",
             SVGIsometricButton, state=self.isometric_theme("IsometricButton", 'enabled'), svg_path="ui/resources/Icons/calculator.svg", icon_size=(75, 75))
+        
         self.numeric_data_widget = replace_ui_widget(
             ui, "numeric_data_widget", NumericDataWidget
         )
@@ -124,8 +125,9 @@ class MainTab(GridBackgroundWidget):
         self.cofimation_widget.confirmed.connect(self.launch_clicked.emit)
     
     def on_launch_clicked(self):
-        
-        self.cofimation_widget.show_confirmation("Thông báo", "Bạn có chắc chắn muốn chọn đạn")
+
+        num_choose_bullet = int(self.numeric_data_widget.get_data("left", "Pháo đã chọn")) + int(self.numeric_data_widget.get_data("right", "Pháo đã chọn"))
+        self.cofimation_widget.show_confirmation("Thông báo", f"Xác nhận chọn {num_choose_bullet} đạn")
         
     def on_launch_all_clicked(self):
         #chọn hết tất cả đạn đang có
@@ -133,8 +135,9 @@ class MainTab(GridBackgroundWidget):
         self.on_launch_clicked()
         
     def on_cancel_launch_clicked(self):
+        num_choose_bullet = int(self.numeric_data_widget.get_data("left", "Pháo đã chọn")) + int(self.numeric_data_widget.get_data("right", "Pháo đã chọn"))
         self.unselect_all_clicked.emit()
-        self.cofimation_widget.show_confirmation("Thông báo", "Bạn có chắc chắn muốn hủy việc chọn đạn")
+        self.cofimation_widget.show_confirmation("Thông báo", f"Xác nhận hủy chọn {num_choose_bullet} đạn")
         
     def on_angle_input_clicked(self, direction: str):
         print(direction)

@@ -23,7 +23,7 @@ class ElectricalModule:
         )
 
         self.rs485_adapter = RS485ElectricalPointInputAdapter(
-            load_rs485_config("bootstrap/config/rs485_config.yaml"),
+            load_rs485_config("bootstrap/config/communication.yaml"),
             load_rs485_mapping_from_yaml("bootstrap/config/bit_mask_to_point_id/rs485.yaml"),
         )
         

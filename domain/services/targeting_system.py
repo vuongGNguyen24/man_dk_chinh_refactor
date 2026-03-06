@@ -46,6 +46,10 @@ class FiringTableInterpolator:
             return np.interp(x, z[-2:], y[-2:])
         return float(np.interp(x, z, y))
 
+
+    def deg_to_lizard(self, deg: float) -> float:
+        return deg * 6000 / 360
+    
     def elevation_mils(self, range_m: float) -> float:
         return self._interp(range_m, self.angle_mils, self.ranges)
 
@@ -53,7 +57,7 @@ class FiringTableInterpolator:
         return self.elevation_mils(range_m) * 0.06
 
     def range(self, elevation_deg: float) -> float:
-        return self._interp(elevation_deg, self.ranges, self.angle_mils)
+        return self._interp(self.deg_to_lizard(elevation_deg), self.ranges, self.angle_mils)
     
     def value(self, field: str, range_m: float) -> float:
         """
@@ -101,7 +105,7 @@ class TargetingSystem:
         """Tính toán giải pháp bắn cho từng khẩu pháo."""
         solutions = dict()
         
-        for cannon_name, cannon_pos in self.ship.get_cannons():
+        for cannon_name, cannon_pos in self.ship.get_cannons().items():
             distance_to_target = cannon_pos.distance(target_position)
             
             # Tính góc hướng của mục tiêu so với pháo

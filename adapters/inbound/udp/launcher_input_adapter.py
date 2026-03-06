@@ -87,16 +87,16 @@ class UDPLauncherInputAdapter(LauncherInputPort):
             raise ValueError("Invalid angle feedback")
 
         elev_raw = (data[1] << 8) | data[2]
-        dir_raw = (data[3] << 8) | data[4]
+        azimuth_raw = (data[3] << 8) | data[4]
 
-        angle = elev_raw * 0.1
+        elelvation = round(elev_raw * 0.1, 2)
 
-        if dir_raw >= 0x8000:
-            dir_raw -= 0x10000
+        if azimuth_raw >= 0x8000:
+            azimuth_raw -= 0x10000
 
-        direction = dir_raw * 0.01
+        azimuth = round(azimuth_raw * 0.01, 2)
 
-        return AnglePacket(angle, direction)
+        return AnglePacket(elelvation, azimuth)
 
     def _on_distance_feedback(self, data: List[int]) -> float:
 
@@ -123,5 +123,5 @@ class UDPLauncherInputAdapter(LauncherInputPort):
         flag1 = unpack_bits(data[2], 8)
         flag2 = unpack_bits(data[3], 8)
         flag3 = unpack_bits(data[4], 2)
-
+        # print(flag1, flag2, flag3)
         return flag1 + flag2 + flag3

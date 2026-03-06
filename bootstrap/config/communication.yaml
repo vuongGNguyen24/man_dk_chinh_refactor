@@ -4,7 +4,7 @@ rs485:
 
 udp:
   host: '0.0.0.0'
-  port: 8888
+  port: 9600
 
 can:
   channel: 'can0'

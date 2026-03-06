@@ -33,7 +33,7 @@ class FiringControlService:
         self.firing_status_observer = firing_status_observer
         # self.correction_service = correction_service
         self.optoelectronics_state = OptoelectronicsState()
-        self.input_port.subcribe(self._on_hardware_event)
+        self.input_port.subscribe(self._on_hardware_event)
         
     def _on_hardware_event(self, event_id: HardwareEventId, data: Any) -> None:
         """
@@ -64,18 +64,19 @@ class FiringControlService:
             ValueError: Số lượng đạn không khớp với số lượng giàn
         """
         launcher = self.launchers[launcher_id]
-
+        
         if len(bullets_status) != launcher.num_ammo:
             raise ValueError("Số lượng đạn không khớp với số lượng giàn")
 
         for index, status in enumerate(bullets_status):
-            if status == BulletStatus.EMPTY:
+            index += 1
+            if status == False:
                 launcher.set_bullet_status(index, BulletStatus.EMPTY)
             elif launcher.get_bullet_status(index) == BulletStatus.EMPTY:
-                launcher.set_bullet_status(index, status)
-        
+                launcher.set_bullet_status(index, BulletStatus.LOADED)
+
         if self.firing_status_observer:
-            self.firing_status_observer.on_bullet_status_changed(launcher_id, bullets_status)
+            self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
         
     def _handle_current_angle_feedback(self, launcher_id: str, packet: AnglePacket) -> None:
         launcher = self.launchers[launcher_id]
@@ -118,7 +119,7 @@ class FiringControlService:
         
         # lấy danh sách đạn được chọn
         choice_bullets = []
-        for index in range(1, launcher.num_ammo + 1):
+        for index in range(1, launcher.num_ammo + 1):  # index là index của danh sách
             if launcher.get_bullet_status(index) == BulletStatus.SELECTED:
                 choice_bullets.append(index)
         
@@ -130,4 +131,36 @@ class FiringControlService:
         launcher.set_target_angle(normalize_azimuth_angle(azimuth_deg), elevation_deg)
         self.output_port.send_target_angle(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg))
         self.firing_status_observer.on_target_angle_and_distance_changed(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg), distance_m)
+        
+    def choose_bullet(self, launcher_id: str, index: int):
+        launcher = self.launchers[launcher_id]
+        launcher.choose_bullet(index)
+        if self.firing_status_observer:
+            self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
+        
+    def unchoose_bullet(self, launcher_id: str, index: int):
+        launcher = self.launchers[launcher_id]
+        launcher.unchoose_bullet(index)
+        if self.firing_status_observer:
+            self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
+            
+    def select_all_bullets(self):
+        for launcher_id in self.launchers.keys():
+            launcher = self.launchers[launcher_id]
+            for index in range(1, launcher.num_ammo + 1):
+                if launcher.get_bullet_status(index) == BulletStatus.LOADED:
+                    launcher.choose_bullet(index)
+        
+            if self.firing_status_observer:
+                self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
+            
+    def unselect_all_bullets(self):
+        for launcher_id in self.launchers.keys():
+            launcher = self.launchers[launcher_id]
+            for index in range(1, launcher.num_ammo + 1):
+                if launcher.get_bullet_status(index) == BulletStatus.SELECTED:
+                    launcher.unchoose_bullet(index)
+        
+            if self.firing_status_observer:
+                self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
       

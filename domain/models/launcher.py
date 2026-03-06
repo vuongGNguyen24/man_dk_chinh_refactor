@@ -20,7 +20,7 @@ class Launcher:
         return self.num_ammo
         
     def get_bullet_status(self, index: int) -> BulletStatus:
-        return self.bullets_statuses[index]
+        return self.bullets_statuses[index - 1]
     
     def choose_bullet(self, index: int):
         if self.get_bullet_status(index) == BulletStatus.EMPTY:
@@ -33,7 +33,7 @@ class Launcher:
         self.set_bullet_status(index, BulletStatus.LOADED)
         
     def set_bullet_status(self, index: int, status: BulletStatus):
-        self.bullets_statuses[index] = status
+        self.bullets_statuses[index - 1] = status
     
     # def on_bullet_status_update(self, status: List[BulletStatus]):
     #     """Cập nhật trạng thái đạn hàng loạt

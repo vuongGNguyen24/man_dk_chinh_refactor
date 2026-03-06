@@ -27,6 +27,6 @@ class InfrastructureContainer:
         if self.udp_server:
             self.udp_server.start()
 
-        if self.can_server:
-            self.can_server.start()
+        # if self.can_server:
+        #     self.can_server.start()
 

@@ -9,13 +9,13 @@ class NumericDataWidget(QWidget):
         super().__init__(parent)
 
         self.data = {
-            "Góc hướng hiện tại (độ)": ("0", "0"),
-            "Góc hướng mục tiêu (độ)": ("0", "0"),
-            "Góc tầm hiện tại (độ)": ("0", "0"),
-            "Góc tầm mục tiêu (độ)": ("0", "0"),
-            "Pháo sẵn sàng": ("0", "0"),
-            "Pháo đã chọn": ("0", "0"),
-            "Khoảng cách (m)": ("0", "0"),
+            "Góc hướng hiện tại (độ)": ["0", "0"],
+            "Góc hướng mục tiêu (độ)": ["0", "0"],
+            "Góc tầm hiện tại (độ)": ["0", "0"],
+            "Góc tầm mục tiêu (độ)": ["0", "0"],
+            "Pháo sẵn sàng": ["0", "0"],
+            "Pháo đã chọn": ["0", "0"],
+            "Khoảng cách (m)": ["0", "0"],
         }
 
     def get_data(self, side:Literal["left", "right"], key: str) -> str:
@@ -92,7 +92,7 @@ class NumericDataWidget(QWidget):
         # Cập nhật các trường được chỉ định
         for key, value in kwargs.items():
             if key in self.data:  # Loại bỏ replace("_", " ")
-                if isinstance(value, tuple) and len(value) == 2:
+                if isinstance(value, list) and len(value) == 2:
                     self.data[key] = value
                     # print(f"Updated {key}: {value}")  # Debug print
                 else:

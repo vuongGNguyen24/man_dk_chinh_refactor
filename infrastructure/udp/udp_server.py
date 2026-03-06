@@ -37,11 +37,13 @@ class UDPServer:
 
         self._running = True
         sock = self._socket_manager.open()
-
+        # print("UDP server started")
         def _loop():
             while self._running:
                 data, addr = sock.recvfrom(self._buffer_size)
-
+                if not data:
+                    continue
+                # print(data)
                 with self._lock:
                     subscribers = list(self._subscribers)
 

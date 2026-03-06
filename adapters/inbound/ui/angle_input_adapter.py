@@ -71,7 +71,7 @@ class AngleInputAdapter:
             
             distance_m = float(distance_text)
             elevation_deg = float(self._view.elevationDmsLabel.text())
-            self._service.set_target_angle(self._launcher_id, azimuth_deg, elevation_deg)
+            self._service.set_target_angle(self._launcher_id, azimuth_deg, elevation_deg, distance_m)
 
         else:
             elevation_text = self._view.elevationInput.text()
@@ -99,7 +99,8 @@ class AngleInputAdapter:
 
         
         def deg_to_lizard(deg: float) -> float:
-            return deg * 0.05625
+            #360 deg -> 6000 lizard
+            return deg * 6000 / 360
         # # Gọi service để tính toán preview
         caculate_elevation_deg = self._service.compute_firing_solution(
             launcher_id=self._launcher_id,
@@ -120,6 +121,6 @@ class AngleInputAdapter:
             return
 
 
-        distance_m = self._service.calculate_range_from_elevation(elevation_deg)
+        distance_m = self._service.targeting_system.calculate_range_from_elevation(elevation_deg)
 
         self._view.distancePreviewLabel.setText(f"{distance_m:.2f}")

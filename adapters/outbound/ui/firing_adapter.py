@@ -5,24 +5,36 @@ from ui.views import MainTab
 from ui.widgets.features.compass_widget import AngleCompass
 from ui.widgets.features.vertical_compass_widget import VerticalCompassWidget
 from ui.views.angle_input.angle_input_view import AngleInputView, ControlMode
-
+from ui.styles.isometric_button import IsometricTheme
+theme = IsometricTheme("ui/styles/isometric_button/theme.yaml")
 class FiringWidgetAdapter(FiringStatusOutputPort):
 
     def __init__(self, main_tab: MainTab):
         self._main_tab = main_tab
-
+        self.launcher_ids = ["left", "right"]
     def on_bullet_status_changed(self, launcher_id: str, statuses: List[BulletStatus]) -> None:
+        # print(statuses)
         selected = set()
-        for status in statuses:
+        bool_status = []
+        for index, status in enumerate(statuses):
+            index += 1
             if status == BulletStatus.SELECTED:
-                selected.add(status.index)
-        bool_status = [status != BulletStatus.EMPTY for status in statuses]
-        
+                selected.add(index)
+            if status != BulletStatus.EMPTY:
+                bool_status.append(True)
+            else:
+                bool_status.append(False)
+        # print(bool_status)
         self._main_tab.bullet_widget.update_launcher(launcher_id, bool_status, selected)
-        self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Pháo sẵn sàng": sum(bool_status),
+        self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Pháo sẵn sàng": sum([1 for status in statuses if status != BulletStatus.EMPTY]),
                                                                                    "Pháo đã chọn": len(selected)})
-        
+        num_loaded_bullet = int(self._main_tab.numeric_data_widget.get_data("left", "Pháo sẵn sàng")) + int(self._main_tab.numeric_data_widget.get_data("right", "Pháo sẵn sàng"))
+        num_selected_bullet = int(self._main_tab.numeric_data_widget.get_data("left", "Pháo đã chọn")) + int(self._main_tab.numeric_data_widget.get_data("right", "Pháo đã chọn"))
+        self._main_tab.launch_all_button.apply_visual_state(theme("IsometricButton", 'enabled' if num_loaded_bullet > 0 else 'disabled'))
+        self._main_tab.cancel_button.apply_visual_state(theme("IsometricButton", 'enabled' if num_selected_bullet > 0 else 'disabled'))
+        self._main_tab.launch_button.apply_visual_state(theme("IsometricButton", 'enabled' if num_selected_bullet > 0 else 'disabled'))
     def on_target_angle_and_distance_changed(self, launcher_id: str, angle: AnglePacket, distance_m: float) -> None:
+        print(distance_m)
         self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Góc hướng mục tiêu (độ)": angle.azimuth,
                                                                                    "Góc tầm mục tiêu (độ)": angle.elevation,
                                                                                    "Khoảng cách (m)": distance_m})

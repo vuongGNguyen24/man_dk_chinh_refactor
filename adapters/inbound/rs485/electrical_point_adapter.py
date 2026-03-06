@@ -59,7 +59,7 @@ class RS485ElectricalPointInputAdapter(ElectricalPointInputPort):
         return result
     
             
-    def run(self):
+    def start(self):
         self.running = True
         with self.transport:
             while True:

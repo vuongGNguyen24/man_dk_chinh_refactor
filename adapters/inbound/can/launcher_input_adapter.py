@@ -8,6 +8,8 @@ from application.ports.launcher_input_port import LauncherInputPort
 from application.dto.angle.packet import AnglePacket
 from application.dto import HardwareEventId
 from infrastructure.can.can_server import CANServer
+
+
 @dataclass(frozen=True)
 class CANArbitrationID:
     # --- Khoảng cách và Hướng từ Quang điện tử ---
@@ -85,7 +87,7 @@ class CANLauncherInputAdapter(LauncherInputPort):
         def unpack_bits(n: int, width: int) -> List[bool]:
             return [bool((n>>i) & 1) for i in range(0, width)]
         data = msg.data
-        print(data)
+        # print(data)
         
         flag1 = unpack_bits(data[2], 8)
         flag2 = unpack_bits(data[3], 8)

@@ -1,8 +1,10 @@
-from dataclasses import dataclass
+from typing import Literal
+# from dataclasses import dataclass
 from datetime import datetime
 
-@dataclass(frozen=True)
+# @dataclass(frozen=True)
 class LogEvent:
-    timestamp: datetime
-    level: str   # INFO | WARNING | ERROR | SUCCESS
-    message: str
+    def __init__(self, level: Literal['INFO', 'WARNING', 'ERROR', 'SUCCESS'], message: str):
+        self.level = level
+        self.message = message
+        self.timestamp = datetime.now()

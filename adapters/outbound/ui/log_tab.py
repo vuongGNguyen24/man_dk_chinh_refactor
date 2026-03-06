@@ -14,7 +14,7 @@ class LogTabAdapter:
     def __init__(self, view):
         self.view = view
 
-    def append(self, event):
+    def append(self, event: LogEvent):
         color, icon = LEVEL_STYLE.get(
             event.level, ("#94A3B8", "")
         )
