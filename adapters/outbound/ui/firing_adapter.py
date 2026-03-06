@@ -46,6 +46,14 @@ class FiringWidgetAdapter(FiringStatusOutputPort):
         vertical_compass.setAimDirection(angle.azimuth)
         vertical_compass.setAimAngle(angle.elevation)
         
+        #TODO: separate to ballistic calculator outbound adapter
+        if launcher_id == 'left':
+            self._main_tab.calculator_widget.defaultElevationLeft.setText(f"{angle.elevation:.2f}°")
+            self._main_tab.calculator_widget.defaultDirectionLeft.setText(f'{angle.azimuth:.2f}°')
+        else:
+            self._main_tab.calculator_widget.defaultElevationRight.setText(f"{angle.elevation:.2f}°")
+            self._main_tab.calculator_widget.defaultDirectionRight.setText(f'{angle.azimuth:.2f}°')
+        
     def on_current_angle_changed(self, launcher_id: str, angle: AnglePacket) -> None:
         self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Góc hướng hiện tại (độ)": angle.azimuth,
                                                                                    "Góc tầm hiện tại (độ)": angle.elevation})

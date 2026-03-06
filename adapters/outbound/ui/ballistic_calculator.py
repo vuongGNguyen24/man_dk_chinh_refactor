@@ -30,7 +30,6 @@ class BallisticCalculatorAdapter:
 
         # 3. Trả kết quả cho UI
         self.view.display_correction_result(result)
-        
     def reset(self):
         correction_input = CorrectionInput.standard()
         

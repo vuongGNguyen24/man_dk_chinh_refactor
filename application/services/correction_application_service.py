@@ -25,6 +25,8 @@ class CorrectionApplicationService:
     ) -> CorrectionResult:
         # --- Tra bảng ---
         def elev_corr(range_m: float):
+            # print(range_m)
+            # print(self.interpolator.value("delta_XT", range_m))
             delta = self.interpolator.value("delta_XT", range_m) * (input.air_temp - self.standard_input.air_temp)
             delta += self.interpolator.value("delta_XH", range_m) * (input.air_pressure - self.standard_input.air_pressure)
             return delta

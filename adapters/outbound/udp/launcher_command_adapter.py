@@ -87,11 +87,15 @@ class UDPLauncherCommandAdapter(LauncherCommandPort):
 
         raw = json.dumps(packet).encode("utf-8")
 
-        self._udp_server.send(
-            data=raw,
-            ip_address=self._target_ip,
-            port=self._target_port,
-        )
+        try:
+            self._udp_server.send(
+                data=raw,
+                ip_address=self._target_ip,
+                port=self._target_port,
+            )
+            print(f"UDP send success: arbitration_id={hex(arbitration_id)}, data={raw.decode('utf-8')}")
+        except Exception as e:
+            print(f"UDP send error: {e}")
 
     # --------------------------------------------------
     # Encode logic (giữ nguyên từ CAN adapter)

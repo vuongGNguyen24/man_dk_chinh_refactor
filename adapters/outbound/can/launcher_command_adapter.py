@@ -48,11 +48,15 @@ class CANLauncherCommandAdapter(LauncherCommandPort):
 
         payload = self._encode_select_bullets(launcher_id, bullets)
 
-        self._can_server.send(
-            arbitration_id=arbitration_id,
-            data=payload,
-            is_extended_id=False,
-        )
+        try:
+            self._can_server.send(
+                arbitration_id=arbitration_id,
+                data=payload,
+                is_extended_id=False,
+            )
+            print(f"CAN send select_bullets success: arbitration_id={hex(arbitration_id)}, payload={payload.hex()}")
+        except Exception as e:
+            print(f"CAN send select_bullets error: {e}")
 
     def send_target_angle(
         self,
@@ -66,11 +70,15 @@ class CANLauncherCommandAdapter(LauncherCommandPort):
 
         payload = self._encode_angle_input(angle_input_deg)
 
-        self._can_server.send(
-            arbitration_id=arbitration_id,
-            data=payload,
-            is_extended_id=False,
-        )
+        try:
+            self._can_server.send(
+                arbitration_id=arbitration_id,
+                data=payload,
+                is_extended_id=False,
+            )
+            print(f"CAN send send_target_angle success: arbitration_id={hex(arbitration_id)}, payload={payload.hex()}")
+        except Exception as e:
+            print(f"CAN send send_target_angle error: {e}")
 
     def _encode_select_bullets(self, launcher_id: Literal["left", "right"], bullets: Set[int]) -> bytes:
         """Encode theo dạng 7 bytes:

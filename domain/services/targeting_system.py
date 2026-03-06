@@ -67,9 +67,10 @@ class FiringTableInterpolator:
             table.value("delta_Xwhx", 1200)
         """
         data = self.extra_fields.get(field)
+        # print(data)
         if data is None:
             return 0.0
-        return self._interp(range_m, data)
+        return self._interp(range_m, data, self.ranges)
 
 
 class TargetingSystem:

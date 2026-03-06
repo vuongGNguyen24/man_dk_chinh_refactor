@@ -93,7 +93,7 @@ class FiringControlService:
             self.optoelectronics_state.azimuth.current_value,  # hoặc lấy từ optoelectronic state
         )
 
-        firing_solutions = self.targeting_system.calculate_firing_solutions(target_point)
+        firing_solutions = self.targeting_system.calculate_firing_solutions(target_point, use_high_table)
         return firing_solutions
     
     def compute_firing_solution(self, launcher_id: str, distance_m: float, use_high_table: bool = False) -> FiringSolution:
