@@ -16,6 +16,7 @@ def main():
     qss.load_styles_from_yaml(app, "style_manifest.yaml", base_path="ui/styles")
     
     main_window = FireControlUI()
+    main_window.showFullScreen()
     log_module = LogModule(main_window.log_tab)
     log_module.build()
     
@@ -39,9 +40,20 @@ def main():
         electrical_module.start()
     except Exception as e:
         log_module.add(LogEvent("ERROR", str(e)))
-        
-    fire_control_module.start()
-    infra.start()
+    
+    try:
+        fire_control_module.start()
+    except Exception as e:
+        log_module.add(LogEvent("ERROR", str(e)))
+    
+    # try:
+    #     system_monitor_module.start()
+    # except Exception as e:
+    #     log_module.add(LogEvent("ERROR", str(e)))
+    try:
+        infra.start()
+    except Exception as e:
+        log_module.add(LogEvent("ERROR", str(e)))
     main_window.show()
     sys.exit(app.exec_())
     

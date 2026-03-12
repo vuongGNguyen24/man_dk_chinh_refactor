@@ -10,6 +10,7 @@ from adapters.inbound.ui import AngleInputAdapter, BulletChoiceInputAdapter
 from adapters.inbound.ui.ballistic_calculator_adapter import BallisticCalculatorAdapter
 from adapters.outbound.ui.firing_adapter import FiringWidgetAdapter
 from adapters.outbound.udp.launcher_command_adapter import UDPLauncherCommandAdapter
+from adapters.outbound.can.launcher_command_adapter import CANLauncherCommandAdapter
 from application.services.correction_application_service import CorrectionApplicationService
 from domain.services.targeting_system import FiringTableInterpolator
 
@@ -41,6 +42,10 @@ class FireControlModule:
                                                  output_port=self.output_port, 
                                                  targeting_system=self.targeting_system,
                                                  firing_status_observer=firing_widget_observer)
+        for launcher_id, launcher in self.fire_service.launchers.items():
+            from domain.value_objects.bullet_status import BulletStatus
+            tmp = [launcher.get_bullet_status(i) == BulletStatus.LOADED for i in range(1, launcher.num_ammo + 1)]
+            self.main_window.main_tab.bullet_widget.update_launcher(launcher_id, tmp, {})
         # ui inbound adapters
         self.left_angle_input_adapter = AngleInputAdapter(self.main_window.main_tab.angle_input_widget_left, self.fire_service, "left")
         self.right_angle_input_adapter = AngleInputAdapter(self.main_window.main_tab.angle_input_widget_right, self.fire_service, "right")

@@ -39,7 +39,7 @@ class InfoTab(GridBackgroundWidget):
         )
         self.info_panel.hide()
         layout.addWidget(self.info_panel, stretch=2)
-
+        self.node_adapter = node_adapter
         self.status_indicator = StatusIndicatorWidget(self)
         self.status_indicator.show()
 
@@ -70,8 +70,8 @@ class InfoTab(GridBackgroundWidget):
         """
         Khi user click vào node trong sơ đồ
         """
-        print(node_id)
-        node_data = self.system_data_manager.get_node(node_id) if self.system_data_manager else None
+        # print(node_id)
+        node_data = self.node_adapter.get_node(node_id) if self.node_adapter else None
         if not node_data:
             return
 

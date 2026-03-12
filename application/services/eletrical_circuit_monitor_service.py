@@ -6,12 +6,21 @@ from application.ports.electrical_circuit import ElectricalPointInputPort, Elect
 
 
 class ElectricalPointMonitorService:
+    """Lớp giám sát trạng thái các điểm trên mạch điện"""
     def __init__(
         self,
         observer: Optional[ElectricalPointObserverPort] = None,
         ownership: Dict[str, Set[str]] = {},
         debug: bool = False,
     ):
+        """
+        Khởi tạo dịch vụ giám sát trạng thái các điểm trên mạch điện.
+        
+        Args:
+            observer (Optional[ElectricalPointObserverPort]): Cổng quan sát trạng thái các điểm trên mạch điện.
+            ownership (Dict[str, Set[str]]): Dictionary map ID -> Set các điểm trên mạch điện.
+            debug (bool): Debug mode, set true để in log ra console.
+        """
         self._observer = observer
 
         # state hiện tại trong application
@@ -19,12 +28,24 @@ class ElectricalPointMonitorService:
         self._ownership: Dict[str, Set[str]] = ownership
         self._debug = debug
     def on_rs485_snapshot(self, snapshot: Dict[str, bool]):
+        """
+        Xử lý snapshot từ RS485.
+        
+        Args:
+            snapshot (Dict[str, bool]): Snapshot từ RS485.
+        """
         if self._debug:
             print("RS485 snapshot")
             print(snapshot)
         self._handle_snapshot(snapshot, self._ownership.get("rs485", set()))
     
     def on_udp_snapshot(self, snapshot: Dict[str, bool]):
+        """
+        Xử lý snapshot từ UDP.
+        
+        Args:
+            snapshot (Dict[str, bool]): Snapshot từ UDP.
+        """
         if self._debug:
             print("UDP snapshot")
             print(snapshot)

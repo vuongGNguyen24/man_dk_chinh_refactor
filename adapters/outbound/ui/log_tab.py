@@ -9,12 +9,26 @@ LEVEL_STYLE = {
 }
 
 class LogTabAdapter:
-    
+    """
+    Adapter chịu trách nhiệm định dạng và in log sự kiện ra giao diện UI tab log.
+    """
 
-    def __init__(self, view):
+    def __init__(self, view: LogTab):
+        """
+        Khởi tạo adapter cho Log tab.
+        
+        Args:
+            view: Giao diện UI (tab) hiển thị log trực quan.
+        """
         self.view = view
 
     def append(self, event: LogEvent):
+        """
+        Thêm một sự kiện mới vào UI log với định dạng màu sắc tương ứng với cấp độ log.
+        
+        Args:
+            event (LogEvent): Sự kiện chứa thông tin cấp độ và nội dung log.
+        """
         color, icon = LEVEL_STYLE.get(
             event.level, ("#94A3B8", "")
         )

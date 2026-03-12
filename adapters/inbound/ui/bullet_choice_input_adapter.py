@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Literal
 
 from domain.value_objects.bullet_status import BulletStatus
 from ui.views import MainTab
@@ -44,8 +44,8 @@ class BulletChoiceInputAdapter:
         else:
             self._service.choose_bullet(launcher_id=side, index=index)
             
-    def _on_select_all_clicked(self):
-        self._service.select_all_bullets()
+    def _on_select_all_clicked(self, launcher_id: Literal["left", "right"]):
+        self._service.select_all_bullets(launcher_id)
         
     def _on_unselect_all_clicked(self):
         self._service.unselect_all_bullets()

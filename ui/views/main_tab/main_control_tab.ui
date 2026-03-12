@@ -172,7 +172,7 @@ QPushButton:hover {
     <string>Tính toán</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="ok_button">
+  <widget class="QPushButton" name="launch_left_button">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -201,7 +201,7 @@ QPushButton:hover {
   <widget class="QPushButton" name="cancel_button">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>750</x>
      <y>359</y>
      <width>100</width>
      <height>100</height>
@@ -224,10 +224,10 @@ QPushButton:hover {
     <string>Hủy bỏ</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="launch_all_button">
+  <widget class="QPushButton" name="launch_right_button">
    <property name="geometry">
     <rect>
-     <x>750</x>
+     <x>630</x>
      <y>359</y>
      <width>100</width>
      <height>100</height>

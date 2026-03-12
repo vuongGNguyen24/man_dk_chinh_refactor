@@ -6,11 +6,22 @@ from application.dto import CorrectionInput, CorrectionResult
 
 
 class CorrectionApplicationService:
+    """
+    Dịch vụ xử lý việc tính toán hiệu chỉnh góc tà và góc hướng
+    dựa trên các yếu tố khí tượng (nhiệt độ, áp suất) và địa hình (chênh tà).
+    """
     def __init__(
         self,
         interpolator: FiringTableInterpolator,
         slope_service: Union[SlopeCorrectionService, None] = None,
     ):
+        """
+        Khởi tạo dịch vụ hiệu chỉnh.
+        
+        Args:
+            interpolator (FiringTableInterpolator): Bộ nội suy bảng bắn để lấy các hệ số hiệu chỉnh.
+            slope_service (Union[SlopeCorrectionService, None], optional): Dịch vụ hiệu chỉnh góc chênh tà.
+        """
         self.interpolator = interpolator
         self.slope_service = slope_service
         self.current_input: CorrectionInput = None
@@ -23,6 +34,19 @@ class CorrectionApplicationService:
         elev_left_deg: float,
         elev_right_deg: float,
     ) -> CorrectionResult:
+        """
+        Tính toán hiệu ứng hiệu chỉnh do khí tượng và độ nghiêng cho hai giàn dựa trên cự ly.
+        
+        Args:
+            input (CorrectionInput): Đầu vào các điều kiện khí tượng và địa hình.
+            distance_left (float): Cự ly mục tiêu của giàn trái (m).
+            distance_right (float): Cự ly mục tiêu của giàn phải (m).
+            elev_left_deg (float): Góc tà cơ bản của giàn trái (độ).
+            elev_right_deg (float): Góc tà cơ bản của giàn phải (độ).
+            
+        Returns:
+            CorrectionResult: Kết quả lượng sửa hiệu chỉnh (độ) cần cộng thêm.
+        """
         # --- Tra bảng ---
         def elev_corr(range_m: float):
             # print(range_m)

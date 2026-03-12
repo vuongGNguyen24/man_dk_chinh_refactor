@@ -14,8 +14,7 @@ from application.services.correction_application_service import CorrectionApplic
 
 
 class FiringControlService:
-    """Lớp hệ thống điều khiển băn tổng quát cho nhiều giàn
-    """
+    """Lớp điều khiển hoạt động giàn phóng, tính toán phần tử bắn, gửi lệnh điều khiển ra phần cứng"""
     def __init__(self, 
                  input_port: LauncherInputPort, 
                  output_port: LauncherCommandPort, 
@@ -23,6 +22,15 @@ class FiringControlService:
                 #  correction_service: CorrectionApplicationService=None,
                  launchers: Dict[str, Launcher]=None, 
                  firing_status_observer: FiringStatusOutputPort=None):
+        """Khởi tạo dịch vụ điều khiển toàn bộ giàn phóng.
+        
+        Args:
+            input_port (LauncherInputPort): Cổng nhận tín hiệu từ phần cứng.
+            output_port (LauncherCommandPort): Cổng gửi lệnh điều khiển.
+            targeting_system (TargetPositionService): Hệ thống ngắm mục tiêu.
+            launchers (Dict[str, Launcher]): Dictionary map ID -> Giàn phóng.
+            firing_status_observer (FiringStatusOutputPort): Cổng báo trạng thái bắn cho UI.
+        """
         if launchers is None:
             self.launchers = {'left': Launcher(), 'right': Launcher()}
         else:
@@ -88,6 +96,14 @@ class FiringControlService:
         self.firing_status_observer.on_current_angle_changed(launcher_id, packet)
 
     def compute_all_firing_solutions(self, distance_m: float, use_high_table: bool = False) -> Dict[str, FiringSolution]:
+        """Tính phần tử bắn cho tất cả giàn theo cự ly.
+        
+        Args:
+            distance_m (float): cự ly tính bằng mét.
+            use_high_table (bool): có sử dụng bảng bắn cao không.
+            
+        Returns: Dict[str, FiringSolution]
+        """
         target_point = self.targeting_system.calculate_target_position(
             distance_m,
             self.optoelectronics_state.azimuth.current_value,  # hoặc lấy từ optoelectronic state
@@ -97,6 +113,15 @@ class FiringControlService:
         return firing_solutions
     
     def compute_firing_solution(self, launcher_id: str, distance_m: float, use_high_table: bool = False) -> FiringSolution:
+        """Lấy phần tử bắn theo ID giàn.
+        
+        Args:
+            launcher_id (str): ID của giàn phóng.
+            distance_m (float): cự ly tính bằng mét.
+            use_high_table (bool): có sử dụng bảng bắn cao không.
+            
+        Returns: FiringSolution
+        """
         firing_solutions = self.compute_all_firing_solutions(distance_m, use_high_table)
         return firing_solutions[launcher_id]
         
@@ -110,7 +135,7 @@ class FiringControlService:
         self.optoelectronics_state.azimuth.current_value = azimuth_deg    
 
     def select_bullets(self, launcher_id: str):
-        """Gửi tín hiệu chọn đạn cho giàn "launcher_id" ra phần cứng
+        """Gửi tín hiệu chọn đạn dưới dạng list danh sách id ống phóng cho giàn "launcher_id" ra phần cứng
 
         Args:
             launcher_id (str): id của giàn phóng trong application
@@ -126,41 +151,69 @@ class FiringControlService:
         self.output_port.select_bullets(launcher_id, choice_bullets)
         
     def set_target_angle(self, launcher_id: str, azimuth_deg: float, elevation_deg: float, distance_m: float=0):
+        """Thiết lập góc tầm góc hướng mục tiêu cho giàn và gửi xuống hardware.
         
+        Args:
+            launcher_id (str): ID của giàn phóng.
+            azimuth_deg (float): góc phương vị tính bằng độ.
+            elevation_deg (float): góc tà tính bằng độ.
+            distance_m (float): cự ly tính bằng mét.
+        """
         launcher = self.launchers[launcher_id]
         launcher.set_target_angle(normalize_azimuth_angle(azimuth_deg), elevation_deg)
         self.output_port.send_target_angle(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg))
         self.firing_status_observer.on_target_angle_and_distance_changed(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg), distance_m)
         
     def choose_bullet(self, launcher_id: str, index: int):
+        """Chọn đạn số index trên giàn tương ứng và gửi tín hiệu chọn đạn.
+        
+        Args:
+            launcher_id (str): ID của giàn phóng.
+            index (int): index của đạn (1 index base).
+        """
         launcher = self.launchers[launcher_id]
         launcher.choose_bullet(index)
         if self.firing_status_observer:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
+        self.select_bullets(launcher_id)
         
     def unchoose_bullet(self, launcher_id: str, index: int):
+        """Bỏ chọn đạn số index.
+        
+        Args:
+            launcher_id (str): ID của giàn phóng.
+            index (int): index của đạn (1 index base).
+        """
         launcher = self.launchers[launcher_id]
         launcher.unchoose_bullet(index)
         if self.firing_status_observer:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
+        self.select_bullets(launcher_id)
             
-    def select_all_bullets(self):
-        for launcher_id in self.launchers.keys():
+    def select_all_bullets(self, launcher_id: str = None):
+        """Chọn toàn bộ đạn đã nạp trên tất cả các giàn."""
+        keys = self.launchers.keys()
+        if launcher_id:
+            keys = [launcher_id]
+        for launcher_id in keys:
             launcher = self.launchers[launcher_id]
             for index in range(1, launcher.num_ammo + 1):
                 if launcher.get_bullet_status(index) == BulletStatus.LOADED:
                     launcher.choose_bullet(index)
-        
+
+            self.select_bullets(launcher_id)
             if self.firing_status_observer:
                 self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
             
     def unselect_all_bullets(self):
+        """Bỏ chọn tất cả đạn đã được chọn ở tất cả các giàn."""
         for launcher_id in self.launchers.keys():
             launcher = self.launchers[launcher_id]
             for index in range(1, launcher.num_ammo + 1):
                 if launcher.get_bullet_status(index) == BulletStatus.SELECTED:
                     launcher.unchoose_bullet(index)
-        
+                    
+            self.select_bullets(launcher_id)
             if self.firing_status_observer:
                 self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
       

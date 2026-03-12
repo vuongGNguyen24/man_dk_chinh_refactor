@@ -152,3 +152,4 @@ while True:
     send_ammo()
 
     time.sleep(3)
+    break
