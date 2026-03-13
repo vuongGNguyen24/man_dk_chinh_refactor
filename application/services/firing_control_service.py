@@ -1,4 +1,4 @@
-from typing import Tuple, List, Any, Dict
+from typing import Tuple, List, Any, Dict, Literal, Optional
 from enum import Enum
 from domain.value_objects import FiringSolution, Point2D, BulletStatus
 from domain.models.launcher import Launcher
@@ -165,7 +165,7 @@ class FiringControlService:
         self.firing_status_observer.on_target_angle_and_distance_changed(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg), distance_m)
         
     def choose_bullet(self, launcher_id: str, index: int):
-        """Chọn đạn số index trên giàn tương ứng và gửi tín hiệu chọn đạn.
+        """Chọn đạn số index trên giàn tương ứng và gửi tín hiệu chọn đạn xuống hardware.
         
         Args:
             launcher_id (str): ID của giàn phóng.
@@ -178,7 +178,7 @@ class FiringControlService:
         self.select_bullets(launcher_id)
         
     def unchoose_bullet(self, launcher_id: str, index: int):
-        """Bỏ chọn đạn số index.
+        """Bỏ chọn đạn số index và gửi tín hiệu bỏ chọn đạn xuống hardware.
         
         Args:
             launcher_id (str): ID của giàn phóng.
@@ -190,8 +190,12 @@ class FiringControlService:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
         self.select_bullets(launcher_id)
             
-    def select_all_bullets(self, launcher_id: str = None):
-        """Chọn toàn bộ đạn đã nạp trên tất cả các giàn."""
+    def select_all_bullets(self, launcher_id: Optional[Literal['left', 'right']] = None):
+        """Chọn toàn bộ đạn đã nạp trên giàn tương ứng và gửi tín hiệu chọn đạn xuống hardware.
+        
+        Args:
+            launcher_id (Optional[str]): ID của giàn phóng. Nếu không truyền thì chọn toàn bộ đạn trên tất cả các giàn.
+        """
         keys = self.launchers.keys()
         if launcher_id:
             keys = [launcher_id]
@@ -206,7 +210,7 @@ class FiringControlService:
                 self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
             
     def unselect_all_bullets(self):
-        """Bỏ chọn tất cả đạn đã được chọn ở tất cả các giàn."""
+        """Bỏ chọn tất cả đạn đã được chọn ở tất cả các giàn và gửi tín hiệu bỏ chọn đạn xuống hardware."""
         for launcher_id in self.launchers.keys():
             launcher = self.launchers[launcher_id]
             for index in range(1, launcher.num_ammo + 1):

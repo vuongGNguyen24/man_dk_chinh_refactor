@@ -62,9 +62,24 @@ class ElectricalPointMonitorService:
             self._observer.on_points_changed(changed)
 
     def get_state(self, point_id: str) -> bool:
+        """
+        Lấy trạng thái của điểm trên mạch điện.
+        
+        Args:
+            point_id (str): ID của điểm trên mạch điện.
+        
+        Returns:
+            bool: Trạng thái của điểm trên mạch điện.
+        """
         return self._current.get(point_id, False)
 
     def get_all_states(self) -> Dict[str, bool]:
+        """
+        Lấy trạng thái của tất cả các điểm trên mạch điện.
+        
+        Returns:
+            Dict[str, bool]: Trạng thái của tất cả các điểm trên mạch điện.
+        """
         return dict(self._current)
 
     def _diff(

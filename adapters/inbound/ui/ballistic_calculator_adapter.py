@@ -61,7 +61,7 @@ class BallisticCalculatorAdapter(QObject):
                 air_temp=float(self._view.airTempInput.text()),
                 charge_temp=float(self._view.chargeTempInput.text()),
                 kacn14=int(self._view.kacn14Input.text()),
-                slope_angle=float(self._view.slopeAngleInput.text()) #TODO: get from UI
+                slope_angle=float(self._view.slopeAngleInput.text())
             )
         except ValueError:
             print("Error: invalid input")
