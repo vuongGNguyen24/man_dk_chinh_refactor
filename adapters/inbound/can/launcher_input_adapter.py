@@ -74,14 +74,16 @@ class CANLauncherInputAdapter(LauncherInputPort):
             direction = dir_raw * 0.01
             return AnglePacket(angle, direction)
         else:
-            raise ValueError("Invalid angle feedback")
+            print("Invalid angle feedback")
+            return
         
     def on_distance_feedback(self, msg: can.Message) -> float:
         data = msg.data
         if len(data) == 4:
             return struct.unpack("<f", data)[0]
         else:
-            raise ValueError("Invalid distance feedback")
+            print("Invalid distance feedback")
+            return
         
     def on_ammo_status(self, msg: can.Message) -> List[bool]:
         def unpack_bits(n: int, width: int) -> List[bool]:

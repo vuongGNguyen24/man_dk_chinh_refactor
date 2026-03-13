@@ -84,7 +84,8 @@ class UDPLauncherInputAdapter(LauncherInputPort):
     def _on_current_angle_feedback(self, data: List[int]) -> AnglePacket:
 
         if len(data) != 6:
-            raise ValueError("Invalid angle feedback")
+            print("Invalid angle feedback")
+            return
 
         elev_raw = (data[1] << 8) | data[2]
         azimuth_raw = (data[3] << 8) | data[4]
@@ -101,21 +102,24 @@ class UDPLauncherInputAdapter(LauncherInputPort):
     def _on_distance_feedback(self, data: List[int]) -> float:
 
         if len(data) != 4:
-            raise ValueError("Invalid distance feedback")
+            print("Invalid distance feedback")
+            return  
 
         return struct.unpack("<f", bytes(data))[0]
 
     def _on_azimuth_feedback(self, data: List[int]) -> float:
 
         if len(data) != 4:
-            raise ValueError("Invalid azimuth feedback")
+            print("Invalid azimuth feedback")
+            return
 
         return struct.unpack("<f", bytes(data))[0]
 
     def _on_ammo_status(self, data: List[int]) -> List[bool]:
 
         if len(data) < 5:
-            raise ValueError("Invalid ammo status")
+            print("Invalid ammo status")
+            return
 
         def unpack_bits(n: int, width: int) -> List[bool]:
             return [bool((n >> i) & 1) for i in range(width)]
