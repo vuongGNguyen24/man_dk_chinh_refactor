@@ -84,7 +84,14 @@ class CANLauncherInputAdapter(LauncherInputPort):
         else:
             print("Invalid distance feedback")
             return
-        
+    
+    def on_azimuth_feedback(self, msg: can.Message) -> float:
+        data = msg.data
+        if len(data) != 4:
+            print("Invalid azimuth feedback")
+            return
+
+        return struct.unpack("<f", bytes(data))[0]    
     def on_ammo_status(self, msg: can.Message) -> List[bool]:
         def unpack_bits(n: int, width: int) -> List[bool]:
             return [bool((n>>i) & 1) for i in range(0, width)]

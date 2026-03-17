@@ -11,7 +11,7 @@ class PlaceholderDoubleSpinBox(QDoubleSpinBox):
         self._is_empty = True
 
         self.setKeyboardTracking(False)
-        self.lineEdit().textEdited.connect(self._on_text_edited)
+        self.lineEdit().textChanged.connect(self._on_text_edited)
         self.setDecimals(decimals)
         self.setSingleStep(step)
 
