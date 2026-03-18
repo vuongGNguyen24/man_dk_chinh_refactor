@@ -6,7 +6,6 @@ class LauncherInputPort:
 
     def subscribe(self, callback):
         pass
-    
     def select_bullets(self, launcher_id: str):
         pass
     

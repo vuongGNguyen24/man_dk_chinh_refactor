@@ -101,7 +101,7 @@ class CANLauncherCommandAdapter(LauncherCommandPort):
         """
         mask = 0
         for bullet in bullets:
-            mask |= 1 << bullet
+            mask |= 1 << (bullet - 1)
         
         return bytes([
             self.CAN_COMMAND_ID.SELECT_BULLETS_HEADER,

@@ -13,6 +13,7 @@ class FiringWidgetAdapter(FiringStatusOutputPort):
         self._main_tab = main_tab
         self.launcher_ids = ["left", "right"]
     def on_bullet_status_changed(self, launcher_id: str, statuses: List[BulletStatus]) -> None:
+        # print('[update bullet status]')
         # print(statuses)
         selected = set()
         bool_status = []

@@ -36,14 +36,16 @@ class CANServer:
 
         def _loop():
             while self._running:
+                # print("???")
                 msg = bus.recv(timeout=self._timeout)  # blocking wait
                 if msg is None:
                     continue
-
+                print(msg.data)
                 with self._lock:
                     subscribers = list(self._subscribers)
 
                 for function in subscribers:
+                    print(function)
                     function(msg)
 
         self._thread = threading.Thread(target=_loop, daemon=True)
@@ -68,6 +70,7 @@ class CANServer:
         )
         
         with self._lock:
+            # print("")
             bus.send(msg)
     
     def stop(self):

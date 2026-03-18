@@ -35,7 +35,8 @@ class InfoTab(GridBackgroundWidget):
 
         # ===== Info panel =====
         self.info_panel = InfoPanelRenderer(
-            r"ui\views\info_view\infor_panel_reader.ui"
+            
+            "ui/views/info_view/infor_panel_reader.ui"
         )
         self.info_panel.hide()
         layout.addWidget(self.info_panel, stretch=2)

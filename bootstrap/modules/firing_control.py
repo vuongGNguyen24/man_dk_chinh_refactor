@@ -31,7 +31,7 @@ class FireControlModule:
     def _wire(self):
         
         self.infra.can_server.subscribe(self.can_adapter.on_message)
-        self.can_adapter.subscribe(self.fire_service._on_hardware_event)
+        self.can_adapter.subscribe(self.fire_service.on_hardware_event)
     def build(self):
         firing_table_paths = load_firing_table_path.from_yaml("bootstrap/config/firing_table_path.yaml")
         

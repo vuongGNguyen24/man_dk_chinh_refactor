@@ -41,13 +41,14 @@ class FiringControlService:
         self.firing_status_observer = firing_status_observer
         # self.correction_service = correction_service
         self.optoelectronics_state = OptoelectronicsState()
-        self.input_port.subscribe(self._on_hardware_event)
         
-    def _on_hardware_event(self, event_id: HardwareEventId, data: Any) -> None:
+    def on_hardware_event(self, event_id: HardwareEventId, data: Any) -> None:
         """
         Entry point duy nhất cho mọi tín hiệu từ infrastructure
         """
-
+        # print("on hardware event")
+        # print(data)
+        # print(event_id)
         handler_mapping = {
             HardwareEventId.AMMO_STATUS_LEFT: lambda: self._handle_bullet_status("left", data),
             HardwareEventId.AMMO_STATUS_RIGHT: lambda: self._handle_bullet_status("right", data),
@@ -72,7 +73,7 @@ class FiringControlService:
             ValueError: Số lượng đạn không khớp với số lượng giàn
         """
         launcher = self.launchers[launcher_id]
-        
+        print("[serivce handle bullet status]")
         if len(bullets_status) != launcher.num_ammo:
             raise ValueError("Số lượng đạn không khớp với số lượng giàn")
 
