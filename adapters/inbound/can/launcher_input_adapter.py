@@ -71,11 +71,11 @@ class CANLauncherInputAdapter(LauncherInputPort):
         if len(data) == 6:
             elev_raw = (data[1] << 8) | data[2]
             dir_raw  = (data[3] << 8) | data[4]
-            angle = elev_raw * 0.1
+            elevation = elev_raw * 0.1
             if dir_raw >= 0x8000:
                 dir_raw = dir_raw - 0x10000
             direction = dir_raw * 0.01
-            return AnglePacket(angle, direction)
+            return AnglePacket(direction, elevation)
         else:
             print("Invalid angle feedback")
             return
@@ -99,8 +99,8 @@ class CANLauncherInputAdapter(LauncherInputPort):
         def unpack_bits(n: int, width: int) -> List[bool]:
             return [bool((n>>i) & 1) for i in range(0, width)]
         data = msg.data
-        print("handle amno status")
-        print(data)
+        # print("handle amno status")
+        # print(data)
         
         flag1 = unpack_bits(data[2], 8)
         flag2 = unpack_bits(data[3], 8)

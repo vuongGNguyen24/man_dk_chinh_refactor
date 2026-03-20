@@ -11,6 +11,6 @@ class AngleInputValidator:
     
     
 ANGLE_INPUT_VALIDATOR = AngleInputValidator(
-            elevation=AngleThreshold(10, 60),
+            elevation=AngleThreshold(10, 50),
             azimuth=AngleThreshold(-65, 65),
-            distance=Threshold(0, 10000))
+            distance=Threshold(1000, 10000))
