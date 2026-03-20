@@ -46,22 +46,24 @@ class MainTab(GridBackgroundWidget):
         # print(self.bullet_widget._buttons["Giàn trái"][1].fontInfo().pointSize())
         self.compass_left = replace_ui_widget(
             ui, "compass_left",
-            AngleCompass, 35, 35, [210, 360], 0
+            AngleCompass, 0, 0, [360 - ANGLE_INPUT_VALIDATOR.azimuth.min_normal, ANGLE_INPUT_VALIDATOR.azimuth.max_normal], 45
         )
 
         self.compass_right = replace_ui_widget(
             ui, "compass_right",
-            AngleCompass, 45, 40, [180, 330], 0
+            AngleCompass, 0, 0, [360 - ANGLE_INPUT_VALIDATOR.azimuth.min_normal, ANGLE_INPUT_VALIDATOR.azimuth.max_normal], 45
         )
 
         self.half_compass_left = replace_ui_widget(
             ui, "half_compass_left",
-            VerticalCompassWidget, 15, 20
+            VerticalCompassWidget, 0, 0, redline_limits=[ANGLE_INPUT_VALIDATOR.azimuth.min_normal, ANGLE_INPUT_VALIDATOR.azimuth.max_normal],
+            elevation_limits=[ANGLE_INPUT_VALIDATOR.elevation.min_normal, ANGLE_INPUT_VALIDATOR.elevation.max_normal]
         )
 
         self.half_compass_right = replace_ui_widget(
             ui, "half_compass_right",
-            VerticalCompassWidget, 30, 25
+           VerticalCompassWidget, 0, 0, redline_limits=[ANGLE_INPUT_VALIDATOR.azimuth.min_normal, ANGLE_INPUT_VALIDATOR.azimuth.max_normal],
+            elevation_limits=[ANGLE_INPUT_VALIDATOR.elevation.min_normal, ANGLE_INPUT_VALIDATOR.elevation.max_normal]
         )
 
         self.launch_left_button = replace_ui_widget(

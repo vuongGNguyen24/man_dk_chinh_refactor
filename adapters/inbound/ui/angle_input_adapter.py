@@ -37,10 +37,10 @@ class AngleInputAdapter:
         self._view.accepted.connect(self._on_accepted)
         self._view.rejected.connect(self._on_rejected)
          # Realtime update
-        self._view.distanceInput.textChanged.connect(
+        self._view.distanceInput.lineEdit().textChanged.connect(
             self._on_distance_changed
         )
-        self._view.elevationInput.textChanged.connect(
+        self._view.elevationInput.lineEdit().textChanged.connect(
             self._on_elevation_changed
         )
 
@@ -70,7 +70,12 @@ class AngleInputAdapter:
                 return
             
             distance_m = float(distance_text)
-            elevation_deg = float(self._view.elevationDmsLabel.text())
+            
+            try:
+                elevation_deg = float(self._view.elevationDmsLabel.text())
+            except ValueError:
+                return
+            
             self._service.set_target_angle(self._launcher_id, azimuth_deg, elevation_deg, distance_m)
 
         else:
@@ -78,7 +83,11 @@ class AngleInputAdapter:
             if not elevation_text:
                 return
             
-            distance_m = float(self._view.distancePreviewLabel.text())
+            try:
+                distance_m = float(self._view.distancePreviewLabel.text())
+            except ValueError:
+                return
+            
             elevation_deg = float(elevation_text)
             self._service.set_target_angle(self._launcher_id, azimuth_deg, elevation_deg, distance_m)
 
@@ -89,12 +98,17 @@ class AngleInputAdapter:
         pass
     
     def _on_distance_changed(self, text: str) -> None:
+        def set_empty():
+            self._view.elevationDmsLabel.setText("--")
+            self._view.elevationDecimalLabel.setText("--")
         if not text:
+            set_empty()
             return
 
         try:
             distance_m = float(text)
         except ValueError:
+            set_empty()
             return
 
         
@@ -112,12 +126,16 @@ class AngleInputAdapter:
         self._view.elevationDecimalLabel.setText(f"{deg_to_lizard(caculate_elevation_deg):.2f}")
         
     def _on_elevation_changed(self, text: str) -> None:
+        def set_empty():
+            self._view.distancePreviewLabel.setText("--")
         if not text:
+            set_empty()
             return
 
         try:
             elevation_deg = float(text)
         except ValueError:
+            set_empty()
             return
 
 

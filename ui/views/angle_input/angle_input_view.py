@@ -5,6 +5,7 @@ from PyQt5.QtGui import QDoubleValidator
 
 
 from ui.widgets.components.input_type_widget import ToggleAngleInputWidget
+from ui.widgets.components.place_holder_spin_box import PlaceholderDoubleSpinBox
 from dataclasses import dataclass
 from typing import Optional
 from enum import Enum
@@ -66,9 +67,13 @@ class AngleInputView(QWidget):
         self.modeInputContainer = replace_ui_widget(self, 'modeInputContainer', ToggleAngleInputWidget, 
                           text_labels=["Nhập: Khoảng cách", "Nhập: Góc tầm trực tiếp"], button_text=["Chuyển sang Góc tầm", "Chuyển sang Khoảng cách"])
         self.modeButtonContainer = replace_ui_widget(self, 'modeButtonContainer', ToggleAngleInputWidget,
-                          text_labels=["Chế độ: tự động", "Chế độ: thủ công"], button_text=["Chuyển sang thủ công", "Chuyển sang tự động"])
+                          text_labels=["Chế độ: Tự động", "Chế độ: Thủ công"], button_text=["Chuyển sang Thủ công", "Chuyển sang Tự động"])
         self.directionModeButton = replace_ui_widget(self, 'directionModeButton', ToggleAngleInputWidget,
-                          text_labels=["Chế độ: tự động", "Chế độ: thủ công"], button_text=["Chuyển sang thủ công", "Chuyển sang tự động"])
+                          text_labels=["Chế độ: Tự động", "Chế độ: Thủ công"], button_text=["Chuyển sang Thủ công", "Chuyển sang Tự động"])
+        
+        self.distanceInput = replace_ui_widget(self, 'distanceInput', PlaceholderDoubleSpinBox, range=(0, 10000), decimals=2, step=0.1)
+        self.directionInput = replace_ui_widget(self, 'directionInput', PlaceholderDoubleSpinBox, range=(-65, 65), decimals=2, step=0.1)
+        self.elevationInput = replace_ui_widget(self, 'elevationInput', PlaceholderDoubleSpinBox, range=(10, 50), decimals=2, step=0.1)
         
         # ================= OVERLAY & CONTAINER =================
         # self.setStyleSheet("background-color: rgba(0, 0, 0, 150);")
@@ -134,17 +139,21 @@ class AngleInputView(QWidget):
     def __set_validators(self, limits: AngleInputValidator):
         self.limits = limits
         
-        self.distanceInput.setValidator(
-            QDoubleValidator(limits.distance.min_normal, limits.distance.max_normal, 1)
-        )
+        self._init_text(limits)
+        self.distanceInput.setRange(limits.distance.min_normal, limits.distance.max_normal)
+        self.elevationInput.setRange(limits.elevation.min_normal, limits.elevation.max_normal)
+        self.directionInput.setRange(limits.azimuth.min_normal, limits.azimuth.max_normal)
+        # self.distanceInput.setValidator(
+        #     QDoubleValidator(limits.distance.min_normal, limits.distance.max_normal, 1)
+        # )
 
-        self.directionInput.setValidator(
-            QDoubleValidator(limits.azimuth.min_normal, limits.azimuth.max_normal, 1)
-        )
+        # self.directionInput.setValidator(
+        #     QDoubleValidator(limits.azimuth.min_normal, limits.azimuth.max_normal, 1)
+        # )
         
-        self.elevationInput.setValidator(
-            QDoubleValidator(limits.elevation.min_normal, limits.elevation.max_normal, 1)
-        )
+        # self.elevationInput.setValidator(
+        #     QDoubleValidator(limits.elevation.min_normal, limits.elevation.max_normal, 1)
+        # )
         
         
     def _init_text(self, limits: AngleInputValidator):
