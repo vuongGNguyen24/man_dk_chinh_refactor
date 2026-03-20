@@ -73,7 +73,7 @@ class FiringControlService:
             ValueError: Số lượng đạn không khớp với số lượng giàn
         """
         launcher = self.launchers[launcher_id]
-        print("[serivce handle bullet status]")
+        # print("[serivce handle bullet status]")
         if len(bullets_status) != launcher.num_ammo:
             raise ValueError("Số lượng đạn không khớp với số lượng giàn")
 

@@ -9,4 +9,4 @@ udp:
 can:
   channel: 'can0'
   bustype: 'socketcan'
-  bitrate: 500000
+  bitrate: 125000                      

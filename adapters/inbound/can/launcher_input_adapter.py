@@ -57,9 +57,9 @@ class CANLauncherInputAdapter(LauncherInputPort):
             application_id = self._to_application_id_mapping[msg.arbitration_id]
             
             converted_data = handler(msg)
-            print("[CAN on message]", end=' ')
-            print(application_id, converted_data)
-            print(self._subscribers)
+            # print("[CAN on message]", end=' ')
+            # print(application_id, converted_data)
+            # print(self._subscribers)
             for callback in self._subscribers:
                 callback(application_id, converted_data)
         except KeyError:
