@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 from domain.value_objects.angle_handler import AngleHandler, AngleThreshold
 from domain.value_objects.bullet_status import BulletStatus
-import random
+# import random
 @dataclass
 class Launcher:
     """Lớp biểu diễn các trạng thái chính của khẩu pháo."""
@@ -12,7 +12,7 @@ class Launcher:
     elevation_threshold: AngleThreshold = AngleThreshold(12, 65, "°")
     
     def __post_init__(self):
-        self.bullets_statuses = [random.choice([BulletStatus.EMPTY, BulletStatus.LOADED]) for i in range(self.num_ammo)]
+        self.bullets_statuses = [BulletStatus.EMPTY for i in range(self.num_ammo)]
         self.azimuth = AngleHandler("azimuth", 0, "°")
         self.elevation = AngleHandler("elevation", self.elevation_threshold.min_normal, "°")
     

@@ -126,8 +126,8 @@ class CANLauncherCommandAdapter(LauncherCommandPort):
         elevation_bytes = struct.pack("<h", int(packet.elevation * 10))
         data_launch = [
             self.CAN_COMMAND_ID.ANGLE_INPUT_HEADER,
-            *azimuth_bytes,
             *elevation_bytes,
+            *azimuth_bytes,
             self.CAN_COMMAND_ID.END,
         ]
         return bytes(data_launch)
