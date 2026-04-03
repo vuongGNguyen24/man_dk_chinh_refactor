@@ -5,6 +5,7 @@ from .angle.limit import AngleInputValidator
 from .system_status import *
 from .hardware_id import HardwareEventId
 from .optoelectronics_state import OptoelectronicsState
+from .bullet_status import LauncherBulletStatus
 __all__ = [
     "CorrectionInput",
     "CorrectionResult",

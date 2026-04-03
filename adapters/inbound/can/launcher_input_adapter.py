@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple, Callable, Any
 from domain.value_objects import BulletStatus
 from application.ports.launcher_input_port import LauncherInputPort
 from application.dto.angle.packet import AnglePacket
-from application.dto import HardwareEventId
+from application.dto import HardwareEventId, LauncherBulletStatus
 from infrastructure.can.can_server import CANServer
 
 
@@ -68,18 +68,14 @@ class CANLauncherInputAdapter(LauncherInputPort):
         
     def on_current_angle_feedback(self, msg: can.Message) -> AnglePacket:
         data = msg.data
-        if len(data) == 7:
+        if len(data) == 8:
             elev_raw = (data[1] << 8) | data[2]
             dir_raw  = (data[3] << 8) | data[4]
-            elevation = elev_raw * 0.1
+            elevation = round(elev_raw * 0.1, 1)
             if dir_raw >= 0x8000:
                 dir_raw = dir_raw - 0x10000
-            direction = dir_raw * 0.01
-            #TO DO: change the validation in application layer
-            if 0 <= direction <= 180 and 0 <= elevation <= 90:
-                return AnglePacket(direction, elevation)
-            print("Invalid angle feedback")
-            return
+            direction = round(dir_raw * 0.1, 1)
+            return AnglePacket(direction, elevation)
         else:
             print("Invalid angle feedback")
             return
@@ -87,7 +83,7 @@ class CANLauncherInputAdapter(LauncherInputPort):
     def on_distance_feedback(self, msg: can.Message) -> float:
         data = msg.data
         if len(data) == 4:
-            return struct.unpack("<f", data)[0]
+            return round(struct.unpack("<f", data)[0], 2)
         else:
             print("Invalid distance feedback")
             return
@@ -98,15 +94,16 @@ class CANLauncherInputAdapter(LauncherInputPort):
             print("Invalid azimuth feedback")
             return
 
-        return struct.unpack("<f", bytes(data))[0]    
-    def on_ammo_status(self, msg: can.Message) -> List[bool]:
+        return round(struct.unpack("<f", bytes(data))[0], 2)    
+    def on_ammo_status(self, msg: can.Message) -> LauncherBulletStatus:
         def unpack_bits(n: int, width: int) -> List[bool]:
             return [bool((n>>i) & 1) for i in range(0, width)]
         data = msg.data
-        print("handle amno status")
-        print(data)
+        # print("handle amno status")
+        # print(data)
         
         flag1 = unpack_bits(data[2], 8)
         flag2 = unpack_bits(data[3], 8)
         flag3 = unpack_bits(data[4], 2)
-        return flag1 + flag2 + flag3
+        return LauncherBulletStatus(flag1 + flag2 + flag3, 
+                unpack_bits(data[5], 8) + unpack_bits(data[6], 8) + unpack_bits(data[7], 2))

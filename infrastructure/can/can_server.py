@@ -2,7 +2,7 @@ import threading
 from typing import Callable, List, Union
 import can
 from .bus_manager import CANBusManager
-
+import time
 
 class CANServer:
     """
@@ -40,13 +40,14 @@ class CANServer:
                 msg = bus.recv(timeout=self._timeout)  # blocking wait
                 if msg is None:
                     continue
-                print(msg.data)
+                # print(msg.data)
                 with self._lock:
                     subscribers = list(self._subscribers)
 
                 for function in subscribers:
-                    print(function)
+                    # print(function)
                     function(msg)
+                time.sleep(0.01)
 
         self._thread = threading.Thread(target=_loop, daemon=True)
         self._thread.start()

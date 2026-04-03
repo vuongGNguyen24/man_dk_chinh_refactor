@@ -9,6 +9,7 @@ from application.ports.launcher_output_port import LauncherCommandPort
 from application.ports.ui_firing_output_port import FiringStatusOutputPort
 from application.dto.angle.packet import AnglePacket
 from application.dto import OptoelectronicsState, HardwareEventId
+from application.dto.bullet_status import LauncherBulletStatus
 from application.services.target_position_service import TargetPositionService
 from application.services.correction_application_service import CorrectionApplicationService
 
@@ -62,7 +63,7 @@ class FiringControlService:
         if handler:
             handler()
 
-    def _handle_bullet_status(self, launcher_id: str, bullets_status: List[bool]) -> None:
+    def _handle_bullet_status(self, launcher_id: str, bullets_status: LauncherBulletStatus) -> None:
         """Xử lý tín hiệu báo đạn từ phần cứng
 
         Args:
@@ -77,13 +78,20 @@ class FiringControlService:
         if len(bullets_status) != launcher.num_ammo:
             raise ValueError("Số lượng đạn không khớp với số lượng giàn")
 
-        for index, status in enumerate(bullets_status):
+        for index, status in enumerate(zip(bullets_status.loaded, bullets_status.selected)):
             index += 1
-            if status == False:
-                launcher.set_bullet_status(index, BulletStatus.EMPTY)
-            elif launcher.get_bullet_status(index) == BulletStatus.EMPTY:
+            loaded, selected = status
+            if selected:
+                launcher.set_bullet_status(index, BulletStatus.SELECTED)
+            elif loaded:
                 launcher.set_bullet_status(index, BulletStatus.LOADED)
+            else:
+                launcher.set_bullet_status(index, BulletStatus.EMPTY) 
 
+        # for index, status in enumerate(bullets_status.selected):
+        #     index += 1
+        #     if status:
+        #         launcher.set_bullet_status(index, BulletStatus.SELECTED)
         if self.firing_status_observer:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
         
