@@ -17,7 +17,6 @@ class ElectricalModule:
 
     def _build_inbound_adapters(self):
         self.udp_adapter = UDPElectricalPointInputAdapter(
-            self.infra.udp_server,
             load_udp_mapping_from_yaml("bootstrap/config/bit_mask_to_point_id/udp.yaml", 
                                        "bootstrap/config/jetson_ip.yaml"),
         )

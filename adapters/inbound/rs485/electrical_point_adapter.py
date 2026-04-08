@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Callable, List
+from typing import Dict, Optional, Callable, List, Tuple
 import struct
 import time
 from infrastructure.serial import SerialConfig, RS485Transport
@@ -15,7 +15,7 @@ class RS485ElectricalPointInputAdapter(ElectricalPointInputPort):
         self.transport = RS485Transport(serial_config)
         self.subscribers: List[Callable[[Dict[str, bool]], None]] = []
         self.decode_mapping_choice: Dict[int, Dict[int, str]] = decode_mapping_choice
-        self.valid_ids: List[int] = self.decode_mapping_choice.keys()
+        self.valid_ids: List[tuple[int, int]] = self.decode_mapping_choice.keys()
         self.running = False
             
     def subscribe(self, callback: Callable[[Dict[str, bool]], None]):
@@ -23,19 +23,22 @@ class RS485ElectricalPointInputAdapter(ElectricalPointInputPort):
     
     def is_valid_packet(self, packet: bytes) -> bool:
         return (
-            packet[0] in self.vaild_ids 
+            self._get_header_ids(packet) in self.valid_ids
             and packet[-2] == 0x21
             and packet[-1] == 0x22
         )
-        
+    
+    def _get_header_ids(self, packet: bytes) -> Tuple[int, int]:
+        return (packet[0], packet[1])
+
     def read_points(self):
-        packet = self.transport.read(6)
+        packet = self.transport.read(8)
         
         if not packet:
             return None
         
         if self.is_valid_packet(packet):
-            return self._decode_bitmask(packet[1:-2], self.decode_mapping_choice[packet[0]])
+            return self._decode_bitmask(packet[2:6], self.decode_mapping_choice[self._get_header_ids(packet)])
         
         return None
         

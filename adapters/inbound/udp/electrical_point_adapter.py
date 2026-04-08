@@ -10,14 +10,12 @@ class UDPElectricalPointInputAdapter(ElectricalPointInputPort):
     Push-style adapter
     """
 
-    def __init__(self, udp_server:UDPServer, decode_mapping_choice: Dict[Tuple[str, int], Dict[int, str]]):
+    def __init__(self, decode_mapping_choice: Dict[Tuple[str, int], Dict[int, str]]):
 
         self._subscribers: List[Callable[[Dict[str, bool]], None]] = []
         self._lock = threading.Lock()
         self.decode_mapping_choice: Dict[Tuple[str, int], Dict[int, str]] = decode_mapping_choice
         self.valid_ids = [item[-1] for item in self.decode_mapping_choice.keys()]
-        # subscribe vào global UDP server
-        udp_server.subscribe(self.on_message)
 
     def subscribe(self, callback: Callable[[Dict[str, bool]], None]):
         self._subscribers.append(callback)
@@ -29,7 +27,7 @@ class UDPElectricalPointInputAdapter(ElectricalPointInputPort):
         if not self._is_valid_packet(data):
             return
         snapshot = self._decode_bitmask(
-            data=data[1:-2],
+            data=data[2:-2],
             bit_mask_to_point_id=self.decode_mapping_choice[(addr, data[0])],
         )
 
@@ -42,7 +40,7 @@ class UDPElectricalPointInputAdapter(ElectricalPointInputPort):
 
     def _is_valid_packet(self, packet: bytes) -> bool:
         return (
-            len(packet) == 6
+            len(packet) == 8
             and packet[0] in self.vaild_ids 
             and packet[-2] == 0x21
             and packet[-1] == 0x22

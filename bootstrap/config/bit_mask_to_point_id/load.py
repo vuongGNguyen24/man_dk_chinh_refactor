@@ -2,36 +2,38 @@ import yaml
 from typing import Dict, Set, Tuple
 
 
-def load_rs485_mapping_from_yaml(yaml_mapping: str) -> Dict[int, Dict[int, str]]:
+def load_rs485_mapping_from_yaml(yaml_mapping: str) -> Dict[Tuple[int, int], Dict[int, str]]:
     """Khởi tạo mapping từ vị trí bit đến id của điểm điểm cần đo thông điện cho adapter, được gọi khi khởi tạo object
 
     Args:
         yaml_mapping (str): file yaml có các mapping từ bit đến id của điểm điểm cần đo thông điện cho adapter, ví dụ cấu trúc:
-            ban_dk_tai_cho:
-                id: 1
+        ban_dk_tu_xa:
+            id: 1
+            left:
+                id: 0x11
                 mapping:
-                    0: '11'
-                    1: '12'
-                    2: '13'
-                    3: '14'
-                    4: '15'
-                    5: '16'
-                    6: '17'
-                    7: '18'
-                    8: '19'
-                    9: '20'
-                    10: '21'
-                    11: '22'
-                    12: '23'
-                    13: '24'
-                    14: '25'
-                    16: '26'
-            
+                0: '11'
+                1: '13'
+                2: '15'
+            right:
+                id: 0x12
+                mapping:
+                0: '12'
+                1: '14'
+                2: '15'  
         """
     
     with open(yaml_mapping) as f:
         bit_mask_to_point_id = yaml.load(f, Loader=yaml.FullLoader)
-        return {bit_mask_to_point_id['ban_dk_tu_xa']['id']: bit_mask_to_point_id['ban_dk_tu_xa']['mapping']}
+        left_id = bit_mask_to_point_id['ban_dk_tu_xa']['left']['id']
+        right_id = bit_mask_to_point_id['ban_dk_tu_xa']['right']['id']
+        left_mapping = bit_mask_to_point_id['ban_dk_tu_xa']['left']['mapping']
+        right_mapping = bit_mask_to_point_id['ban_dk_tu_xa']['right']['mapping']
+        header_id = bit_mask_to_point_id['ban_dk_tu_xa']['id']
+        return {
+            (header_id, left_id): left_mapping,
+            (header_id, right_id): right_mapping,
+        }
 
 def load_udp_mapping_from_yaml(yaml_mapping: str, ip_addresses_yaml: str) -> Dict[Tuple[int, str], Dict[int, str]]:
     """Khởi tạo mapping từ vị trí bit đến id của điểm điểm cần đo thông điện cho adapter, được gọi khi khởi tạo object
