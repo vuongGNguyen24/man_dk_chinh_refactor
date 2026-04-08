@@ -1,4 +1,5 @@
 from typing import Union
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget, QHBoxLayout
 from PyQt5.QtCore import Qt
 
@@ -44,7 +45,12 @@ class InfoTab(GridBackgroundWidget):
         self.status_indicator = StatusIndicatorWidget(self)
         self.status_indicator.show()
 
-        
+        self.shut_down_button = QtWidgets.QPushButton("Tắt máy", parent=self)
+        self.shut_down_button.clicked.connect(self.on_shut_down_clicked)
+        self.shut_down_button.setFixedHeight(35)
+        self.shut_down_button.setFixedWidth(100)
+        set_multiple_property(self.shut_down_button, role="primary", variant="cancel")
+        self.shut_down_button.show()
         # ===== Signals =====
         self.diagram.selected_node.connect(self._on_node_selected)
         self.setProperty("role", "dialog")
@@ -62,6 +68,12 @@ class InfoTab(GridBackgroundWidget):
             self.height() - h - margin,
             w,
             h
+        )
+        self.shut_down_button.setGeometry(
+            self.width() - self.shut_down_button.width() - margin,
+            self.height() - self.shut_down_button.height() - margin,
+            self.shut_down_button.width(),
+            self.shut_down_button.height()
         )
 
     # --------------------------------------------------
@@ -94,6 +106,11 @@ class InfoTab(GridBackgroundWidget):
             modules.append(module.to_view())
         return modules
 
+    def on_shut_down_clicked(self):
+        """Tắt máy
+        """
+        import os
+        os.system("shutdown now")
 
 if __name__ == "__main__":
     import sys

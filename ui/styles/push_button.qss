@@ -19,6 +19,7 @@ QPushButton[role="primary"][variant="primary"]:pressed {
 /* ---------- CONFIRM (OK) ---------- */
 QPushButton[role="primary"][variant="confirm"] {
     background-color: rgb(0, 130, 0);
+    border-radius: 10px;
     color: white;
 }
 
@@ -33,6 +34,7 @@ QPushButton[role="primary"][variant="confirm"]:pressed {
 /* ---------- CANCEL ---------- */
 QPushButton[role="primary"][variant="cancel"] {
     background-color: rgb(130, 0, 0);
+    border-radius: 10px;
     color: white;
 }
 
