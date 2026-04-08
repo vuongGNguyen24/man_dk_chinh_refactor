@@ -7,8 +7,9 @@ from domain.rules import normalize_azimuth_angle
 from application.ports.launcher_input_port import LauncherInputPort
 from application.ports.launcher_output_port import LauncherCommandPort
 from application.ports.ui_firing_output_port import FiringStatusOutputPort
+from application.ports.log_port import LogPort
 from application.dto.angle.packet import AnglePacket
-from application.dto import OptoelectronicsState, HardwareEventId
+from application.dto import OptoelectronicsState, HardwareEventId, LogEvent
 from application.dto.bullet_status import LauncherBulletStatus
 from application.services.target_position_service import TargetPositionService
 from application.services.correction_application_service import CorrectionApplicationService
@@ -22,15 +23,16 @@ class FiringControlService:
                  targeting_system: TargetPositionService,
                 #  correction_service: CorrectionApplicationService=None,
                  launchers: Dict[str, Launcher]=None, 
-                 firing_status_observer: FiringStatusOutputPort=None):
+                 firing_status_observer: FiringStatusOutputPort=None,
+                 log_port: Optional[LogPort] = None):
         """Khởi tạo dịch vụ điều khiển toàn bộ giàn phóng.
-        
         Args:
             input_port (LauncherInputPort): Cổng nhận tín hiệu từ phần cứng.
             output_port (LauncherCommandPort): Cổng gửi lệnh điều khiển.
             targeting_system (TargetPositionService): Hệ thống ngắm mục tiêu.
             launchers (Dict[str, Launcher]): Dictionary map ID -> Giàn phóng.
             firing_status_observer (FiringStatusOutputPort): Cổng báo trạng thái bắn cho UI.
+            log_port (Optional[LogPort]): Cổng ghi log.
         """
         if launchers is None:
             self.launchers = {'left': Launcher(), 'right': Launcher()}
@@ -42,7 +44,8 @@ class FiringControlService:
         self.firing_status_observer = firing_status_observer
         # self.correction_service = correction_service
         self.optoelectronics_state = OptoelectronicsState()
-        
+        self.log_port = log_port
+
     def on_hardware_event(self, event_id: HardwareEventId, data: Any) -> None:
         """
         Entry point duy nhất cho mọi tín hiệu từ infrastructure
@@ -88,10 +91,7 @@ class FiringControlService:
             else:
                 launcher.set_bullet_status(index, BulletStatus.EMPTY) 
 
-        # for index, status in enumerate(bullets_status.selected):
-        #     index += 1
-        #     if status:
-        #         launcher.set_bullet_status(index, BulletStatus.SELECTED)
+
         if self.firing_status_observer:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
         
@@ -139,9 +139,12 @@ class FiringControlService:
         self.optoelectronics_state.distance.current_value = distance_m
         self.firing_status_observer.on_distance_input_changed('left', distance_m)
         self.firing_status_observer.on_distance_input_changed('right', distance_m)
-    
+        if self.log_port:
+            self.log_port.on_optoelectronic_distance_changed(distance_m)
     def _handle_optoelectronic_azimuth_feedback(self, azimuth_deg: float) -> None:
         self.optoelectronics_state.azimuth.current_value = azimuth_deg    
+        if self.log_port:
+            self.log_port.on_optoelectronic_azimuth_changed(azimuth_deg)
 
     def select_bullets(self, launcher_id: str):
         """Gửi tín hiệu chọn đạn dưới dạng list danh sách id ống phóng cho giàn "launcher_id" ra phần cứng
@@ -158,7 +161,9 @@ class FiringControlService:
                 choice_bullets.append(index)
         
         self.output_port.select_bullets(launcher_id, choice_bullets)
-        
+        if self.log_port:
+            self.log_port.on_choice_bullets_changed(launcher_id, choice_bullets)
+            
     def set_target_angle(self, launcher_id: str, azimuth_deg: float, elevation_deg: float, distance_m: float=0):
         """Thiết lập góc tầm góc hướng mục tiêu cho giàn và gửi xuống hardware.
         
@@ -170,8 +175,11 @@ class FiringControlService:
         """
         launcher = self.launchers[launcher_id]
         launcher.set_target_angle(normalize_azimuth_angle(azimuth_deg), elevation_deg)
-        self.output_port.send_target_angle(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg))
-        self.firing_status_observer.on_target_angle_and_distance_changed(launcher_id, AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg), distance_m)
+        angle_packet_deg = AnglePacket(normalize_azimuth_angle(azimuth_deg), elevation_deg)
+        self.output_port.send_target_angle(launcher_id, angle_packet_deg)
+        self.firing_status_observer.on_target_angle_and_distance_changed(launcher_id, angle_packet_deg, distance_m)
+        if self.log_port:
+            self.log_port.on_target_angle_changed(launcher_id, angle_packet_deg)
         
     def choose_bullet(self, launcher_id: str, index: int):
         """Chọn đạn số index trên giàn tương ứng và gửi tín hiệu chọn đạn xuống hardware.
