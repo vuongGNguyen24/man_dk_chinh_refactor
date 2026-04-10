@@ -69,7 +69,7 @@
     </property>
     <property name="text">
      <string>24V - AQ
-dàn trái</string>
+Giàn phải</string>
     </property>
    </widget>
    <widget class="Line" name="conn_9">
@@ -220,7 +220,7 @@ dàn trái</string>
     </property>
     <property name="text">
      <string>24V - AQ
-dàn phải</string>
+Giàn trái</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_5">

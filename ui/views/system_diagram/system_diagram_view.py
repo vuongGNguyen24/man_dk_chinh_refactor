@@ -20,7 +20,7 @@ class SystemDiagramView(QWidget):
     """
     selected_node = pyqtSignal(str)
     
-    def __init__(self, ui_file: str, svg_path: Union[str, None]=None, fps=40, parent=None, json_connections_path: Union[str, None]=None, node_adapter: Union[QtSystemStatusAdapter, None]=None):
+    def __init__(self, ui_file: str, svg_path: Union[str, None]=None, fps=40, init_error=True,parent=None, json_connections_path: Union[str, None]=None, node_adapter: Union[QtSystemStatusAdapter, None]=None):
         super().__init__(parent)
         
         # 1. Load layout
@@ -29,7 +29,7 @@ class SystemDiagramView(QWidget):
         self.root.setParent(self)
         self._point_to_connections = self._load_mapping(json_connections_path) if json_connections_path else None
         self.connection_error_state: Dict[str, bool] = {}
-
+                
         # 2. Effect manager
         self.effects = EffectManager()
 
@@ -47,6 +47,9 @@ class SystemDiagramView(QWidget):
         # 5. Build connection segments overlay
         self.connection_segments = self._build_connection_segments()
         self.overlay = ConnectionRender(self.connection_segments, self.effects.draw_connections, parent=self.root)
+        if self._point_to_connections:
+            for item in self._point_to_connections.keys():
+                self.set_connection_state(item, init_error)
         self.overlay.resize(self.root.size())
         self.overlay.raise_()   # ⬅️ đảm bảo nằm trên cùng
         

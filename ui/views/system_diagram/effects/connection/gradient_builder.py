@@ -11,7 +11,7 @@ class GradientBuilder:
         self.base_color = base_color
 
         self.normal = QColor(base_color)
-        self.normal.setAlpha(60)
+        self.normal.setAlpha(100)
 
         self.medium = QColor(base_color)
         self.medium.setAlpha(180)

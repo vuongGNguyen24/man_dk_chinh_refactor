@@ -30,6 +30,7 @@ class InfoTab(GridBackgroundWidget):
             ui_file="ui/views/system_diagram/layout/system_diagram.ui",
             fps=30,
             node_adapter=node_adapter,
+            init_error=False,
             json_connections_path="ui/views/system_diagram/layout/system_connection_mapping.json",
         )
         layout.addWidget(self.diagram, stretch=3)

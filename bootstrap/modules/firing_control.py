@@ -65,17 +65,17 @@ class FireControlModule:
         """Builds inbound adapters for UDP and CAN communication."""
         self.udp_adapter = UDPLauncherInputAdapter(self.infra.udp_server)
         self.can_adapter = CANLauncherInputAdapter(self.infra.can_server)
-        self.launcher_input_adapter = LauncherInputAdapter(self.udp_adapter, self.can_adapter)
+        # self.launcher_input_adapter = LauncherInputAdapter(self.udp_adapter, self.can_adapter)
 
     def _wire(self):
         """Wires internal subscriptions between infrastructure and services."""
         # Subscribe adapters to raw server messages
-        self.infra.can_server.subscribe(self.launcher_input_adapter.can_adapter.on_message)
-        self.infra.udp_server.subscribe(self.launcher_input_adapter.udp_adapter.on_message)
+        self.infra.can_server.subscribe(self.can_adapter.on_message)
+        # self.infra.udp_server.subscribe(self.launcher_input_adapter.udp_adapter.on_message)
         
         # Subscribe service to hardware events distilled by adapters
-        self.launcher_input_adapter.can_adapter.subscribe(self.fire_service.on_hardware_event)
-        self.launcher_input_adapter.udp_adapter.subscribe(self.fire_service.on_hardware_event)
+        self.can_adapter.subscribe(self.fire_service.on_hardware_event)
+        # self.launcher_input_adapter.udp_adapter.subscribe(self.fire_service.on_hardware_event)
 
     def build(self):
         """
@@ -104,7 +104,7 @@ class FireControlModule:
         )
         
         self.fire_service = FiringControlService(
-            input_port=self.launcher_input_adapter, 
+            input_port=self.can_adapter, 
             output_port=self.output_port, 
             targeting_system=self.targeting_system,
             firing_status_observer=firing_widget_observer,

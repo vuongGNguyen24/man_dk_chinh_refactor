@@ -69,9 +69,9 @@ class ConnectionPainter:
         painter.setPen(pen)
         painter.drawLine(segment.x1, segment.y1, segment.x2, segment.y2)
 
-
+#error_color = QColor(238, 44, 44)
 class ConnectionEffect:
-    def __init__(self, base_color=QColor(100, 200, 255), error_color=QColor(238, 44, 44)):
+    def __init__(self, base_color=QColor(255, 0, 0), error_color=QColor(100, 200, 255, 40)):
         self.base_color = base_color
         self.error_color = error_color
         self.wave_calc = WaveCalculator()
@@ -100,7 +100,7 @@ class ConnectionEffect:
         waves = self.wave_calc.compute_wave_positions(total_length, elapsed_time)
 
         normal = QColor(self.base_color)
-        normal.setAlpha(60)
+        normal.setAlpha(100)
 
         cursor = 0.0
         for s in segments:
