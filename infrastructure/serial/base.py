@@ -19,15 +19,16 @@ class BaseSerialTransport(ABC):
         if self._serial and self._serial.is_open:
             return
         try:
-            self._serial = serial.Serial(
-                port=self._config.port,
-                baudrate=self._config.baudrate,
-                bytesize=self._config.bytesize,
-                parity=self._config.parity,
-                stopbits=self._config.stopbits,
-                timeout=self._config.timeout,
-                write_timeout=self._config.write_timeout,
-            )
+            with self._lock:
+                self._serial = serial.Serial(
+                    port=self._config.port,
+                    baudrate=self._config.baudrate,
+                    bytesize=self._config.bytesize,
+                    parity=self._config.parity,
+                    stopbits=self._config.stopbits,
+                    timeout=self._config.timeout,
+                    write_timeout=self._config.write_timeout,
+                )
         except serial.SerialException as e:
             raise RuntimeError(f"Serial port {self._config.port} not available") from e
 

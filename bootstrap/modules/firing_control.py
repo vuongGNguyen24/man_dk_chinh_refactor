@@ -149,5 +149,6 @@ class FireControlModule:
     def start(self):
         """Starts the infrastructure servers to begin receiving and sending messages."""
         self.infra.start()
+        self.can_adapter.start()
         
         

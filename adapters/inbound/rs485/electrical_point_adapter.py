@@ -1,6 +1,7 @@
 from typing import Dict, Optional, Callable, List, Tuple
 import struct
 import time
+import threading
 from infrastructure.serial import SerialConfig, RS485Transport
 from application.dto import ElectricalPointStatus
 from application.ports.electrical_circuit import ElectricalPointInputPort
@@ -23,7 +24,8 @@ class RS485ElectricalPointInputAdapter(ElectricalPointInputPort):
     
     def is_valid_packet(self, packet: bytes) -> bool:
         return (
-            self._get_header_ids(packet) in self.valid_ids
+            len(packet) == 8 
+            and self._get_header_ids(packet) in self.valid_ids
             and packet[-2] == 0x21
             and packet[-1] == 0x22
         )
@@ -55,7 +57,7 @@ class RS485ElectricalPointInputAdapter(ElectricalPointInputPort):
         
         
         result: Dict[str, bool] = {}
-        tmp = struct.unpack(">I", data)
+        tmp = struct.unpack("<I", data)
         for bit_index, point_id in bit_mask_to_point_id.items():
             result[point_id] = get_bit(tmp[0], bit_index)
         
@@ -63,11 +65,31 @@ class RS485ElectricalPointInputAdapter(ElectricalPointInputPort):
     
             
     def start(self):
+        if self.running:
+            return
         self.running = True
-        with self.transport:
+        self.transport.open()
+
+        def _loop():
+            last_command_time = time.time()
+            SEND_INTERVAL = 1.5
+            sent_left_laucher = 1
+            sent_data = [0x6D, 0, 1, 0xAE]
             while True:
+                now = time.time()
+                if now - last_command_time > SEND_INTERVAL:
+                    sent_data[1] = (sent_left_laucher ^ 1)
+                    # print(sent_data)
+                    self.transport.write(bytes(sent_data))
+                    sent_left_laucher ^= 1
+                    last_command_time = now
+
                 snapshot = self.read_points()
+                # print(snapshot)
                 if snapshot and self.subscribers:
                     for func in self.subscribers:
                         func(snapshot)
                 time.sleep(0.03)
+
+        self._thread = threading.Thread(target=_loop, daemon=True)
+        self._thread.start()

@@ -58,16 +58,16 @@ class FiringWidgetAdapter(FiringStatusOutputPort):
         
     def on_current_angle_changed(self, launcher_id: str, angle: AnglePacket) -> None:
         #TO DO: change validate to app layer
-        if 10 <= angle.elevation <= 70 and -70 <= angle.azimuth <= 70:
-            self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Góc hướng hiện tại (độ)": angle.azimuth,
-                                                                                    "Góc tầm hiện tại (độ)": angle.elevation})
-            
-            compass: AngleCompass = self._main_tab.compass_left if launcher_id == "left" else self._main_tab.compass_right
-            compass.setCurrentDirection(angle.azimuth)
-            
-            vertical_compass: VerticalCompassWidget = self._main_tab.half_compass_left if launcher_id == "left" else self._main_tab.half_compass_right
-            vertical_compass.setCurrentDirection(angle.azimuth)
-            vertical_compass.setCurrentAngle(angle.elevation)
+        # if 10 <= angle.elevation <= 70 and -70 <= angle.azimuth <= 70:
+        self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Góc hướng hiện tại (độ)": angle.azimuth,
+                                                                                "Góc tầm hiện tại (độ)": angle.elevation})
+        
+        compass: AngleCompass = self._main_tab.compass_left if launcher_id == "left" else self._main_tab.compass_right
+        compass.setCurrentDirection(angle.azimuth)
+        
+        vertical_compass: VerticalCompassWidget = self._main_tab.half_compass_left if launcher_id == "left" else self._main_tab.half_compass_right
+        vertical_compass.setCurrentDirection(angle.azimuth)
+        vertical_compass.setCurrentAngle(angle.elevation)
         
     def on_distance_input_changed(self, launcher_id: str, distance_m: float) -> None:
         angle_input_view: AngleInputView = self._main_tab.angle_input_widget_left if launcher_id == "left" else self._main_tab.angle_input_widget_right

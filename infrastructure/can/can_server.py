@@ -39,6 +39,7 @@ class CANServer:
                 # print("???")
                 msg = bus.recv(timeout=self._timeout)  # blocking wait
                 if msg is None:
+                    time.sleep(0.03)
                     continue
                 # print(msg.data)
                 with self._lock:
@@ -47,7 +48,7 @@ class CANServer:
                 for function in subscribers:
                     # print(function)
                     function(msg)
-                time.sleep(0.01)
+                time.sleep(0.03)
 
         self._thread = threading.Thread(target=_loop, daemon=True)
         self._thread.start()

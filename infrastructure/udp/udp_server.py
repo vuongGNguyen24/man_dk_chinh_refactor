@@ -1,7 +1,7 @@
 import threading
 from typing import Callable, List, Union
 from .socket_manager import UDPSocketManager
-
+import time
 
 class UDPServer:
     """
@@ -42,6 +42,7 @@ class UDPServer:
             while self._running:
                 data, addr = sock.recvfrom(self._buffer_size)
                 if not data:
+                    time.sleep(0.03)
                     continue
                 # print(data)
                 with self._lock:
@@ -49,6 +50,7 @@ class UDPServer:
 
                 for function in subscribers:
                     function(data, addr)
+                time.sleep(0.03)
 
         self._thread = threading.Thread(target=_loop, daemon=True)
         self._thread.start()
