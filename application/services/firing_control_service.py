@@ -84,13 +84,7 @@ class FiringControlService:
         for index, status in enumerate(zip(bullets_status.loaded, bullets_status.selected)):
             index += 1
             loaded, selected = status
-            if selected:
-                launcher.set_bullet_status(index, BulletStatus.SELECTED)
-            elif loaded:
-                launcher.set_bullet_status(index, BulletStatus.LOADED)
-            else:
-                launcher.set_bullet_status(index, BulletStatus.EMPTY) 
-
+            launcher.set_bullet_status(index, BulletStatus(is_loaded=loaded, is_selected=selected))
 
         if self.firing_status_observer:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
@@ -157,7 +151,7 @@ class FiringControlService:
         # lấy danh sách đạn được chọn
         choice_bullets = []
         for index in range(1, launcher.num_ammo + 1):  # index là index của danh sách
-            if launcher.get_bullet_status(index) == BulletStatus.SELECTED:
+            if launcher.get_bullet_status(index).is_selected:
                 choice_bullets.append(index)
         
         self.output_port.select_bullets(launcher_id, choice_bullets)
@@ -189,6 +183,7 @@ class FiringControlService:
             index (int): index của đạn (1 index base).
         """
         launcher = self.launchers[launcher_id]
+        print(f"Choosing bullet {index} on launcher {launcher_id}")
         launcher.choose_bullet(index)
         if self.firing_status_observer:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
@@ -219,7 +214,6 @@ class FiringControlService:
         for launcher_id in keys:
             launcher = self.launchers[launcher_id]
             for index in range(1, launcher.num_ammo + 1):
-                # if launcher.get_bullet_status(index) == BulletStatus.LOADED:
                 launcher.choose_bullet(index)
 
             self.select_bullets(launcher_id)
@@ -231,7 +225,6 @@ class FiringControlService:
         for launcher_id in self.launchers.keys():
             launcher = self.launchers[launcher_id]
             for index in range(1, launcher.num_ammo + 1):
-                # if launcher.get_bullet_status(index) == BulletStatus.SELECTED:
                 launcher.unchoose_bullet(index)
                     
             self.select_bullets(launcher_id)

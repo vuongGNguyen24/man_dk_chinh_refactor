@@ -19,15 +19,16 @@ class FiringWidgetAdapter(FiringStatusOutputPort):
         bool_status = []
         for index, status in enumerate(statuses):
             index += 1
-            if status == BulletStatus.SELECTED:
+            if status.is_selected:
                 selected.add(index)
-            if status != BulletStatus.EMPTY:
+            if status.is_loaded:
                 bool_status.append(True)
             else:
                 bool_status.append(False)
+        # print(selected)
         # print(bool_status)
         self._main_tab.bullet_widget.update_launcher(launcher_id, bool_status, selected)
-        self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Pháo sẵn sàng": sum([1 for status in statuses if status != BulletStatus.EMPTY]),
+        self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Pháo sẵn sàng": sum([1 for status in statuses if status.is_loaded]),
                                                                                    "Pháo đã chọn": len(selected)})
 
     def on_target_angle_and_distance_changed(self, launcher_id: str, angle: AnglePacket, distance_m: float) -> None:

@@ -39,7 +39,9 @@ class BulletChoiceInputAdapter:
             
     def _on_chosen_bullet_clicked(self, side: Literal['left', 'right'], index: int):
         state = self._service.launchers[side].get_bullet_status(index)
-        if state == BulletStatus.SELECTED:
+        is_selected = state.is_selected
+        # print(f"Bullet {index} on {side} is {'selected' if is_selected else 'unselected'}, changing to {'unselected' if is_selected else 'selected'}")
+        if is_selected:
             self._service.unchoose_bullet(launcher_id=side, index=index)
         else:
             self._service.choose_bullet(launcher_id=side, index=index)

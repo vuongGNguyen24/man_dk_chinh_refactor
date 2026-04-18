@@ -83,17 +83,17 @@ class BulletWidget(QWidget):
         selected: set các index được chọn
         colors: dict màu (adapter quyết định)
         """
-        DISABLED, ENABLED, SELECTED = 0, 1, 2
+        DISABLED, ENABLED, EMPTY_AND_SELECTED, SELECTED = 0, 1, 2, 3    
         color_map = {
             DISABLED: self.isometric_theme(f"IsometricButton", 'disabled'),
             ENABLED: self.isometric_theme(f"IsometricButton", 'enabled'),
             SELECTED: self.isometric_theme(f"IsometricButton", 'selected'),
+            EMPTY_AND_SELECTED: self.isometric_theme(f"IsometricButton", 'empty_and_selected'),
         }
         
         #recalculate status
-        for index in selected:
-            if status[index - 1]:
-                status[index - 1] = SELECTED
+        for index in range(1, len(status) + 1):
+            status[index - 1] = status[index - 1] | ((index in selected) << 1)
                 
         
         for i in range(len(status)):

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 from domain.value_objects.angle_handler import AngleHandler, AngleThreshold
 from domain.value_objects.bullet_status import BulletStatus
-# import random
+import random
 @dataclass
 class Launcher:
     """Lớp biểu diễn các trạng thái chính của khẩu pháo."""
@@ -12,7 +12,7 @@ class Launcher:
     elevation_threshold: AngleThreshold = AngleThreshold(12, 65, "°")
     
     def __post_init__(self):
-        self.bullets_statuses = [BulletStatus.EMPTY for i in range(self.num_ammo)]
+        self.bullets_statuses = [BulletStatus(is_loaded=random.choice([True, False]), is_selected=False) for _ in range(self.num_ammo)]
         self.azimuth = AngleHandler("azimuth", 0, "°")
         self.elevation = AngleHandler("elevation", self.elevation_threshold.min_normal, "°")
     
@@ -33,12 +33,16 @@ class Launcher:
     def choose_bullet(self, index: int):
         # if self.get_bullet_status(index) == BulletStatus.EMPTY:
         #     raise ValueError(f"Ống phóng {index} chưa có đạn")
-        self.set_bullet_status(index, BulletStatus.SELECTED)
+        self._change_choice_bullet(index, True)
         
     def unchoose_bullet(self, index: int):
         # if self.get_bullet_status(index) == BulletStatus.EMPTY:
         #     raise ValueError(f"Ống phóng {index} chưa có đạn")
-        self.set_bullet_status(index, BulletStatus.EMPTY)
+        self._change_choice_bullet(index, False)
+        
+    def _change_choice_bullet(self, index: int, is_selected: bool):
+        self.bullets_statuses[index - 1].is_selected = is_selected
+        # print(self.bullets_statuses)
         
     def set_bullet_status(self, index: int, status: BulletStatus):
         self.bullets_statuses[index - 1] = status

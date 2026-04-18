@@ -113,12 +113,7 @@ class FireControlModule:
         
         # Update UI with initial launcher status
         for launcher_id, launcher in self.fire_service.launchers.items():
-            from domain.value_objects.bullet_status import BulletStatus
-            bullet_states = [
-                launcher.get_bullet_status(i) == BulletStatus.LOADED 
-                for i in range(1, launcher.num_ammo + 1)
-            ]
-            self.main_window.main_tab.bullet_widget.update_launcher(launcher_id, bullet_states, {})
+            self.main_window.main_tab.bullet_widget.update_launcher(launcher_id, [False] * launcher.num_ammo, set())
             
         # ui inbound adapters
         self.left_angle_input_adapter = AngleInputAdapter(
