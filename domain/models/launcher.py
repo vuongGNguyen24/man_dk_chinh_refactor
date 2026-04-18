@@ -20,17 +20,25 @@ class Launcher:
         return self.num_ammo
         
     def get_bullet_status(self, index: int) -> BulletStatus:
+        """Lấy trạng thái đạn của ống phóng (1 indexed-base)
+
+        Args:
+            index (int): Số thứ tự ống phóng (1 indexed-base)
+
+        Returns:
+            BulletStatus: EMPTY, LOADED hoặc SELECTED
+        """
         return self.bullets_statuses[index - 1]
     
     def choose_bullet(self, index: int):
-        if self.get_bullet_status(index) == BulletStatus.EMPTY:
-            raise ValueError(f"Ống phóng {index} chưa có đạn")
+        # if self.get_bullet_status(index) == BulletStatus.EMPTY:
+        #     raise ValueError(f"Ống phóng {index} chưa có đạn")
         self.set_bullet_status(index, BulletStatus.SELECTED)
         
     def unchoose_bullet(self, index: int):
-        if self.get_bullet_status(index) == BulletStatus.EMPTY:
-            raise ValueError(f"Ống phóng {index} chưa có đạn")
-        self.set_bullet_status(index, BulletStatus.LOADED)
+        # if self.get_bullet_status(index) == BulletStatus.EMPTY:
+        #     raise ValueError(f"Ống phóng {index} chưa có đạn")
+        self.set_bullet_status(index, BulletStatus.EMPTY)
         
     def set_bullet_status(self, index: int, status: BulletStatus):
         self.bullets_statuses[index - 1] = status

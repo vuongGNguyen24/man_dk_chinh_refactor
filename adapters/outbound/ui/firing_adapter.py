@@ -29,12 +29,7 @@ class FiringWidgetAdapter(FiringStatusOutputPort):
         self._main_tab.bullet_widget.update_launcher(launcher_id, bool_status, selected)
         self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Pháo sẵn sàng": sum([1 for status in statuses if status != BulletStatus.EMPTY]),
                                                                                    "Pháo đã chọn": len(selected)})
-        num_loaded_left_bullet = int(self._main_tab.numeric_data_widget.get_data("left", "Pháo sẵn sàng"))
-        num_loaded_right_bullet = int(self._main_tab.numeric_data_widget.get_data("right", "Pháo sẵn sàng"))
-        num_selected_bullet = int(self._main_tab.numeric_data_widget.get_data("left", "Pháo đã chọn")) + int(self._main_tab.numeric_data_widget.get_data("right", "Pháo đã chọn"))
-        self._main_tab.launch_left_button.apply_visual_state(theme("IsometricButton", 'function_enabled' if num_loaded_left_bullet > 0 else 'disabled'))
-        self._main_tab.launch_right_button.apply_visual_state(theme("IsometricButton", 'function_enabled' if num_loaded_right_bullet > 0 else 'disabled'))
-        self._main_tab.cancel_button.apply_visual_state(theme("IsometricButton", 'function_enabled' if num_selected_bullet > 0 else 'disabled'))
+
     def on_target_angle_and_distance_changed(self, launcher_id: str, angle: AnglePacket, distance_m: float) -> None:
         print(distance_m)
         self._main_tab.numeric_data_widget.update_data_on_launcher(launcher_id, **{"Góc hướng mục tiêu (độ)": angle.azimuth,

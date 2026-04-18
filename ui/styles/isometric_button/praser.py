@@ -27,5 +27,5 @@ class IsometricTheme:
             border_color=parse_color(raw["borderColor"]),
             text_color=parse_color(raw["textColor"]),
             depth=float(raw.get("depth", 5.0)),
-            enabled=(state != "disabled")
+            enabled=True
         )

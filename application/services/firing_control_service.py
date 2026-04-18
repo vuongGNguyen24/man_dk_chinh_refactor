@@ -219,8 +219,8 @@ class FiringControlService:
         for launcher_id in keys:
             launcher = self.launchers[launcher_id]
             for index in range(1, launcher.num_ammo + 1):
-                if launcher.get_bullet_status(index) == BulletStatus.LOADED:
-                    launcher.choose_bullet(index)
+                # if launcher.get_bullet_status(index) == BulletStatus.LOADED:
+                launcher.choose_bullet(index)
 
             self.select_bullets(launcher_id)
             if self.firing_status_observer:
@@ -231,8 +231,8 @@ class FiringControlService:
         for launcher_id in self.launchers.keys():
             launcher = self.launchers[launcher_id]
             for index in range(1, launcher.num_ammo + 1):
-                if launcher.get_bullet_status(index) == BulletStatus.SELECTED:
-                    launcher.unchoose_bullet(index)
+                # if launcher.get_bullet_status(index) == BulletStatus.SELECTED:
+                launcher.unchoose_bullet(index)
                     
             self.select_bullets(launcher_id)
             if self.firing_status_observer:
