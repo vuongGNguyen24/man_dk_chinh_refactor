@@ -12,7 +12,7 @@ from application.dto import HardwareEventId, LauncherBulletStatus
 from infrastructure.can.can_server import CANServer
 
 
-RESET_COMMAND_TIME = 1
+RESET_COMMAND_TIME = 4
 @dataclass(frozen=True)
 class CANArbitrationID:
     # --- Khoảng cách và Hướng từ Quang điện tử ---
