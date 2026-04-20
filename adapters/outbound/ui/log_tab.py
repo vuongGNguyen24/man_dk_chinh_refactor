@@ -1,8 +1,10 @@
+from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from application.dto import LogEvent
 from application.dto.angle.packet import AnglePacket
 from ui.views.log_tab import LogTab
 from application.ports.log_port import LogPort
 from typing import List
+
 LEVEL_STYLE = {
     "INFO":    ("#3B82F6", "ℹ️"),
     "SUCCESS": ("#10B981", "✅"),
@@ -10,10 +12,12 @@ LEVEL_STYLE = {
     "ERROR":   ("#EF4444", "❌"),
 }
 
-class LogTabAdapter(LogPort):
+class LogTabAdapter(QObject, LogPort):
     """
     Adapter chịu trách nhiệm định dạng và in log sự kiện ra giao diện UI tab log.
+    Sử dụng pyqtSignal để đảm bảo thread-safe khi ghi log từ background thread.
     """
+    sig_append_log = pyqtSignal(object)
 
     def __init__(self, view: LogTab):
         """
@@ -22,15 +26,20 @@ class LogTabAdapter(LogPort):
         Args:
             view: Giao diện UI (tab) hiển thị log trực quan.
         """
+        super().__init__()
         self.view = view
+        # Kết nối signal tới hàm thực thi UI trên luồng chính
+        self.sig_append_log.connect(self._do_append_log)
 
     def append(self, event: LogEvent):
         """
-        Thêm một sự kiện mới vào UI log với định dạng màu sắc tương ứng với cấp độ log.
-        
-        Args:
-            event (LogEvent): Sự kiện chứa thông tin cấp độ và nội dung log.
+        Thêm một sự kiện mới vào UI log.
+        Hàm này có thể được gọi từ bất kỳ luồng nào.
         """
+        self.sig_append_log.emit(event)
+
+    @pyqtSlot(object)
+    def _do_append_log(self, event: LogEvent):
         color, icon = LEVEL_STYLE.get(
             event.level, ("#94A3B8", "")
         )
@@ -63,4 +72,3 @@ class LogTabAdapter(LogPort):
     
     def on_optoelectronic_azimuth_changed(self, azimuth_deg: float) -> None:
         self.append(LogEvent("INFO", f"Nhận được góc hướng từ QĐT: {azimuth_deg}"))
-
