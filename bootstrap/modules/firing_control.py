@@ -146,4 +146,16 @@ class FireControlModule:
         self.infra.start()
         self.can_adapter.start()
         
+
+class MockFireControlModule(FireControlModule):
+    def _build_inbound_adapters(self):
+        self.udp_adapter = UDPLauncherInputAdapter(self.infra.udp_server)
+        self.can_adapter = mock.mock_launcher_input_adapter.MockLauncherInputAdapter()
         
+    def _wire(self):
+        """Wires internal subscriptions between infrastructure and services."""
+        
+        self.can_adapter.subscribe(self.fire_service.on_hardware_event)
+
+    def start(self):
+        self.can_adapter.start()

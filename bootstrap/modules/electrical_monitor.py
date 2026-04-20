@@ -100,7 +100,12 @@ class MockElectricalModule(ElectricalModule):
                 "bootstrap/config/bit_mask_to_point_id/rs485.yaml",
             ),
         )
-        
+    
+    def _wire(self):
+        """Wire adapters to services and infrastructure."""
+        # self.infra.udp_server.subscribe(self.udp_adapter.on_message)
+        self.udp_adapter.subscribe(self.fire_service.on_udp_snapshot)
+        self.rs485_adapter.subscribe(self.main_service.on_rs485_snapshot)
     def start(self):
         """Start mock adapters after base start."""
         super().start()
