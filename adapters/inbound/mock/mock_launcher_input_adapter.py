@@ -52,7 +52,7 @@ class MockLauncherInputAdapter(LauncherInputPort):
         while self._running:
             # Randomly select an event to trigger
             event_id = random.choice(events)
-            print("event id", event_id)
+            # print("event id", event_id)
             if event_id in [HardwareEventId.AMMO_STATUS_LEFT, HardwareEventId.AMMO_STATUS_RIGHT]:
                 data = self._generate_random_ammo_status()
             elif event_id in [HardwareEventId.ANGLE_LEFT, HardwareEventId.ANGLE_RIGHT]:

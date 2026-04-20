@@ -12,7 +12,7 @@ class Launcher:
     elevation_threshold: AngleThreshold = AngleThreshold(12, 65, "°")
     
     def __post_init__(self):
-        self.bullets_statuses = [BulletStatus(is_loaded=random.choice([True, False]), is_selected=False) for _ in range(self.num_ammo)]
+        self.bullets_statuses = [BulletStatus.empty() for _ in range(self.num_ammo)]
         self.azimuth = AngleHandler("azimuth", 0, "°")
         self.elevation = AngleHandler("elevation", self.elevation_threshold.min_normal, "°")
     

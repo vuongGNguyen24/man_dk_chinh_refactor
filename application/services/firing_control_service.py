@@ -183,7 +183,7 @@ class FiringControlService:
             index (int): index của đạn (1 index base).
         """
         launcher = self.launchers[launcher_id]
-        print(f"Choosing bullet {index} on launcher {launcher_id}")
+        # print(f"Choosing bullet {index} on launcher {launcher_id}")
         launcher.choose_bullet(index)
         if self.firing_status_observer:
             self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
