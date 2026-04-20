@@ -20,7 +20,7 @@ IsometricButton:
     textColor: "#000000"
     iconColor: "#000000"
     iconAlpha: 255
-    depth: 3.0
+    depth: 9.0
   
   empty_and_selected:
     topColor: "#009000"
