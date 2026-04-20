@@ -1,3 +1,9 @@
+"""
+Module for building linear gradients for animated connections.
+This module provides the GradientBuilder class which calculates color stops
+to create a moving wave effect on line segments.
+"""
+
 import math
 from abc import ABC, abstractmethod
 from typing import List, Dict
@@ -7,7 +13,25 @@ from PyQt5.QtGui import QPainter, QPen, QColor, QBrush, QFont, QFontMetrics, QLi
 from PyQt5.QtWidgets import QWidget, QFrame
 
 class GradientBuilder:
+    """
+    Builder for calculating gradient stops for connection animations.
+
+    It creates a list of color stops for a QLinearGradient to simulate a bright
+    pulse or wave moving along a path.
+
+    Attributes:
+        base_color: The reference color used for the gradient.
+        normal: The base color with low alpha for the background line.
+        medium: The base color with medium alpha for the wave edges.
+        bright: A brightened version of the base color for the wave center.
+    """
     def __init__(self, base_color: QColor):
+        """
+        Initializes the GradientBuilder with a base color.
+
+        Args:
+            base_color: The QColor to use as the foundation for the gradient.
+        """
         self.base_color = base_color
 
         self.normal = QColor(base_color)
@@ -31,6 +55,19 @@ class GradientBuilder:
         wave_positions: List[float],
         wave_length: float,
     ) -> Dict[float, QColor]:
+        """
+        Builds a dictionary of gradient stops for a specific path segment.
+
+        Args:
+            seg_start: The starting distance of this segment along the total path.
+            seg_length: The length of this specific segment.
+            total_length: The total length of the entire connection path.
+            wave_positions: List of wave center positions along the path.
+            wave_length: The total width of a single wave.
+
+        Returns:
+            A dictionary mapping stop positions (0.0 to 1.0) to QColor objects.
+        """
         stops = {}
         half = wave_length / 2
 
@@ -59,3 +96,4 @@ class GradientBuilder:
                         stops[key] = color
 
         return {k / 1000.0: v for k, v in stops.items()}
+

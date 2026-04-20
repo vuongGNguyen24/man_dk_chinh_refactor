@@ -1,3 +1,9 @@
+"""
+Module for the main system diagram view.
+This module provides a widget that renders the entire system diagram, including
+nodes, group boxes, and animated connections.
+"""
+
 from PyQt5.QtWidgets import QWidget, QFrame
 from PyQt5.QtCore import QRect, QTimer, Qt, pyqtSignal
 from typing import List, Union, Dict
@@ -13,14 +19,29 @@ from application.dto import NodeStatus
 
 class SystemDiagramView(QWidget):
     """
-    Widget render toàn bộ system diagram:
-    - layout từ .ui
-    - node + group box dùng style effect
-    - connection dùng QPainter
+    Main widget for rendering the system diagram.
+
+    It loads the layout from a .ui file, applies visual effects to nodes and group boxes,
+    and renders animated connections using a custom QPainter overlay.
+
+    Attributes:
+        selected_node (pyqtSignal): Signal emitted when a node is clicked, carrying the node ID.
     """
     selected_node = pyqtSignal(str)
     
-    def __init__(self, ui_file: str, svg_path: Union[str, None]=None, fps=40, init_error=True,parent=None, json_connections_path: Union[str, None]=None, node_adapter: Union[QtSystemStatusAdapter, None]=None):
+    def __init__(self, ui_file: str, svg_path: Union[str, None]=None, fps=40, init_error=True, parent=None, json_connections_path: Union[str, None]=None, node_adapter: Union[QtSystemStatusAdapter, None]=None):
+        """
+        Initializes the SystemDiagramView.
+
+        Args:
+            ui_file: Path to the .ui file for layout.
+            svg_path: Path to the SVG icon file for ground indicators.
+            fps: Frames per second for animations.
+            init_error: Initial error state for connections.
+            parent: Parent widget.
+            json_connections_path: Path to the JSON mapping file for connections.
+            node_adapter: Adapter for receiving node status updates.
+        """
         super().__init__(parent)
         
         # 1. Load layout
@@ -65,10 +86,22 @@ class SystemDiagramView(QWidget):
         self.resize(self.root.size())
     
     def _load_mapping(self, path: str) -> Dict[str, List[str]]:
+        """
+        Loads connection mapping from a JSON file.
+
+        Args:
+            path: Path to the JSON file.
+
+        Returns:
+            Dictionary mapping connection point IDs to lists of item IDs.
+        """
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     
     def _init_static_effects(self):
+        """
+        Initializes static visual effects for group boxes and nodes.
+        """
         for object_name, group_box in self.group_boxes.items():
             self.effects.apply_group_box_effect(group_box)
         
@@ -76,24 +109,36 @@ class SystemDiagramView(QWidget):
             self.effects.apply_node_effect(node, has_error=False)
     
     def _on_tick(self):
+        """
+        Timer callback for updating animations.
+        """
         if self.effects.animation_enabled:
             self.overlay.update()
 
     
     
     def _connect_signals(self):
+        """
+        Converts QLabels to ClickableLabels and connects their clicked signals.
+        """
         for object_name, label in self.nodes.items():
             label = ClickableLabel.from_qlabel(self.root, object_name, node_id=object_name)
             self.nodes[object_name] = label
             label.clicked.connect(self._on_node_clicked)
 
     def _on_node_clicked(self, node_id: str):
+        """
+        Handles node click events.
+
+        Args:
+            node_id: ID of the clicked node.
+        """
         # print(node_id)
         self.selected_node.emit(node_id)
     
     def _insert_svg_icons(self):
         """
-        Insert icon to node
+        Inserts SVG icons into ground indicator labels.
         """
         svg_string = load_svg_text(self.svg_path)
         svg_string = recolor_svg(svg_string, "#16b0d6")
@@ -103,6 +148,15 @@ class SystemDiagramView(QWidget):
             gnd_label.setPixmap(icon)
     
     def _map_connection_frames_to_segments(self, connection_frames: Union[List[QFrame], None]=None) -> List[PathSegment]:
+        """
+        Maps QFrame rectangles to PathSegment objects for rendering.
+
+        Args:
+            connection_frames: List of QFrames to map. If None, uses all collected connection frames.
+
+        Returns:
+            List of PathSegment objects representing the connections.
+        """
         from PyQt5.QtCore import QPoint
         
         segments = []
@@ -135,7 +189,10 @@ class SystemDiagramView(QWidget):
     
     def _build_connection_segments(self) -> Dict[str, List[PathSegment]]:
         """
-        Convert QFrame connection placeholders to PathSegment list
+        Converts QFrame placeholders and node connections to a mapping of segments.
+
+        Returns:
+            Dictionary mapping point IDs to lists of PathSegments.
         """
         if not self._point_to_connections:
             return {None: self._map_connection_frames_to_segments()}
@@ -160,12 +217,25 @@ class SystemDiagramView(QWidget):
         return connection_segments_map
     
     def _on_node_state_changed(self, node_state: NodeStatus):
+        """
+        Handles node state change updates.
+
+        Args:
+            node_state: The new status of the node.
+        """
         node_id = node_state.node_id
         has_error = node_state.has_error
         node = self.nodes.get(f"node_{node_id}")
         self.effects.apply_node_effect(node, has_error)
     
     def set_connection_state(self, point_id: str, has_error: bool):
+        """
+        Sets the visual state of a connection and its associated nodes.
+
+        Args:
+            point_id: ID of the connection point.
+            has_error: True if the connection is in an error state.
+        """
         self.overlay.connection_state[point_id] = has_error
         
         # Cập nhật style cho các nodes đi kèm với connection này (nếu có)
@@ -190,6 +260,7 @@ if __name__ == "__main__":
     renderer.show()
 
     sys.exit(app.exec_())
+
 
 
     
