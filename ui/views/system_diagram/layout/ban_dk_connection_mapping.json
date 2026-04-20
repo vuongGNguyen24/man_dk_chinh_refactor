@@ -1,8 +1,8 @@
 {
-    "11": ["conn_31"],
-    "12": ["conn_30"],
-    "13": ["conn_33"],
-    "14": ["conn_32"],
+    "11": ["conn_31", "node_role1_4"],
+    "12": ["conn_30", "node_role2_4"],
+    "13": ["conn_33", "node_role1_5"],
+    "14": ["conn_32", "node_role2_5"],
     "15": ["conn_36", "conn_63", "conn_37", "conn_38", "conn_9"],
     "16": ["conn_35", "conn_39", "conn_34", "conn_64", "conn_40", "conn_41", "conn_42", "conn_43"],
     "17": ["conn_44", "conn_15", "conn_45", "conn_46", "conn_14"],

@@ -139,9 +139,24 @@ class SystemDiagramView(QWidget):
         """
         if not self._point_to_connections:
             return {None: self._map_connection_frames_to_segments()}
+            
         connection_segments_map = {}
-        for point_id, connection_ids in self._point_to_connections.items():
-            connection_segments_map[point_id] = self._map_connection_frames_to_segments([self.connection_frames[connection_id] for connection_id in connection_ids])
+        self.point_to_nodes_map = {}
+        
+        for point_id, item_ids in self._point_to_connections.items():
+            conn_frames = []
+            node_ids = []
+            for item_id in item_ids:
+                if item_id in self.connection_frames:
+                    conn_frames.append(self.connection_frames[item_id])
+                elif item_id in self.nodes:
+                    node_ids.append(item_id)
+                elif f"node_{item_id}" in self.nodes:
+                    node_ids.append(f"node_{item_id}")
+                    
+            connection_segments_map[point_id] = self._map_connection_frames_to_segments(conn_frames)
+            self.point_to_nodes_map[point_id] = node_ids
+            
         return connection_segments_map
     
     def _on_node_state_changed(self, node_state: NodeStatus):
@@ -150,8 +165,19 @@ class SystemDiagramView(QWidget):
         node = self.nodes.get(f"node_{node_id}")
         self.effects.apply_node_effect(node, has_error)
     
-    def set_connection_state(self, connection_id: str, has_error: bool):
-        self.overlay.connection_state[connection_id] = has_error
+    def set_connection_state(self, point_id: str, has_error: bool):
+        self.overlay.connection_state[point_id] = has_error
+        
+        # Cập nhật style cho các nodes đi kèm với connection này (nếu có)
+        if hasattr(self, 'point_to_nodes_map') and point_id in self.point_to_nodes_map:
+            for node_id in self.point_to_nodes_map[point_id]:
+                node = self.nodes.get(node_id)
+                if node:
+                    state_str = "electric_disconnected" if has_error else "electric_connected"
+                    node.setProperty("state", state_str)
+                    node.style().unpolish(node)
+                    node.style().polish(node)
+                    node.update()
         
 if __name__ == "__main__":
     import sys

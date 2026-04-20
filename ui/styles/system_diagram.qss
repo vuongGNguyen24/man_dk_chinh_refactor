@@ -10,6 +10,18 @@ QLabel[role="node"][state="normal"] {
     border: 2px solid rgb(100, 200, 255);
 }
 
+QLabel[role="node"][state="electric_disconnected"] {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(100, 200, 255);
+}
+
+QLabel[role="node"][state="electric_connected"] {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(255, 0, 0);
+}
+
 QGroupBox[role="system"] {
     border: 2px dashed rgb(255, 255, 255);
     background-color: rgba(0, 0, 0, 0);
