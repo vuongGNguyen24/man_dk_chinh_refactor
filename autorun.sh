@@ -23,11 +23,12 @@ if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
 fi
 
 # Đường dẫn dự án
-cd /home/nvidia/Downloads/man_dk_chinh_refactor
+cd /home/nvidia/Documents/man_dk_chinh_refactor
 
 # Kích hoạt Conda
-source /home/nvidia/miniconda3/etc/profile.d/conda.sh
-conda activate wm18
+source /home/nvidia/Downloads/anaconda3/etc/profile.d/conda.sh
+conda activate test
+
 
 # Chạy main.py
 python main.py
