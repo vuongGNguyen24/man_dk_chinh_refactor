@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QLabel
 from PyQt5.QtGui import QColor, QFont
 from PyQt5.QtCore import Qt, pyqtSignal
-from typing import List, Set, Dict
+from typing import List, Set, Dict, Literal
 
 from ..components.isometric_buttons import IsometricButton, IsometricVisualState, IsometricRoundButton
 from ui.styles.isometric_button.praser import IsometricTheme
@@ -72,6 +72,13 @@ class BulletWidget(QWidget):
 
                 self._buttons[launcher_id][index] = btn
     
+    def disable_launcher(self, side: Literal['left', 'right']):
+        
+        for index in self._buttons[side].keys():
+            btn = self._buttons[side][index]
+            btn.setFont(QFont("Tahoma", 18, QFont.Bold))
+            btn.apply_visual_state(self.isometric_theme(f"IsometricButton", 'disabled'))        
+    
     def update_launcher(
         self,
         side: str,
@@ -83,9 +90,9 @@ class BulletWidget(QWidget):
         selected: set các index được chọn
         colors: dict màu (adapter quyết định)
         """
-        DISABLED, ENABLED, EMPTY_AND_SELECTED, SELECTED = 0, 1, 2, 3    
+        EMPTY, ENABLED, EMPTY_AND_SELECTED, SELECTED = 0, 1, 2, 3    
         color_map = {
-            DISABLED: self.isometric_theme(f"IsometricButton", 'disabled'),
+            EMPTY: self.isometric_theme(f"IsometricButton", 'empty'),
             ENABLED: self.isometric_theme(f"IsometricButton", 'enabled'),
             SELECTED: self.isometric_theme(f"IsometricButton", 'selected'),
             EMPTY_AND_SELECTED: self.isometric_theme(f"IsometricButton", 'empty_and_selected'),

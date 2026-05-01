@@ -60,6 +60,9 @@ class FiringControlService:
             HardwareEventId.ANGLE_RIGHT: lambda: self._handle_current_angle_feedback("right", data),
             HardwareEventId.DISTANCE: lambda: self._handle_distance_feedback(data),
             HardwareEventId.AZIMUTH: lambda: self._handle_optoelectronic_azimuth_feedback(data),
+            HardwareEventId.DISABLE_LEFT: lambda: self.disable_launcher('left'),
+            HardwareEventId.DISABLE_RIGHT: lambda: self.disable_launcher('right')
+            
         }
 
         handler = handler_mapping.get(event_id)
@@ -230,4 +233,7 @@ class FiringControlService:
             self.select_bullets(launcher_id)
             if self.firing_status_observer:
                 self.firing_status_observer.on_bullet_status_changed(launcher_id, launcher.bullets_statuses)
-      
+
+    def disable_launcher(self, launcher_id: Literal['left', 'right']):
+        
+        self.firing_status_observer.disable_launcher(launcher_id)

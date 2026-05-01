@@ -30,6 +30,14 @@ IsometricButton:
     iconAlpha: 255
     depth: 3.0
 
+  empty:
+    topColor: "#121212"
+    borderColor: "rgba(255,255,255,48)"
+    textColor: "rgba(255,255,255,48)"
+    iconColor: "#ffffff"
+    iconAlpha: 48
+    depth: 9.0
+
   disabled:
     topColor: "#121212"
     borderColor: "rgba(255,255,255,48)"

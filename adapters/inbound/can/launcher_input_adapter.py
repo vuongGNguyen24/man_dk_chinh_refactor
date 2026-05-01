@@ -3,7 +3,7 @@ import can
 import threading
 import time
 from dataclasses import dataclass
-from typing import Dict, List, Tuple, Callable, Any
+from typing import Dict, List, Tuple, Callable, Any, Literal
 
 from domain.value_objects import BulletStatus
 from application.ports.launcher_input_port import LauncherInputPort
@@ -113,6 +113,11 @@ class CANLauncherInputAdapter(LauncherInputPort):
         return LauncherBulletStatus(flag1 + flag2 + flag3, 
                 unpack_bits(data[5], 8) + unpack_bits(data[6], 8) + unpack_bits(data[7], 2))
     
+    def disable_launcher(self, launcher_id: Literal['left', 'right']):
+        application_id = HardwareEventId.DISABLE_LEFT if launcher_id == 'left' else HardwareEventId.DISABLE_RIGHT
+        for callback in self._subscribers:
+            callback(application_id, None)
+    
     def start(self):
         
         def _loop():
@@ -121,6 +126,10 @@ class CANLauncherInputAdapter(LauncherInputPort):
             self.CAN_ARBITRATION_ID.ANGLE_CANNON_RIGHT: 8,
             self.CAN_ARBITRATION_ID.AMMO_STATUS_LEFT: 8,
             self.CAN_ARBITRATION_ID.AMMO_STATUS_RIGHT: 8}
+            
+            def in_amno_can_id(can_id: int):
+                return can_id == self.CAN_ARBITRATION_ID.AMMO_STATUS_LEFT or can_id == self.CAN_ARBITRATION_ID.AMMO_STATUS_RIGHT
+            
             while True:
                 now = time.time()
                 need_delete_id: List[int] = []
@@ -130,7 +139,11 @@ class CANLauncherInputAdapter(LauncherInputPort):
                     if now - last_command_time < RESET_COMMAND_TIME:
                         continue
                     print("reset id", hex(can_id))
-                    self.on_message(can.Message(arbitration_id=can_id, 
+                    if in_amno_can_id(can_id):
+                        launcher_id = 'left' if can_id == self.CAN_ARBITRATION_ID.AMMO_STATUS_LEFT else 'right'
+                        self.disable_launcher(launcher_id)
+                    else:
+                        self.on_message(can.Message(arbitration_id=can_id, 
                                                 data=bytes([0] * PACKET_LENGTH[can_id])))
                     need_delete_id.append(can_id)
                 time.sleep(0.5)
