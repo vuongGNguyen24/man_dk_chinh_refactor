@@ -17,7 +17,8 @@ class FiringWidgetAdapter(QObject, FiringStatusOutputPort):
     sig_target_angle_and_distance_changed = pyqtSignal(str, object, float)
     sig_current_angle_changed = pyqtSignal(str, object)
     sig_distance_input_changed = pyqtSignal(str, float)
-
+    sig_disable_launcher = pyqtSignal(str)
+    
     def __init__(self, main_tab: MainTab):
         super().__init__()
         self._main_tab = main_tab
@@ -27,7 +28,8 @@ class FiringWidgetAdapter(QObject, FiringStatusOutputPort):
         self.sig_target_angle_and_distance_changed.connect(self._do_update_target_angle_and_distance)
         self.sig_current_angle_changed.connect(self._do_update_current_angle)
         self.sig_distance_input_changed.connect(self._do_update_distance_input)
-
+        self.sig_disable_launcher.connect(self._do_disable_launcher)
+        
     def on_bullet_status_changed(self, launcher_id: str, statuses: List[BulletStatus]) -> None:
         self.sig_bullet_status_changed.emit(launcher_id, statuses)
 
@@ -40,6 +42,13 @@ class FiringWidgetAdapter(QObject, FiringStatusOutputPort):
     def on_distance_input_changed(self, launcher_id: str, distance_m: float) -> None:
         self.sig_distance_input_changed.emit(launcher_id, distance_m)
 
+    def disable_launcher(self, launcher_id: str):
+        self.sig_disable_launcher.emit(launcher_id)
+        
+    @pyqtSlot(str)
+    def _do_disable_launcher(self, launcher_id: str):
+        self._main_tab.disable_launcher(launcher_id)
+    
     @pyqtSlot(str, list)
     def _do_update_bullet_status(self, launcher_id: str, statuses: List[BulletStatus]) -> None:
         selected = set()

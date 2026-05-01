@@ -6,3 +6,5 @@ class HardwareEventId(str, Enum):
     ANGLE_RIGHT = "angle_right"
     DISTANCE = "distance"
     AZIMUTH = "azimuth"
+    DISABLE_LEFT = "disable_left"
+    DISABLE_RIGHT = "disable_right"

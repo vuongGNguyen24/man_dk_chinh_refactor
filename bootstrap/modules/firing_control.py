@@ -113,7 +113,7 @@ class FireControlModule:
         
         # Update UI with initial launcher status
         for launcher_id, launcher in self.fire_service.launchers.items():
-            self.main_window.main_tab.bullet_widget.update_launcher(launcher_id, [False] * launcher.num_ammo, set())
+            self.main_window.main_tab.bullet_widget.disable_launcher(launcher_id)
             
         # ui inbound adapters
         self.left_angle_input_adapter = AngleInputAdapter(

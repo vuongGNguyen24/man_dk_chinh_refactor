@@ -1,3 +1,5 @@
+from typing import Literal
+
 from PyQt5 import QtCore
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QWidget
@@ -123,23 +125,9 @@ class MainTab(GridBackgroundWidget):
         self.angle_input_widget_left.rejected.connect(lambda: self.on_angle_input_rejected("left"))
         self.angle_input_widget_right.rejected.connect(lambda: self.on_angle_input_rejected("right"))
         # self.cofimation_widget.confirmed.connect(self.launch_clicked.emit)
-    
-    # def on_launch_clicked(self):
-
-    #     num_choose_bullet = int(self.numeric_data_widget.get_data("left", "Pháo đã chọn")) + int(self.numeric_data_widget.get_data("right", "Pháo đã chọn"))
-    #     self.cofimation_widget.show_confirmation("Thông báo", f"Xác nhận chọn {num_choose_bullet} đạn")
-        
-    # # def on_launch_all_clicked(self, launcher_id: str):
-    # #     #chọn hết tất cả đạn đang có
-    # #     self.select_all_clicked.emit(launcher_id)
-    #     # self.on_launch_clicked()
-        
-    # def on_cancel_launch_clicked(self):
-    #     self.unselect_all_clicked.emit()
-    #     # self.cofimation_widget.show_confirmation("Thông báo", f"Xác nhận hủy chọn {num_choose_bullet} đạn")
         
     def on_angle_input_clicked(self, direction: str):
-        print(direction)
+        # print(direction)
         if direction == "left":
             self.angle_input_widget_left.show()
         elif direction == "right":
@@ -183,6 +171,9 @@ class MainTab(GridBackgroundWidget):
         self.bullet_widget.update_launcher("Giàn trái", left_status)
         self.bullet_widget.update_launcher("Giàn phải", right_status)
 
+    def disable_launcher(self, launcher_id: Literal['left', 'right']):
+        self.bullet_widget.disable_launcher(launcher_id)
+        
     def clear_selection(self):
         self.bullet_widget.left_selected_launchers.clear()
         self.bullet_widget.right_selected_launchers.clear()
